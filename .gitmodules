@@ -1,0 +1,3 @@
+[submodule "MessageSystem"]
+	path = MessageSystem
+	url = https://github.com/cwruRobotics/MessageSystem
