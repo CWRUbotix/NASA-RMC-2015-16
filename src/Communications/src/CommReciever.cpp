@@ -18,7 +18,7 @@ namespace Network
 	void CommReciever::MainCallbackImpl()
 	{
 		//initialize connection here
-        initialize_client();
+        // initialize_client();
 		
 		while(Robos::IsRunning())
 		{
