@@ -79,6 +79,7 @@ set( NETWORKING_SRCS
 # Public header files (installed together with libraries)
 set( NETWORKING_PUBIC_HEADERS
     # put your .hpp files here that you want clients of your code to be able to #include.
+    ${INC_ROOT}/LibraryExport.hpp
     ${INC_ROOT}/CommReceiver.hpp
     ${INC_ROOT}/CommTransmitter.hpp
 )

@@ -6,10 +6,11 @@
 #include <Robos/InitNodeBase.hpp>
 #include <Robos/MessageBase.hpp>
 #include <sys/socket.h>
+#include "LibraryExport.hpp"
 
 namespace Network
 {
-	class CommReciever : public Robos::InitNodeBase
+	class NETWORKING_API CommReciever : public Robos::InitNodeBase
 	{
 	private:
 		virtual void MainCallbackImpl() override;
