@@ -33,4 +33,6 @@ include_directories( ${${PROJECT_NAME}_INCLUDES} )
 add_executable( ${PROJECT_NAME} main.cpp )
 
 # link the executable together
-target_link_libraries( ${PROJECT_NAME} )
+if( ${${PROJECT_NAME}_IMPORTED_LIBS_LENGTH} GREATER 0 )
+    target_link_libraries( ${PROJECT_NAME} ${${PROJECT_NAME}_IMPORTED_LIBS} )
+endif()
