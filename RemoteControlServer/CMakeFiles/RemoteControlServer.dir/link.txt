@@ -1,1 +1,0 @@
-/usr/bin/cc     CMakeFiles/RemoteControlServer.dir/server.c.o CMakeFiles/RemoteControlServer.dir/controlStation.c.o  -o RemoteControlServer -rdynamic 
