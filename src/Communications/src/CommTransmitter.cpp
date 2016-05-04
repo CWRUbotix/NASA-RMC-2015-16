@@ -18,7 +18,7 @@
 
  	}
 
- 	Robos::MessageBasePtr CommTransmitter::MainCallbackImp(const Robos::MessageBasePtr pMessage){
+ 	Robos::MessageBasePtr CommTransmitter::MainCallbackImpl(const Robos::MessageBasePtr pMessage){
  		if(pMessage->topic == "Result"){
  			return nullptr;
  		}
