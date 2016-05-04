@@ -12,6 +12,6 @@ int main (int argc, char** argv)
 		exit (-1);
 	}
 	initialize_server (5005, 100, "192.168.0.2"); //IP address for the robot, subject to change
-	send_commend (argv, strlen(argv) +1); //testing only, will eventually being setting up a continuous loop
-	cleanup_server ();
+	send_command (argv, strlen(argv) +1); //testing only, will eventually being setting up a continuous loop
+	cleanup_server();
 }
