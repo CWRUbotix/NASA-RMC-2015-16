@@ -12,6 +12,8 @@ list( APPEND CMAKE_MODULE_PATH ${CUSTOM_CMAKE_MODULES}/modules ${ROBOS_CMAKE_MOD
 # declare a project named "Glenn" to be a C++ project
 Project( GlennUnitTests CXX )
 
+# Need to include necessary system libraries and GNUInstallDirs
+# (which sets CMake variables for installation). Note these are platform dependent.
 if( MSVC )
     include( GNUInstallDirs )
 elseif( ${CMAKE_SYSTEM_NAME} MATCHES "Linux")
@@ -53,12 +55,9 @@ if( ${${PROJECT_NAME}_IMPORTED_LIBS_LENGTH} GREATER 0 )
     ${${PROJECT_NAME}_IMPORTED_LIBS} )
 endif()
 
-# install our library. This tells CMake WHERE to put everything when it builds.
+# install our executable. This tells CMake WHERE to put everything when it builds.
 install( TARGETS ${PROJECT_NAME}
          RUNTIME        DESTINATION ${CMAKE_INSTALL_LIBDIR}
-         # LIBRARY        DESTINATION ${CMAKE_INSTALL_LIBDIR}
-         # ARCHIVE        DESTINATION ${CMAKE_INSTALL_LIBDIR}
-         # PUBLIC_HEADER  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Communications
 )
 
 # if using Visual Studio we want to include the .pdb files in our distribution.

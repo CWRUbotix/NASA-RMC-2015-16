@@ -16,7 +16,8 @@ int main(int argc, char** argv)
     auto pNetworkingNode = std::make_shared<Network::CommReceiver>();
 
     // initialize Robos
-    Robos::Init(Utilities::OS::GetCurrentDirectory(__FILE__) + Utilities::OS::GetPathSep() + "AsyncConfig.xml");
+    Robos::Init(Utilities::OS::GetCurrentDirectory(__FILE__) +
+                Utilities::OS::GetPathSep() + "AsyncConfig.xml");
 
     // register Nodes with Robos
     Robos::Register(pNetworkingNode);
