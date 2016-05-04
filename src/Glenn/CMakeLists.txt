@@ -52,3 +52,19 @@ if( ${${PROJECT_NAME}_IMPORTED_LIBS_LENGTH} GREATER 0 )
     ${TARGET_PTHREADS_LIB}
     ${${PROJECT_NAME}_IMPORTED_LIBS} )
 endif()
+
+# install our library. This tells CMake WHERE to put everything when it builds.
+install( TARGETS ${PROJECT_NAME}
+         RUNTIME        DESTINATION ${CMAKE_INSTALL_BINDIR}
+         # LIBRARY        DESTINATION ${CMAKE_INSTALL_LIBDIR}
+         # ARCHIVE        DESTINATION ${CMAKE_INSTALL_LIBDIR}
+         # PUBLIC_HEADER  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Communications
+)
+
+# if using Visual Studio we want to include the .pdb files in our distribution.
+if( MSVC )
+    get_filename_component( PDB_DIR ${OUT_ROOT}/stuff/${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ABSOLUTE )
+    install( FILES ${PDB_DIR}/${PROJECT_NAME}.pdb
+        DESTINATION ${CMAKE_INSTALL_BINDIR}
+    )
+endif()
