@@ -70,7 +70,7 @@ set( NETWORKING_SRCS
 
     # put your .cpp files here.
     ${SRC_ROOT}/client.c
-    ${SRC_ROOT}/server.c
+    # ${SRC_ROOT}/server.c
     ${SRC_ROOT}/controlStation.c
     ${SRC_ROOT}/CommTransmitter.cpp
     ${SRC_ROOT}/CommReceiver.cpp
@@ -91,7 +91,7 @@ set( NETWORKING_PRIVATE_HEADERS
     # put your .hpp files here that you don't want clients to have access to.
     ${INC_ROOT}/client.h
     ${INC_ROOT}/protocol.h
-    ${INC_ROOT}/server.h
+    # ${INC_ROOT}/server.h
     ${INC_ROOT}/Network.hpp
 )
 
