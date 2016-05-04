@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Engine version="1.0" type="example">
+    <Scheduler name="NetworkScheduler">
+        <threadPriority value="IMMEDIATE"/>
+        <threadPriority value="OTHER"/>
+    </Scheduler>
+</Engine>
