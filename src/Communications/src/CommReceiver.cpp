@@ -7,15 +7,15 @@
 
 namespace Network
 {
-	CommReciever::CommReciever() : Robos::InitNodeBase("CommReciever", "NetworkScheduler")
+	CommReceiver::CommReceiver() : Robos::InitNodeBase("CommReceiver", "NetworkScheduler")
 	{
 	}
 
-	CommReciever::~CommReciever()
+	CommReceiver::~CommReceiver()
 	{
 	}
 
-	void CommReciever::MainCallbackImpl()
+	void CommReceiver::MainCallbackImpl()
 	{
 		//initialize connection here
         // initialize_client();

@@ -1,7 +1,7 @@
 // SYSTEM INCLUDES
 #include <Robos/Robos.hpp>
-#include <Networking/CommTransmitter.hpp>
-#include <Networking/CommReceiver.hpp>
+#include <Communications/CommTransmitter.hpp>
+#include <Communications/CommReceiver.hpp>
 #include <Utilities/OSUtils.hpp>
 #include <chrono>
 #include <thread>

@@ -10,7 +10,7 @@
 
 namespace Network
 {
-	class NETWORKING_API CommReciever : public Robos::InitNodeBase
+	class NETWORKING_API CommReceiver : public Robos::InitNodeBase
 	{
 	private:
 		virtual void MainCallbackImpl() override;
@@ -20,7 +20,7 @@ namespace Network
 		~CommReciever();
 	};
 
-	using CommRecieverPtr = std::shared_ptr<CommReciever>;
+	using CommReceiverPtr = std::shared_ptr<CommReceiver>;
 }
 
 #endif

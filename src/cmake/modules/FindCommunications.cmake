@@ -6,16 +6,16 @@ find_path( COMMUNICATIONS_INCLUDES Communications/CommTransmitter.hpp
 # find libraries depending on OS.
 if( ${CMAKE_SYSTEM_NAME} MATCHES "Windows" )
     # handle dll AND lib?
-    find_path( COMMUNICATIONS_SHARED_LIB Networking.dll
+    find_path( COMMUNICATIONS_SHARED_LIB Communications.dll
         HINTS
             ${CMAKE_PREFIX_PATH}/bin
     )
-    find_library( COMMUNICATIONS_LIB Networking
+    find_library( COMMUNICATIONS_LIB Communications
         HINTS
             ${CMAKE_PREFIX_PATH}/lib
     )
 else()
-    find_library( COMMUNICATIONS_SHARED_LIB Networking
+    find_library( COMMUNICATIONS_SHARED_LIB Communications
         HINTS
             ${CMAKE_PREFIX_PATH}/lib
     )
