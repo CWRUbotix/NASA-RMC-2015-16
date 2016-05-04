@@ -10,7 +10,7 @@ get_filename_component( CUSTOM_CMAKE_MODULES ${CMAKE_CURRENT_SOURCE_DIR}/../cmak
 list( APPEND CMAKE_MODULE_PATH ${CUSTOM_CMAKE_MODULES}/modules ${ROBOS_CMAKE_MODULES}/modules )
 
 # declare a project named "Glenn" to be a C++ project
-Project( Glenn CXX )
+Project( GlennUnitTests CXX )
 
 if( MSVC )
     include( GNUInstallDirs )
