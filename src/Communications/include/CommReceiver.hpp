@@ -16,8 +16,8 @@ namespace Network
 		virtual void MainCallbackImpl() override;
 
 	public:
-		CommReciever();
-		~CommReciever();
+		CommReceiver();
+		~CommReceiver();
 	};
 
 	using CommReceiverPtr = std::shared_ptr<CommReceiver>;
