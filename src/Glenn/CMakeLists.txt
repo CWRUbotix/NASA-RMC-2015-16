@@ -55,7 +55,7 @@ endif()
 
 # install our library. This tells CMake WHERE to put everything when it builds.
 install( TARGETS ${PROJECT_NAME}
-         RUNTIME        DESTINATION ${CMAKE_INSTALL_BINDIR}
+         RUNTIME        DESTINATION ${CMAKE_INSTALL_LIBDIR}
          # LIBRARY        DESTINATION ${CMAKE_INSTALL_LIBDIR}
          # ARCHIVE        DESTINATION ${CMAKE_INSTALL_LIBDIR}
          # PUBLIC_HEADER  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Communications
