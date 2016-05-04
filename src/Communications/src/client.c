@@ -8,6 +8,7 @@
 #include "client.h"
 #include "protocol.h"
 
+/**
 #include <Logging/ILogger.hpp>
 #include <Logging/Factory.hpp>
 #include "NetworkingConfig.hpp"
@@ -21,7 +22,7 @@ Logging::LoggerPtr GetStaticLogger()
                                                (Networking::Config::LOGGING_ROOT + "/ClientLog.txt").c_str());
     return pLogger;
 }
-
+*/
 
 void initialize_client (int portno, int timeout, char* return_string_addr)
 {
@@ -58,7 +59,7 @@ void initialize_client (int portno, int timeout, char* return_string_addr)
 
 char* get_command (void)
 {
-    LOG_DEBUG(GetStaticLogger(), "I am Logging!");
+  //   LOG_DEBUG(GetStaticLogger(), "I am Logging!");
 	char buf [MAX_RECV_LEN];
 	char* extra_data = (char*)(buf + sizeof (struct protocol_header));
 	char* ret_buf;

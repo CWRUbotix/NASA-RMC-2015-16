@@ -1,14 +1,15 @@
 #ifndef NETWORK_HPP
 #define NETWORK_HPP
 
+#include <arpa/inet.h>
 #include <Robos/MessageBase.hpp>
 
 namespace Network
 {
-	const size_t MAX_RECV_LEN = 2048 + sizeof (struct protocol_header;
-	const char* COMMAND_MAGIC = "CMD";
- 	const char* RECEIPT_MAGIC = "REC";
-	const char* SYNC_MAGIC = "SYN";
+	// const size_t MAX_RECV_LEN = 2048 + sizeof (struct protocol_header);
+	//const char* COMMAND_MAGIC = "CMD";
+ 	//const char* RECEIPT_MAGIC = "REC";
+	//const char* SYNC_MAGIC = "SYN";
 
 	struct protocol_header
 	{

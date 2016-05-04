@@ -42,14 +42,14 @@ list( APPEND CMAKE_MODULE_PATH ${CMAKE_LOCAL_ROOT}/modules )
 project( Networking CXX )
 
 # source code root directory
-get_filename_component( SRC_ROOT ${CMAKE_CURRENT_SOURCE_DIR} ABSOLUTE )
+get_filename_component( SRC_ROOT ${PROJECT_SOURCE_DIR} ABSOLUTE )
 
 # Public header file root directory
-get_filename_component( INC_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../include ABSOLUTE )
+get_filename_component( INC_ROOT ${PROJECT_SOURCE_DIR}/../include ABSOLUTE )
 
-get_filename_component( MESSAGE_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../Messages ABSOLUTE )
+get_filename_component( MESSAGE_ROOT ${PROJECT_SOURCE_DIR}/../../Messages ABSOLUTE )
 
-get_filename_component( CONFIG_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../../MessagingSystem/build/out/include ABSOLUTE )
+get_filename_component( CONFIG_ROOT ${PROJECT_SOURCE_DIR}/../../../MessagingSystem/build/out/include ABSOLUTE )
 
 # ===============================================================================
 # PROJECT EXTERNAL OPTIONS
@@ -66,11 +66,11 @@ set( PROJECT_VERSION_PATCH "0" )
 # Source files
 set( NETWORKING_SRCS
     # Config (provided by the build system. This file includes paths to logFile directory)
-    ${CONFIG_ROOT}/NetworkingConfig.cpp
+    # ${CONFIG_ROOT}/NetworkingConfig.cpp
 
     # put your .cpp files here.
     ${SRC_ROOT}/client.c
-    ${SRC_ROOT}/server.c
+    # ${SRC_ROOT}/server.c
     ${SRC_ROOT}/controlStation.c
     ${SRC_ROOT}/CommTransmitter.cpp
     ${SRC_ROOT}/CommReceiver.cpp
@@ -86,12 +86,12 @@ set( NETWORKING_PUBIC_HEADERS
 
 set( NETWORKING_PRIVATE_HEADERS
     # logging
-    ${CONFIG_ROOT}/NetworkingConfig.hpp
+    # ${CONFIG_ROOT}/NetworkingConfig.hpp
 
     # put your .hpp files here that you don't want clients to have access to.
     ${INC_ROOT}/client.h
     ${INC_ROOT}/protocol.h
-    ${INC_ROOT}/server.h
+    # ${INC_ROOT}/server.h
     ${INC_ROOT}/Network.hpp
 )
 
