@@ -32,7 +32,7 @@ void hopperIn(double speed, double dist);
 void setRampType(char type, double factor);
 
 void execute(RobotAction action);
-void setMotors(MotorAction * actions, int numActions);
+void execute(MotorAction * actions, int numActions);
 MotorStatus getMotorStatus(char motor);
 std::map<char, MotorStatus> getMotorStatuses();
 

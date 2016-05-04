@@ -9,22 +9,25 @@ void execute(RobotAction action) {
 	char * buffer;
 	if(action.distance != 0) {
 		len = 3;
-		buffer = {scaleToChar(action.speed,maxSpeeds.find(action.command)->second),
-				  scaleToChar(action.distance,maxDistances.find(action.command)->second),
-				  (char)action.ovr};
+		buffer = (char*)malloc(3);
+		buffer[0] = scaleVelocity(action.command,action.speed);
+		buffer[1] = scaleDistance(action.command,action.distance);
+		buffer[2] = (char)action.ovr;
 	} else {
-		buffer = {scaleToChar(action.speed,maxSpeeds.find(action.command)->second),
-				  (char)action.ovr};	}
+		buffer = (char*)malloc(2);
+		buffer[0] = scaleVelocity(action.command,action.speed);
+		buffer[1] = (char)action.ovr;
+	}
 	I2C::sendCommand(action.command,buffer,len);
 }
 
-void setMotors(MotorAction * actions, int numActions) {
+void execute(MotorAction * actions, int numActions) {
 	I2C::setSlaveAddress(I2C::ADDRESSS_MOTORS);
-	char * buffer = malloc(numActions*4);
+	char * buffer = (char*)malloc(numActions*4);
 	for(int i = 0; i < numActions; i++) {
 		buffer[i*4] = actions[i].motor;
-		buffer[i*4+1] = scaleToChar(actions[i].speed,maxSpeeds.find(actions[i].motor)->second);
-		buffer[i*4+2] = scaleToChar(actions[i].distance,maxDistances.find(actions[i].motor)->second);
+		buffer[i*4+1] = scaleVelocity(actions[i].motor,actions[i].speed);
+		buffer[i*4+2] = scaleDistance(actions[i].motor,actions[i].distance);
 		buffer[i*4+3] = (char)actions[i].ovr;
 	}
 	I2C::sendCommand(CMD_INDV,buffer, numActions*4);

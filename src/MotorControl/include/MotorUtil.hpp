@@ -52,7 +52,8 @@ struct RobotAction {
 
 std::map<char, double> maxDistances;
 std::map<char, double> maxSpeeds;
-char scaleToChar(double val, double max);
+char scaleDistance(char motor, double val);
+char scaleVelocity(char motor, double val);
 
 }
 #endif
