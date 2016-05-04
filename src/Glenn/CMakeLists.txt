@@ -12,6 +12,20 @@ list( APPEND CMAKE_MODULE_PATH ${CUSTOM_CMAKE_MODULES}/modules ${ROBOS_CMAKE_MOD
 # declare a project named "Glenn" to be a C++ project
 Project( Glenn CXX )
 
+if( MSVC )
+    include( GNUInstallDirs )
+elseif( ${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    include( GNUInstallDirs )
+    set(TARGET_PTHREADS_LIB "pthread")
+    set(TARGET_UUID_LIB "uuid")
+elseif( APPLE )
+    include( GNUInstallDirs )
+    set(TARGET_PTHREADS_LIB "pthread")
+    set(TARGET_UUID_LIB "uuid")
+else()
+    message(SEND_ERROR "OS [${CMAKE_SYSTEM_NAME}] not supported")
+endif()
+
 # link this project with all libraries we need
 set( ${PROJECT_NAME}_IMPORTED_LIST
     # all libraries to import when building Robos
@@ -34,5 +48,7 @@ add_executable( ${PROJECT_NAME} main.cpp )
 
 # link the executable together
 if( ${${PROJECT_NAME}_IMPORTED_LIBS_LENGTH} GREATER 0 )
-    target_link_libraries( ${PROJECT_NAME} ${${PROJECT_NAME}_IMPORTED_LIBS} )
+    target_link_libraries( ${PROJECT_NAME}
+    ${TARGET_PTHREADS_LIB}
+    ${${PROJECT_NAME}_IMPORTED_LIBS} )
 endif()
