@@ -70,14 +70,14 @@ set( NETWORKING_SRCS
 
     # put your .cpp files here.
     ${SRC_ROOT}/client.c
-    ${SRC_ROOT}/server.c
+    # ${SRC_ROOT}/server.c
     ${SRC_ROOT}/controlStation.c
     ${SRC_ROOT}/CommTransmitter.cpp
     ${SRC_ROOT}/CommReceiver.cpp
 )
 
 # Public header files (installed together with libraries)
-set( NETWORKING_PUBIC_HEADERS
+set( NETWORKING_PUBLIC_HEADERS
     # put your .hpp files here that you want clients of your code to be able to #include.
     ${INC_ROOT}/LibraryExport.hpp
     ${INC_ROOT}/CommReceiver.hpp
@@ -91,7 +91,7 @@ set( NETWORKING_PRIVATE_HEADERS
     # put your .hpp files here that you don't want clients to have access to.
     ${INC_ROOT}/client.h
     ${INC_ROOT}/protocol.h
-    ${INC_ROOT}/server.h
+    # ${INC_ROOT}/server.h
     ${INC_ROOT}/Network.hpp
 )
 

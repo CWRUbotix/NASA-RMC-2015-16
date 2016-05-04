@@ -3,7 +3,6 @@
 
 #include <arpa/inet.h>
 #include <Robos/MessageBase.hpp>
-#include "server.h"
 
 namespace Network
 {

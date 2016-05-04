@@ -6,7 +6,7 @@
 namespace MotorControl {
 class MotorNode : public Robos::NodeBase {
 private:
-	void MainCallbackImpl(Robos::MessageBasePtr pMessage) override;
+	Robos::MessageBasePtr MainCallbackImpl(Robos::MessageBasePtr pMessage) override;
 public:
 	MotorNode();
 	~MotorNode();
