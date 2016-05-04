@@ -1,0 +1,1 @@
+A folder for all message structures used in this system
