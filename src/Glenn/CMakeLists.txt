@@ -19,7 +19,7 @@ set( ${PROJECT_NAME}_IMPORTED_LIST
     "Utilities"
     "Async"
     "Robos"
-    "Networking"
+    "Communications"
 )
 
 # Actually link everything. This is a provided CMake module to link everything together.
