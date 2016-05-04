@@ -40,6 +40,12 @@ struct MotorStatus {
 struct MotorAction {
 	char motor;
 	double speed, distance;
+	bool ovr;
+};
+struct RobotAction {
+	char command;
+	double speed, distance;
+	bool ovr;
 };
 }
 #endif

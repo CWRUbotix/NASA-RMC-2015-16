@@ -2,4 +2,7 @@
 
 namespace MotorControl {
 
+void execute(RobotAction action) {
+
+}
 }
