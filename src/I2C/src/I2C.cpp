@@ -12,7 +12,7 @@
 #include <linux/i2c-dev.h>
 #include <cstdio>
 
-namespace Auton {
+namespace I2C {
 int I2C::file = -1;
 
 int I2C::open() {

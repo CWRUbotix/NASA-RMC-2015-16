@@ -4,7 +4,7 @@
 namespace MotorControl {
 
 void execute(RobotAction action) {
-	I2C::setSlaveAddress(I2C::ADDRESSS_MOTORS);
+	I2C::I2C::setAddress(0x80);
 	int len = 2;
 	char * buffer;
 	if(action.distance != 0) {
@@ -18,11 +18,11 @@ void execute(RobotAction action) {
 		buffer[0] = scaleVelocity(action.command,action.speed);
 		buffer[1] = (char)action.ovr;
 	}
-	I2C::sendCommand(action.command,buffer,len);
+	I2C::I2C::sendPacket(buffer,len);
 }
 
 void execute(MotorAction * actions, int numActions) {
-	I2C::setSlaveAddress(I2C::ADDRESSS_MOTORS);
+	I2C::I2C::setAddress(0x80);
 	char * buffer = (char*)malloc(numActions*4);
 	for(int i = 0; i < numActions; i++) {
 		buffer[i*4] = actions[i].motor;
@@ -30,7 +30,7 @@ void execute(MotorAction * actions, int numActions) {
 		buffer[i*4+2] = scaleDistance(actions[i].motor,actions[i].distance);
 		buffer[i*4+3] = (char)actions[i].ovr;
 	}
-	I2C::sendCommand(CMD_INDV,buffer, numActions*4);
+	I2C::I2C::sendPacket(buffer,numActions*4);
 }
 
 }

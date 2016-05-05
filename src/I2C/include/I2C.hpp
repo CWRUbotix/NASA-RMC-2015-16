@@ -1,13 +1,7 @@
-/*
- * I2C.hpp
- *
- *  Created on: Apr 19, 2016
- *      Author: Anno
- */
 #ifndef I2C_HPP_
 #define I2C_HPP_
 
-namespace Auton {
+namespace I2C {
 
 /** The I2C class represents a connection to an I2C bus, where the program
  *  acts as the master and the other devices on the bus are its slaves.
@@ -61,4 +55,4 @@ public:
 
 
 
-#endif /* I2C_HPP_ */
+#endif

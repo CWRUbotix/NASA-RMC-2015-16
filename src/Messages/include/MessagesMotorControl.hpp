@@ -1,4 +1,5 @@
 #include "MotorUtil.hpp"
+#include "Robos/MessageBase.hpp"
 #ifndef MESSAGESMOTORCONTROL_HPP_
 #define MESSAGESMOTORCONTROL_HPP_
 

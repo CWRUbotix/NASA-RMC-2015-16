@@ -37,6 +37,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/NASA_RMC_2015_16/src/Autonomous/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/NASA_RMC_2015_16/MessageSystem/cpp/Robos/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/NASA_RMC_2015_16/MessageSystem/cpp/Async/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/NASA_RMC_2015_16/src/Messages/include}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.899469333" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
