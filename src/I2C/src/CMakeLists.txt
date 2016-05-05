@@ -1,18 +1,3 @@
-# A word to the reader.
-#
-# To use the provided build system, you need to create a CMakeLists.txt file. Copy pasting and modifying this file
-# should be enough for your code to build. This file is templated from MY CMakeLists.txt files. When reading this,
-# anything surrounded by "<>" is meant to be filled in by you.
-#
-# I hope this helps!!!! Happy developing.
-# -Andrew Wood
-#
-
-
-# ===============================================================================
-# CMAKE PROPERTIES
-# ===============================================================================
-
 # this is the required version of CMake necessary
 # to run. CMake will fail if you have anything
 # less than 3.3
@@ -34,10 +19,6 @@ get_filename_component( CMAKE_LOCAL_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../../Me
 # let CMake use files in the <MessagingSystem_Top_Level_Directory>/cmake/modules directory
 list( APPEND CMAKE_MODULE_PATH ${CMAKE_LOCAL_ROOT}/modules )
 
-# ===============================================================================
-# PROJECT PROPERTIES
-# ===============================================================================
-
 # Project name
 project( I2C CXX )
 
@@ -53,17 +34,11 @@ get_filename_component( COMMONDATASTRUCTURES_ROOT ${PROJECT_SOURCE_DIR}/../../Co
 
 get_filename_component( CONFIG_ROOT ${PROJECT_SOURCE_DIR}/../../../MessagingSystem/build/out/include ABSOLUTE )
 
-# ===============================================================================
-# PROJECT EXTERNAL OPTIONS
-# ===============================================================================
 # this is where we could get the Version numbering from Version.h and
 # save them as CMake variables. for now, lets just declare them
 set( PROJECT_VERSION_MAJOR "1" )
 set( PROJECT_VERSION_MINOR "0" )
 set( PROJECT_VERSION_PATCH "0" )
-
-# -------------------------------------------------------------------------------
-# Logging library
 
 # Source files
 set( I2C_SRCS
@@ -142,17 +117,8 @@ if( NOT DEPENDENCY_CHECK )
     message( SEND_ERROR "Required header files or libraries not found" )
 endif()
 
-
-# -------------------------------------------------------------------------------
-# TARGET SETUP
-# -------------------------------------------------------------------------------
-
 # Actually tell CMake these are the directories we want to look for files in.
 include_directories( ${INCLUDE_DIRS} )
-
-# -------------------------------------------------------------------------------
-# Libraries
-#
 
 # this is kind of redundant, but in case you wanted to build multiple projects in this CMakeLists.txt
 set( I2C_LIB_NAME ${PROJECT_NAME} )
@@ -165,10 +131,6 @@ include( GenerateExportHeader )
 # and will use: ${<PROJECT_NAME>_SRCS} ${<PROJECT_NAME>_PUBLIC_HEADERS} ${<PROJECT_NAME>_PRIVATE_HEADERS} to build the library.
 add_library( ${I2C_LIB_NAME} SHARED ${I2C_SRCS} ${I2C_PUBLIC_HEADERS} ${I2C_PRIVATE_HEADERS})
 
-# -------------------------------------------------------------------------------
-# Linking
-#
-
 # link the library we just created to all the libraries that it needs to run.
 if( ${${PROJECT_NAME}_IMPORTED_LIBS_LENGTH} GREATER 0 )
     target_link_libraries( ${I2C_LIB_NAME} ${${PROJECT_NAME}_IMPORTED_LIBS} )
@@ -177,8 +139,6 @@ if( ${${PROJECT_NAME}_STATIC_LIBS_LENGTH} GREATER 0 )
     target_link_libraries( ${I2C_LIB_NAME} ${${PROJECT_NAME}_STATIC_LIBS} )
 endif()
 
-# -------------------------------------------------------------------------------
-
 # Tell CMake some configuration information about our library
 set_target_properties( ${I2C_LIB_NAME} PROPERTIES
     PUBLIC_HEADER       "${I2C_PUBLIC_HEADERS}"
@@ -186,10 +146,6 @@ set_target_properties( ${I2C_LIB_NAME} PROPERTIES
     SOVERSION           "${PROJECT_VERSION_MAJOR}"
     VERSION             "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}"
 )
-
-# -------------------------------------------------------------------------------
-# INSTALLATION
-# -------------------------------------------------------------------------------
 
 # install our library. This tells CMake WHERE to put everything when it builds.
 install( TARGETS ${I2C_LIB_NAME}
