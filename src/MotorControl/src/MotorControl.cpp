@@ -1,4 +1,6 @@
-#include <MotorControl.hpp>
+#include "MotorControl.hpp"
+#include "MotorUtil.hpp"
+#include "CommonMotorDataStructures.hpp"
 #include <I2C.hpp>
 
 namespace MotorControl {
@@ -33,4 +35,4 @@ void execute(MotorAction * actions, int numActions) {
 	I2C::I2C::sendPacket(buffer,numActions*4);
 }
 
-}
+} // end of namespace MotorControl

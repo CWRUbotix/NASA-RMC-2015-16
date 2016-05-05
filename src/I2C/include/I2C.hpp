@@ -2,6 +2,8 @@
 #define I2C_HPP_
 
 namespace I2C {
+#include "LibraryExport.hpp"
+
 
 /** The I2C class represents a connection to an I2C bus, where the program
  *  acts as the master and the other devices on the bus are its slaves.

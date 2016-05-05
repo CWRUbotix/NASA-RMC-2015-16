@@ -1,8 +1,8 @@
-#include "MotorUtil.hpp"
-#include <map>
-
 #ifndef MOTORCONTROL_HPP_
 #define MOTORCONTROL_HPP_
+
+#include "MotorUtil.hpp"
+#include <map>
 
 namespace MotorControl {
 
@@ -36,6 +36,6 @@ void execute(MotorAction * actions, int numActions);
 MotorStatus getMotorStatus(char motor);
 std::map<char, MotorStatus> getMotorStatuses();
 
-}
+} // end of namespace MotorControl
 
-#endif
+#endif // end of MOTORCONTROL_HPP_
