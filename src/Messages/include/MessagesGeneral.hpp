@@ -1,3 +1,4 @@
+#pragma once
 #ifndef MESSAGESGENERAL_HPP_
 #define MESSAGESGENERAL_HPP_
 

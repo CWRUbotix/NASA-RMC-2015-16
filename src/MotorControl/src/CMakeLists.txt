@@ -75,6 +75,7 @@ set( MOTORCONTROL_SRCS
     ${SRC_ROOT}/MotorUtil.cpp
     ${SRC_ROOT}/MotorControl.cpp
     ${MESSAGE_ROOT}/src/MessagesMotorControl.cpp
+    ${MESSAGE_ROOT}/src/MessagesGeneral.cpp
     ${SRC_ROOT}/MotorControlNode.cpp
 )
 
