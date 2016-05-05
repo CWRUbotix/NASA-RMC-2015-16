@@ -12,31 +12,31 @@ extern "C" {
 
 // defined by CMake when building this project as
 // a static library
-#ifdef MOTORCONTROLLER_STATIC_DEFINE
-#   define MOTORCONTROLLER_API
-#   define MOTORCONTROLLER_LOCAL // change to NETWORKING_INTERNAL?
+#ifdef MOTORCONTROL_STATIC_DEFINE
+#   define MOTORCONTROL_API
+#   define MOTORCONTROL_LOCAL // change to NETWORKING_INTERNAL?
 
 #else
     
-#   ifndef MOTORCONTROLLER_API
+#   ifndef MOTORCONTROL_API
 
         // this variable is defined by CMake
         // in the instruction(include(GenerateExportHeaders)).
         // if it is defined, then this project is being built
-#       ifdef MotorController_EXPORTS
+#       ifdef MotorControl_EXPORTS
 
             // determine what compiler is being run. We could be
             // using Cygwin and running GCC. If so, then this
             // is the syntax to declare a project to be exported
             // with GCC.
 #           ifdef __GNUC__
-#               define MOTORCONTROLLER_API  __attribute__((dllexport))
+#               define MOTORCONTROL_API  __attribute__((dllexport))
 
             // otherwise, assume we are using CodeBlocks or Visual Studio.
             // This is the syntax for declaring a project to be exported
             // with CodeBlocks and Visual Studio.
 #           else
-#               define MOTORCONTROLLER_API  __declspec(dllexport)
+#               define MOTORCONTROL_API  __declspec(dllexport)
 #           endif
 
         // if this variable is not defined, then CMake is not being
@@ -45,9 +45,9 @@ extern "C" {
 
             // same Compiler detection and syntax
 #           ifdef __GNUC__
-#               define MOTORCONTROLLER_API  __attribute__((dllimport))
+#               define MOTORCONTROL_API  __attribute__((dllimport))
 #           else
-#               define MOTORCONTROLLER_API  __declspec(dllimport)
+#               define MOTORCONTROL_API  __declspec(dllimport)
 #           endif
 #       endif
 #   endif
@@ -56,8 +56,8 @@ extern "C" {
     // on a pure unix distribution. It does not mean anything
     // otherwise, but must be defined to prevent a compilation
     // error for non unix builds.
-#   ifndef MOTORCONTROLLER_LOCAL
-#       define MOTORCONTROLLER_LOCAL
+#   ifndef MOTORCONTROL_LOCAL
+#       define MOTORCONTROL_LOCAL
 #   endif
 #endif
 
@@ -67,11 +67,11 @@ extern "C" {
 
     // visibility attributes are only supported for GCC >= 4 versions.
 #   if __GNUC__ >= 4
-#       define MOTORCONTROLLER_API              __attribute__((visibility("default")))
-#       define MOTORCONTROLLER_LOCAL            __attribute__((visibility("hidden")))
+#       define MOTORCONTROL_API              __attribute__((visibility("default")))
+#       define MOTORCONTROL_LOCAL            __attribute__((visibility("hidden")))
 #   else
-#       define MOTORCONTROLLER_API
-#       define MOTORCONTROLLER_LOCAL
+#       define MOTORCONTROL_API
+#       define MOTORCONTROL_LOCAL
 #   endif
 
 #endif  // _WIN32, __CYGWIN__, _WIN64
