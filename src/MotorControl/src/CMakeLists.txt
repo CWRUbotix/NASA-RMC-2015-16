@@ -92,7 +92,7 @@ set( MOTORCONTROLLER_PRIVATE_HEADERS
     ${INC_ROOT}/MotorControl.hpp
     ${INC_ROOT}/MotorUtil.hpp
     ${COMMONDATASTRUCTURES_ROOT}/include/CommonMotorDataStructures.hpp
-    ${MESSAGE_ROOT}/include/MessageGeneral.hpp
+    ${MESSAGE_ROOT}/include/MessagesGeneral.hpp
     ${MESSAGE_ROOT}/include/MessagesMotorControl.hpp
 )
 
