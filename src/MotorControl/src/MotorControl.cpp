@@ -1,7 +1,7 @@
 #include "MotorControl.hpp"
 #include "MotorUtil.hpp"
 #include "CommonMotorDataStructures.hpp"
-#include <I2C.hpp>
+#include <I2C/I2C.hpp>
 
 namespace MotorControl {
 
