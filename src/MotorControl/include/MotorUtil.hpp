@@ -1,9 +1,8 @@
 #pragma once
-#ifndef MOTORUTIL_HPP_
-#define MOTORUTIL_HPP_
-
 #include <map>
 #include "CommonMotorDataStructures.hpp"
+#ifndef MOTORUTIL_HPP_
+#define MOTORUTIL_HPP_
 
 namespace MotorControl {
 

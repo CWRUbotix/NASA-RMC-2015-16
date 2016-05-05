@@ -1,10 +1,12 @@
 #include "MotorControl.hpp"
-#include <I2C/I2C.hpp>
+#include "MotorUtil.hpp"
+#include "CommonMotorDataStructures.hpp"
+#include <I2C.hpp>
 
 namespace MotorControl {
 
 void execute(RobotAction action) {
-	Auton::I2C::setAddress(I2C::ADDRESSS_MOTORS);
+	I2C::I2C::setAddress(0x80);
 	int len = 2;
 	char * buffer;
 	if(action.distance != 0) {
@@ -18,11 +20,11 @@ void execute(RobotAction action) {
 		buffer[0] = scaleVelocity(action.command,action.speed);
 		buffer[1] = (char)action.ovr;
 	}
-	Auton::I2C::sendPacket(action.command,buffer,len);
+	I2C::I2C::sendPacket(buffer,len);
 }
 
 void execute(MotorAction * actions, int numActions) {
-	Auton::I2C::setAddress(I2C::ADDRESSS_MOTORS);
+	I2C::I2C::setAddress(0x80);
 	char * buffer = (char*)malloc(numActions*4);
 	for(int i = 0; i < numActions; i++) {
 		buffer[i*4] = actions[i].motor;
@@ -30,7 +32,7 @@ void execute(MotorAction * actions, int numActions) {
 		buffer[i*4+2] = scaleDistance(actions[i].motor,actions[i].distance);
 		buffer[i*4+3] = (char)actions[i].ovr;
 	}
-	Auton::I2C::sendPacket(CMD_INDV,buffer, numActions*4);
+	I2C::I2C::sendPacket(buffer,numActions*4);
 }
 
 } // end of namespace MotorControl

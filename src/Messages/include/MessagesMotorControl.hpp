@@ -1,12 +1,8 @@
-#pragma once
+#include "MotorUtil.hpp"
+#include "Robos/MessageBase.hpp"
+#include "CommonMotorDataStructures.hpp"
 #ifndef MESSAGESMOTORCONTROL_HPP_
 #define MESSAGESMOTORCONTROL_HPP_
-
-// SYSTEM INCLUDES
-
-
-// C++ PROJECT INCLUDES
-#include "CommonDataStructures.hpp"
 
 namespace Messages {
 
@@ -18,7 +14,7 @@ struct MessageRobotControl : public Robos::MessageBase {
 };
 
 struct MessageMotorControl : public Robos::MessageBase {
-	std::vector<MotorControl::MotorAction> actions;
+	MotorControl::MotorAction * actions;
 	int numActions;
 
 	MessageMotorControl(MotorControl::MotorAction * actions, int numActions);

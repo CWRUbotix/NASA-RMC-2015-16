@@ -1,4 +1,3 @@
-#pragma once
 #ifndef MOTORCONTROL_HPP_
 #define MOTORCONTROL_HPP_
 
