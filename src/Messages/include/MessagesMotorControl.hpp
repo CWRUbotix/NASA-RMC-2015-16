@@ -1,8 +1,9 @@
-#include "MotorUtil.hpp"
-#include "Robos/MessageBase.hpp"
-#include "CommonMotorDataStructures.hpp"
+#pragma once
 #ifndef MESSAGESMOTORCONTROL_HPP_
 #define MESSAGESMOTORCONTROL_HPP_
+
+#include <Robos/MessageBase.hpp>
+#include "CommonMotorDataStructures.hpp"
 
 namespace Messages {
 
