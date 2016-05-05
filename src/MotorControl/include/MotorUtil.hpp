@@ -1,6 +1,9 @@
-#include <map>
+#pragma once
 #ifndef MOTORUTIL_HPP_
 #define MOTORUTIL_HPP_
+
+#include <map>
+#include "CommonMotorDataStructures.hpp"
 
 namespace MotorControl {
 
@@ -39,21 +42,12 @@ struct MotorStatus {
 	char motor;
 	double speed, voltage, current;
 };
-struct MotorAction {
-	char motor;
-	double speed, distance;
-	bool ovr;
-};
-struct RobotAction {
-	char command;
-	double speed, distance;
-	bool ovr;
-};
 
 std::map<char, double> maxDistances;
 std::map<char, double> maxSpeeds;
 char scaleDistance(char motor, double val);
 char scaleVelocity(char motor, double val);
 
-}
-#endif
+} // end of namespace MotorControl
+
+#endif // end of MOTORUTIL_HPP_

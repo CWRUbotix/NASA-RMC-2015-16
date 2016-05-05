@@ -1,6 +1,7 @@
-#import <MotorUtil.hpp>
+#import "MotorUtil.hpp"
 
 namespace MotorControl {
+
 char scaleDistance(char motor, double val) {
 	double maxDist = maxDistances.find(motor)->second;
 	double scaled = 255*val/maxDist;
@@ -21,4 +22,5 @@ char scaleVelocity(char motor, double val) {
 	}
 	return (char)(scaled);
 }
-}
+
+} // end of namespace MotorControl
