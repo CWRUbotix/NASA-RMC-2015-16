@@ -2,6 +2,12 @@
 #ifndef MESSAGESGENERAL_HPP_
 #define MESSAGESGENERAL_HPP_
 
+// SYSTEM INCLUDES
+#include <Robos/MessageBase.hpp>
+
+// C++ PROJECT INCLUDES
+
+
 namespace Messages {
 
 struct MessageSuccess : public Robos::MessageBase {
