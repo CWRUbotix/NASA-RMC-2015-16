@@ -42,8 +42,8 @@ struct MotorStatus {
 	double speed, voltage, current;
 };
 
-std::map<char, double> maxDistances;
-std::map<char, double> maxSpeeds;
+extern std::map<char, double> maxDistances;
+extern std::map<char, double> maxSpeeds;
 char scaleDistance(char motor, double val);
 char scaleVelocity(char motor, double val);
 
