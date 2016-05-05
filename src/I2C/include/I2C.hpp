@@ -9,7 +9,7 @@
 
 #include "LibraryExport.hpp"
 
-namespace I2C {
+namespace Auton {
 
 /** The I2C class represents a connection to an I2C bus, where the program
  *  acts as the master and the other devices on the bus are its slaves.
