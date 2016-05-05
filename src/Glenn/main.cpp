@@ -2,6 +2,7 @@
 #include <Robos/Robos.hpp>
 #include <Communications/CommTransmitter.hpp>
 #include <Communications/CommReceiver.hpp>
+#include <MotorControl/MotorControlNode.hpp>
 #include <Utilities/OSUtils.hpp>
 #include <chrono>
 #include <thread>
@@ -13,14 +14,16 @@
 int main(int argc, char** argv)
 {
     // initialize Nodes
-    auto pNetworkingNode = std::make_shared<Network::CommReceiver>();
+    auto pNetworkingClient = std::make_shared<Network::CommReceiver>();
+    auto pMotorController = std::make_shared<MotorControl::MotorNode>();
 
     // initialize Robos
     Robos::Init(Utilities::OS::GetCurrentDirectory(__FILE__) +
                 Utilities::OS::GetPathSep() + "AsyncConfig.xml");
 
     // register Nodes with Robos
-    Robos::Register(pNetworkingNode);
+    Robos::Register(pNetworkingClient);
+    Robos::Register(pMotorController);
 
     // Start Robos
     Robos::Start();

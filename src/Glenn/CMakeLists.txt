@@ -36,6 +36,8 @@ set( ${PROJECT_NAME}_IMPORTED_LIST
     "Async"
     "Robos"
     "Communications"
+    "I2C"
+    "MotorControl"
 )
 
 # Actually link everything. This is a provided CMake module to link everything together.
