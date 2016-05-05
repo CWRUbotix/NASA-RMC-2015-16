@@ -1,5 +1,5 @@
-#include <MotorControl.hpp>
-#include <I2C.hpp>
+#include "MotorControl.hpp"
+#include "I2C.hpp"
 
 namespace MotorControl {
 
@@ -33,4 +33,4 @@ void execute(MotorAction * actions, int numActions) {
 	I2C::sendCommand(CMD_INDV,buffer, numActions*4);
 }
 
-}
+} // end of namespace MotorControl
