@@ -39,7 +39,7 @@ list( APPEND CMAKE_MODULE_PATH ${CMAKE_LOCAL_ROOT}/modules )
 # ===============================================================================
 
 # Project name
-project( MotorController CXX )
+project( I2C CXX )
 
 # source code root directory
 get_filename_component( SRC_ROOT ${PROJECT_SOURCE_DIR} ABSOLUTE )
@@ -66,38 +66,30 @@ set( PROJECT_VERSION_PATCH "0" )
 # Logging library
 
 # Source files
-set( MOTORCONTROLLER_SRCS
+set( I2C_SRCS
     # Config (provided by the build system. This file includes paths to logFile directory)
     # ${CONFIG_ROOT}/NetworkingConfig.cpp
 
     # put your .cpp files here.
-    ${SRC_ROOT}/MotorUtil.cpp
-    ${SRC_ROOT}/MotorControl.cpp
-    ${MESSAGE_ROOT}/src/MessagesMotorControl.cpp
-    ${SRC_ROOT}/MotorControlNode.cpp
+    ${SRC_ROOT}/I2C.cpp
 )
 
 # Public header files (installed together with libraries)
-set( MOTORCONTROLLER_PUBLIC_HEADERS
+set( I2C_PUBLIC_HEADERS
     # put your .hpp files here that you want clients of your code to be able to #include.
     ${INC_ROOT}/LibraryExport.hpp
-    ${INC_ROOT}/MotorControlNode.hpp
+    ${INC_ROOT}/I2C.hpp
 )
 
-set( MOTORCONTROLLER_PRIVATE_HEADERS
+set( I2C_PRIVATE_HEADERS
     # logging
     # ${CONFIG_ROOT}/NetworkingConfig.hpp
 
     # put your .hpp files here that you don't want clients to have access to.
-    ${INC_ROOT}/MotorControl.hpp
-    ${INC_ROOT}/MotorUtil.hpp
-    ${COMMONDATASTRUCTURES_ROOT}/include/CommonMotorDataStructures.hpp
-    ${MESSAGE_ROOT}/include/MessagesGeneral.hpp
-    ${MESSAGE_ROOT}/include/MessagesMotorControl.hpp
 )
 
 # group together all public headers. 
-source_group( PublicHeaders FILES ${MOTORCONTROLLER_PUBLIC_HEADERS} )
+source_group( PublicHeaders FILES ${I2C_PUBLIC_HEADERS} )
 
 # This tells CMake where to look for files. These determine how you #include things in your files.
 set( INCLUDE_DIRS
@@ -111,7 +103,7 @@ set( INCLUDE_DIRS
 # set target specific compiler definitions
 # this should ONLY be definitions needed to build the source code.
 # examples: macros ON/OFF, etc. Don't worry about this.
-set( MOTORCONTROLLER_COMPILE_DEFINITIONS )
+set( I2C_COMPILE_DEFINITIONS )
 
 # check required libraries and header files and such.
 # this will fail CMake if set to False due to required
@@ -134,7 +126,6 @@ set( ${PROJECT_NAME}_IMPORTED_LIST
     "Utilities"
     "Async"
     "Robos"
-    "I2C"
 )
 
 # Actually link everything. This is a provided CMake module to link everything together.
@@ -164,7 +155,7 @@ include_directories( ${INCLUDE_DIRS} )
 #
 
 # this is kind of redundant, but in case you wanted to build multiple projects in this CMakeLists.txt
-set( MOTORCONTROLLER_LIB_NAME ${PROJECT_NAME} )
+set( I2C_LIB_NAME ${PROJECT_NAME} )
 
 
 # Shared Library export header file support. DO NOT CHANGE
@@ -172,7 +163,7 @@ include( GenerateExportHeader )
 
 # actually tell CMake to build a shared library. This will create a shared library with the name: ${<PROJECT_NAME>_LIB_NAME}
 # and will use: ${<PROJECT_NAME>_SRCS} ${<PROJECT_NAME>_PUBLIC_HEADERS} ${<PROJECT_NAME>_PRIVATE_HEADERS} to build the library.
-add_library( ${MOTORCONTROLLER_LIB_NAME} SHARED ${MOTORCONTROLLER_SRCS} ${MOTORCONTROLLER_PUBLIC_HEADERS} ${MOTORCONTROLLER_PRIVATE_HEADERS})
+add_library( ${I2C_LIB_NAME} SHARED ${I2C_SRCS} ${I2C_PUBLIC_HEADERS} ${I2C_PRIVATE_HEADERS})
 
 # -------------------------------------------------------------------------------
 # Linking
@@ -180,18 +171,18 @@ add_library( ${MOTORCONTROLLER_LIB_NAME} SHARED ${MOTORCONTROLLER_SRCS} ${MOTORC
 
 # link the library we just created to all the libraries that it needs to run.
 if( ${${PROJECT_NAME}_IMPORTED_LIBS_LENGTH} GREATER 0 )
-    target_link_libraries( ${MOTORCONTROLLER_LIB_NAME} ${${PROJECT_NAME}_IMPORTED_LIBS} )
+    target_link_libraries( ${I2C_LIB_NAME} ${${PROJECT_NAME}_IMPORTED_LIBS} )
 endif()
 if( ${${PROJECT_NAME}_STATIC_LIBS_LENGTH} GREATER 0 )
-    target_link_libraries( ${MOTORCONTROLLER_LIB_NAME} ${${PROJECT_NAME}_STATIC_LIBS} )
+    target_link_libraries( ${I2C_LIB_NAME} ${${PROJECT_NAME}_STATIC_LIBS} )
 endif()
 
 # -------------------------------------------------------------------------------
 
 # Tell CMake some configuration information about our library
-set_target_properties( ${MOTORCONTROLLER_LIB_NAME} PROPERTIES
-    PUBLIC_HEADER       "${MOTORCONTROLLER_PUBLIC_HEADERS}"
-    COMPILE_DEFINITIONS "${MOTORCONTROLLER_COMPILE_DEFINITIONS}"
+set_target_properties( ${I2C_LIB_NAME} PROPERTIES
+    PUBLIC_HEADER       "${I2C_PUBLIC_HEADERS}"
+    COMPILE_DEFINITIONS "${I2C_COMPILE_DEFINITIONS}"
     SOVERSION           "${PROJECT_VERSION_MAJOR}"
     VERSION             "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}"
 )
@@ -201,11 +192,11 @@ set_target_properties( ${MOTORCONTROLLER_LIB_NAME} PROPERTIES
 # -------------------------------------------------------------------------------
 
 # install our library. This tells CMake WHERE to put everything when it builds.
-install( TARGETS ${MOTORCONTROLLER_LIB_NAME}
+install( TARGETS ${I2C_LIB_NAME}
          RUNTIME        DESTINATION ${CMAKE_INSTALL_BINDIR}
          LIBRARY        DESTINATION ${CMAKE_INSTALL_LIBDIR}
          ARCHIVE        DESTINATION ${CMAKE_INSTALL_LIBDIR}
-         PUBLIC_HEADER  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/MotorController
+         PUBLIC_HEADER  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/I2C
 )
 
 # if using Visual Studio we want to include the .pdb files in our distribution.

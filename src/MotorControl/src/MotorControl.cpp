@@ -1,5 +1,5 @@
 #include "MotorControl.hpp"
-#include "I2C.hpp"
+#include <I2C/I2C.hpp>
 
 namespace MotorControl {
 
