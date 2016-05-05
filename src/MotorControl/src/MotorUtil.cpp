@@ -2,6 +2,9 @@
 
 namespace MotorControl {
 
+std::map<char, double> maxDistances = std::map<char, double>();
+std::map<char, double> maxSpeeds = std::map<char, double>();
+
 char scaleDistance(char motor, double val) {
 	double maxDist = maxDistances.find(motor)->second;
 	double scaled = 255*val/maxDist;
