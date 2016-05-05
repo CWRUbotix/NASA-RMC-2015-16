@@ -29,10 +29,11 @@ set( CMAKE_VERBOSE_MAKEFILE "ON" )
 # ${CMAKE_CURRENT_SOURCE_DIR}/../../../../cmake if the location of your CMakeLists.txt file is 4 subdirectories under
 # <MessagingSystem_Top_Level_Directory>
 #
-get_filename_component( CMAKE_LOCAL_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../../MessagingSystem/cmake ABSOLUTE )
+get_filename_component( ROBOS_CMAKE_MODULES ${CMAKE_CURRENT_SOURCE_DIR}/../../../MessagingSystem/cmake ABSOLUTE )
+get_filename_component( CUSTOM_CMAKE_MODULES ${CMAKE_CURRENT_SOURCE_DIR}/../../cmake ABSOLUTE )
 
 # let CMake use files in the <MessagingSystem_Top_Level_Directory>/cmake/modules directory
-list( APPEND CMAKE_MODULE_PATH ${CMAKE_LOCAL_ROOT}/modules )
+list( APPEND CMAKE_MODULE_PATH ${CUSTOM_CMAKE_MODULES}/modules ${ROBOS_CMAKE_MODULES}/modules )
 
 # ===============================================================================
 # PROJECT PROPERTIES
