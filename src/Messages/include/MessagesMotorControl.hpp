@@ -6,6 +6,7 @@
 #include "CommonMotorDataStructures.hpp"
 #include <memory>
 #include <stdio.h>
+#include <string.h>
 
 namespace Messages {
 
