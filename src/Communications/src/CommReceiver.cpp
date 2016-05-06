@@ -2,7 +2,7 @@
 
 #include "CommReceiver.hpp"
 #include "Network.hpp"
-// #include "Messages/MotorControlMessage.hpp"
+#include "MessagesMotorControl.hpp"
 #include "client.h"
 
 namespace Network
@@ -18,18 +18,36 @@ namespace Network
 	void CommReceiver::MainCallbackImpl()
 	{
 		//initialize connection here
-        // initialize_client();
+		initialize_client(5005, 100, "192.168.0.1"); //IP address of computer, subject to change
+
+		char* command[MAX_RECV_LEN];
 		
-		while(Robos::IsRunning())
+		while(Robos::IsRunning() && command[0] != 'q')
 		{
 			//implement client code here
 			//wait to recieve instruction and then send message to appropriate channel
-            // auto pMessage = std::make_shared<ManualControl>();
-            
-            // parse out data from packets, set fields of message
-            
+			command = get_command();
+			send_reply ("msg rcvd\n", strlen ("msg rcvd\n") + 1);
 
-            // this->PublishMessage(pMessage);
+			switch (command[0])
+			{
+				case 1:
+					auto pMessage = std::make_shared<MessageMotorControl>();
+					
+
+					pMessage->action = ; //MotorAction here
+					break;
+
+				default:
+					printf("ERROR: message recieved not formattted correctly");
+					break;
+			}
+			            
+            		// parse out data from packets, set fields of message
+			
+
+         		// this->PublishMessage(pMessage);
 		}
+		this->ShutdonwRobos();
 	}
 }
