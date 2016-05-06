@@ -23,4 +23,21 @@ namespace Messages
     {
     }
 
+    MessageSuccessVerbose::MessageSuccessVerbose(char* message) : Robos::MessageBase("SuccessVerbose");
+    {
+	    successMessage = message;
+    }
+
+    MessageSuccessVerbose::~MessageSuccessVerbose()
+    {
+    }
+
+    MessageFailureVerbose::MessageFailureVerbose(char* message) : Robos::MessageBase("FailureVerbose");
+    {
+	    successMessage = message;
+    }
+
+    MessageFailureVerbose::~MessageFailureVerbose()
+    {
+    }
 } // end of namespace Messages

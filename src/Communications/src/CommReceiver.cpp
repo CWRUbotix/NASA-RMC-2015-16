@@ -29,13 +29,31 @@ namespace Network
 			command = get_command();
 			send_reply ("msg rcvd\n", strlen ("msg rcvd\n") + 1);
 
+			//set response wanted
+			switch (command[1])
+			{
+				case 0: //no response requested
+
+					break;
+
+				case 1: //success or fail response requested
+
+					break;
+
+				case 2: //verbose response requested
+					
+					break;
+
+				default: //ERROR
+					break;
+			}
+
+
 			switch (command[0])
 			{
 				case 1:
 					auto pMessage = std::make_shared<MessageMotorControl>();
-					
-
-					pMessage->action = ; //MotorAction here
+					pMessage->serialized = command[2];
 					break;
 
 				default:
