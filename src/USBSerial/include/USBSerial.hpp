@@ -19,7 +19,6 @@ public:
 	int write(char * buffer, int len);
 	int read(char* buffer, int len);
 	Port(std::string s);
-	Port();
 	~Port();
 };
 }
