@@ -2,6 +2,7 @@
 #define MOTORCONTROL_HPP_
 
 #include "MotorUtil.hpp"
+#include "USBSerial.hpp"
 #include <map>
 
 namespace MotorControl {
@@ -31,6 +32,9 @@ void hopperIn(double speed, double dist);
 
 void setRampType(char type, double factor);
 
+USBSerial::Port port();
+
+int initialize(char * device);
 void execute(RobotAction action);
 void execute(MotorAction * actions, int numActions);
 MotorStatus getMotorStatus(char motor);

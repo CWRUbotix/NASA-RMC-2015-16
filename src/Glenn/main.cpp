@@ -1,8 +1,8 @@
 // SYSTEM INCLUDES
 #include <Robos/Robos.hpp>
-#include <Communications/CommTransmitter.hpp>
-#include <Communications/CommReceiver.hpp>
-#include <MotorControl/MotorControlNode.hpp>
+#include <CommTransmitter.hpp>
+#include <CommReceiver.hpp>
+#include <MotorControlNode.hpp>
 #include <Utilities/OSUtils.hpp>
 #include <chrono>
 #include <thread>

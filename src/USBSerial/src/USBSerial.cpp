@@ -6,6 +6,9 @@ Port::Port(std::string s) {
 	file = -1;
 	device = s;
 }
+Port::Port() {
+	file = -1;
+}
 Port::~Port() {
 	dev.Close();
 }

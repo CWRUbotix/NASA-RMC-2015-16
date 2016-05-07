@@ -22,20 +22,20 @@ namespace MotorControl {
 #define ACT_ARML	0x0A
 #define ACT_ARMR	0x0B
 
-#define	CMD_FWD		0x80
-#define	CMD_BWD		0x81
-#define	CMD_TL		0x82
-#define	CMD_TR		0x83
-#define	CMD_OW		0x84
-#define CMD_CW		0x85
-#define	CMD_INDV	0x86
-#define CMD_TLTD	0x87
-#define CMD_TLTU	0x88
-#define CMD_TRAD	0x89
-#define CMD_TRAU	0x8A
-#define CMD_BF		0x8B
-#define CMD_BB		0x8C
-#define CMD_STATUS	0x8D
+#define	CMD_FWD		0x80	// Forward
+#define	CMD_BWD		0x81	// Backward
+#define	CMD_TL		0x82	// Turn left
+#define	CMD_TR		0x83	// Turn right
+#define	CMD_OW		0x84	// Open wheels
+#define CMD_CW		0x85	// Close wheels
+#define	CMD_INDV	0x86	// Individual control
+#define CMD_TLTD	0x87	// Tilt arm down
+#define CMD_TLTU	0x88	// Tilt arm up
+#define CMD_TRAD	0x89	// Translate arm down
+#define CMD_TRAU	0x8A	// Translate arm up
+#define CMD_BF		0x8B	// Buckets forward
+#define CMD_BB		0x8C	// Buckets backward
+#define CMD_STATUS	0x8D	// Motor status
 
 struct MotorStatus {
 	char motor;

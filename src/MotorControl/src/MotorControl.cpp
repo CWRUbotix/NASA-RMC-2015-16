@@ -2,37 +2,37 @@
 #include "MotorUtil.hpp"
 #include "CommonMotorDataStructures.hpp"
 #include "I2C.hpp"
+#include <stdio.h>
 
 namespace MotorControl {
 
-void execute(RobotAction action) {
-	I2C::I2C::setAddress(0x80);
-	int len = 2;
-	char * buffer;
-	if(action.distance != 0) {
-		len = 3;
-		buffer = (char*)malloc(3);
-		buffer[0] = scaleVelocity(action.command,action.speed);
-		buffer[1] = scaleDistance(action.command,action.distance);
-		buffer[2] = (char)action.ovr;
-	} else {
-		buffer = (char*)malloc(2);
-		buffer[0] = scaleVelocity(action.command,action.speed);
-		buffer[1] = (char)action.ovr;
+int initialize(char * device) {
+	USBSerial::Port port(device);
+	if(port.open() < 0) {
+		::perror("Failed to start Motor Control");
 	}
-	I2C::I2C::sendPacket(buffer,len);
+	return 0;
+}
+
+void execute(RobotAction action) {
+	int len = 3;
+	char * buffer = (char*)malloc(3);
+	buffer[0] = scaleVelocity(action.command,action.speed);
+	buffer[1] = scaleDistance(action.command,action.distance);
+	buffer[2] = (char)action.ovr;
+	port.write(buffer, len);
 }
 
 void execute(MotorAction * actions, int numActions) {
-	I2C::I2C::setAddress(0x80);
-	char * buffer = (char*)malloc(numActions*4);
+	int len = numActions*4;
+	char * buffer = (char*)malloc(len);
 	for(int i = 0; i < numActions; i++) {
 		buffer[i*4] = actions[i].motor;
 		buffer[i*4+1] = scaleVelocity(actions[i].motor,actions[i].speed);
 		buffer[i*4+2] = scaleDistance(actions[i].motor,actions[i].distance);
 		buffer[i*4+3] = (char)actions[i].ovr;
 	}
-	I2C::I2C::sendPacket(buffer,numActions*4);
+	port.write(buffer,len);
 }
 
 } // end of namespace MotorControl
