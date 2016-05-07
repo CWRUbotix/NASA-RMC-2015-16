@@ -23,7 +23,7 @@ namespace Messages
     {
     }
 
-    MessageSuccessVerbose::MessageSuccessVerbose(char* message) : Robos::MessageBase("SuccessVerbose");
+    MessageSuccessVerbose::MessageSuccessVerbose(char* message) : Robos::MessageBase("SuccessVerbose")
     {
 	    successMessage = message;
     }
@@ -32,9 +32,9 @@ namespace Messages
     {
     }
 
-    MessageFailureVerbose::MessageFailureVerbose(char* message) : Robos::MessageBase("FailureVerbose");
+    MessageFailureVerbose::MessageFailureVerbose(char* message) : Robos::MessageBase("FailureVerbose")
     {
-	    successMessage = message;
+	    failureMessage = message;
     }
 
     MessageFailureVerbose::~MessageFailureVerbose()

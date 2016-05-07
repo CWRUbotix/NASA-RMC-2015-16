@@ -25,14 +25,14 @@ struct MessageSuccessVerbose : public Robos::MessageBase
 	char* successMessage;
 	MessageSuccessVerbose(char* message);
 	~MessageSuccessVerbose();
-}
+};
 
 struct MessageFailureVerbose : public Robos::MessageBase
 {
 	char* failureMessage;
 	MessageFailureVerbose(char* message);
 	~MessageFailureVerbose();
-}
+};
 
 } // end of namespace Messages
 
