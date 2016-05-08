@@ -4,7 +4,7 @@
 namespace Network {
 	enum Response {
 		none,
-		success-fail,
+		successFail,
 		verbose
 	}
 }

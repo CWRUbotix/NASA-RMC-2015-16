@@ -4,6 +4,7 @@
 #include "Network.hpp"
 #include "MessagesMotorControl.hpp"
 #include "client.h"
+#include "CommonCommDataStructures.hpp"
 
 namespace Network
 {
@@ -38,7 +39,7 @@ namespace Network
 					break;
 
 				case 1: 
-					response = success-fail;
+					response = successFail;
 					break;
 
 				case 2: 
