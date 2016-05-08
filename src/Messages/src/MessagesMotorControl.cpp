@@ -2,8 +2,8 @@
 
 namespace Messages {
 
-MessageRobotControl::MessageRobotControl(char * in, int len) :
-		Robos::MessageBase("RobotControl") {
+MessageRobotControl::MessageRobotControl(char * in, int len, Network::Response rsp) :
+		MessageBaseCommand(rsp,"RobotControl") {
 	if(len != len_serialized) {
 		::perror("Invalid serialized Robot Control message");
 	}
@@ -18,8 +18,8 @@ MessageRobotControl::MessageRobotControl(char * in, int len) :
 	action.ovr = (bool) in[9];
 }
 
-MessageRobotControl::MessageRobotControl(MotorControl::RobotAction action) :
-    Robos::MessageBase("RobotControl"), action(action) {
+MessageRobotControl::MessageRobotControl(MotorControl::RobotAction action, Network::Response rsp) :
+    MessageBaseCommand(rsp,"RobotControl"), action(action) {
 	serialized = (char*)::malloc(len_serialized);
 	serialized[0] = action.command;
 	::memcpy(serialized+1,&action.speed,sizeof(double));
@@ -30,8 +30,8 @@ MessageRobotControl::MessageRobotControl(MotorControl::RobotAction action) :
 MessageRobotControl::~MessageRobotControl() {}
 
 
-MessageMotorControl::MessageMotorControl(MotorControl::MotorAction * actions, int numActions) :
-    Robos::MessageBase("MotorControl"), actions(actions), numActions(numActions) {
+MessageMotorControl::MessageMotorControl(MotorControl::MotorAction * actions, int numActions, Network::Response rsp) :
+    MessageBaseCommand(rsp,"MotorControl"), actions(actions), numActions(numActions) {
 	len_serialized = numActions * 10;
 	serialized = (char*)::malloc(len_serialized);
 	for(int i = 0; i < numActions; i++) {
@@ -42,8 +42,8 @@ MessageMotorControl::MessageMotorControl(MotorControl::MotorAction * actions, in
 	}
 }
 
-MessageMotorControl::MessageMotorControl(char * in, int len) :
-    	    Robos::MessageBase("RobotControl") {
+MessageMotorControl::MessageMotorControl(char * in, int len, Network::Response rsp) :
+    	    MessageBaseCommand(rsp,"MotorControl") {
 	if(len % 10 != 0) {
 		::perror("Invalid serialized Robot Control message");
 	}

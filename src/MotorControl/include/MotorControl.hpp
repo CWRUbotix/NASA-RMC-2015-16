@@ -34,11 +34,14 @@ void setRampType(char type, double factor);
 
 USBSerial::Port port("");
 
+
+
 int initialize(char * device);
 void execute(RobotAction action);
 void execute(MotorAction * actions, int numActions);
 MotorStatus getMotorStatus(char motor);
-std::map<char, MotorStatus> getMotorStatuses();
+int updateMotorStatuses();
+MotorStatus* motorStatuses;
 
 } // end of namespace MotorControl
 

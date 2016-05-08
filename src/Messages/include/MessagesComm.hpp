@@ -5,12 +5,13 @@
 #include <Robos/MessageBase.hpp>
 #include <memory>
 #include <string>
+#include "CommonCommDataStructures.hpp"
 
-namespace Network {
+namespace Messages {
 	struct MessageBaseCommand : public Robos::MessageBase {
-		Response response;
+		Network::Response response;
 
-		MessageBaseCommand(Response response, std::string topic);
+		MessageBaseCommand(Network::Response response, std::string topic);
 		~MessageBaseCommand();
 	};
 	
