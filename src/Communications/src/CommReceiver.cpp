@@ -29,7 +29,6 @@ void CommReceiver::MainCallbackImpl()
 		//wait to recieve instruction and then send message to appropriate channel
 		command = get_command();
 		send_reply ("msg rcvd\n", strlen ("msg rcvd\n") + 1);
-
 		Response response = none;
 		//set response wanted
 		switch (command[1])
@@ -54,7 +53,7 @@ void CommReceiver::MainCallbackImpl()
 		switch (command[0])
 		{
 		case 1:
-			pMessage = std::make_shared<MessageMotorControl>();
+			auto pMessage = std::make_shared<MessageMotorControl>();
 			pMessage->serialized = command[2];
 			break;
 
@@ -64,6 +63,6 @@ void CommReceiver::MainCallbackImpl()
 		}
 		this->PublishMessage(pMessage);
 	}
-	this->ShutdonwRobos();
+	this->ShutdownRobos();
 }
 }
