@@ -4,6 +4,7 @@
 #include "Network.hpp"
 #include "MessagesMotorControl.hpp"
 #include "client.h"
+#include "CommonCommDataStructures.hpp"
 
 namespace Network
 {
