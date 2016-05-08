@@ -119,12 +119,14 @@ void execute(RobotAction action) {
 }
 
 void execute(MotorAction * actions, int numActions) {
-	int len = numActions*2;
+	int len = numActions*2 + 2;
 	char * buffer = (char*)malloc(len);
 	for(int i = 0; i < numActions; i++) {
-		buffer[i*4] = actions[i].motor;
-		buffer[i*4+1] = scaleVelocity(actions[i].motor,actions[i].speed);
+		buffer[i*4+2] = actions[i].motor;
+		buffer[i*4+3] = scaleVelocity(actions[i].motor,actions[i].speed);
 	}
+	buffer[0] = SCMD_MOT;
+	buffer[1] = (char)(len-2);
 	port.write(buffer,len);
 }
 
