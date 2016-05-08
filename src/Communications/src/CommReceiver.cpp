@@ -28,31 +28,32 @@ namespace Network
 			//wait to recieve instruction and then send message to appropriate channel
 			command = get_command();
 			send_reply ("msg rcvd\n", strlen ("msg rcvd\n") + 1);
-
+			
+			Response response = none;
 			//set response wanted
 			switch (command[1])
 			{
-				case 0: //no response requested
-
+				case 0: 
+					response = none;
 					break;
 
-				case 1: //success or fail response requested
-
+				case 1: 
+					response = success-fail;
 					break;
 
-				case 2: //verbose response requested
-					
+				case 2: 
+					response = verbose;					
 					break;
 
 				default: //ERROR
 					break;
 			}
 
-
+			auto pMessage;
 			switch (command[0])
 			{
 				case 1:
-					auto pMessage = std::make_shared<MessageMotorControl>();
+					pMessage = std::make_shared<MessageMotorControl>();
 					pMessage->serialized = command[2];
 					break;
 
@@ -60,11 +61,8 @@ namespace Network
 					printf("ERROR: message recieved not formattted correctly");
 					break;
 			}
-			            
-            		// parse out data from packets, set fields of message
-			
 
-         		// this->PublishMessage(pMessage);
+         		this->PublishMessage(pMessage);
 		}
 		this->ShutdonwRobos();
 	}
