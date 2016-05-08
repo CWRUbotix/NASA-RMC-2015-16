@@ -1,5 +1,5 @@
 #include <Robos/Robos.hpp>
-
+#include <string>
 #include "CommReceiver.hpp"
 #include "Network.hpp"
 #include "MessagesMotorControl.hpp"
@@ -8,8 +8,9 @@
 
 namespace Network
 {
-CommReceiver::CommReceiver() : Robos::InitNodeBase("CommReceiver", "NetworkScheduler")
+CommReceiver::CommReceiver(std::string ip) : Robos::InitNodeBase("CommReceiver", "NetworkScheduler")
 {
+	ip_address = ip;
 }
 
 CommReceiver::~CommReceiver()
@@ -19,7 +20,7 @@ CommReceiver::~CommReceiver()
 void CommReceiver::MainCallbackImpl()
 {
 	//initialize connection here
-	initialize_client(5005, 100, "192.168.0.1"); //IP address of computer, subject to change
+	initialize_client(5005, 100, ip_address);
 
 	char* command[MAX_RECV_LEN];
 
