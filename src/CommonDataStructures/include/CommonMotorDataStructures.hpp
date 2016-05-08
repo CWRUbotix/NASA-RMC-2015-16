@@ -14,6 +14,12 @@ struct MotorAction {
 	char motor;
 	double speed, distance;
 	bool ovr;
+	MotorAction(char m, double s, double d, bool o){
+		motor = m;
+		speed = s;
+		distance = d;
+		ovr = o;
+	};
 };
 
 struct RobotAction {
