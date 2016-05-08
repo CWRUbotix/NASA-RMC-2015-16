@@ -14,8 +14,8 @@
 int main(int argc, char** argv)
 {
     // initialize Nodes
-    auto pNetworkingClient = std::make_shared<Network::CommReceiver>();
-    auto pMotorController = std::make_shared<MotorControl::MotorNode>();
+    std::shared_ptr<Robos::NodeBase> pNetworkingClient = std::static_pointer_cast<Robos::NodeBase>(std::make_shared<Network::CommReceiver>());
+    std::shared_ptr<Robos::NodeBase> pMotorController = std::static_pointer_cast<Robos::NodeBase>(std::make_shared<MotorControl::MotorNode>());
 
     // initialize Robos
     Robos::Init(Utilities::OS::GetCurrentDirectory(__FILE__) +

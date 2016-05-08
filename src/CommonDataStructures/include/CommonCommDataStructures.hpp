@@ -6,5 +6,7 @@ namespace Network {
 		none,
 		successFail,
 		verbose
-	}
+	};
 }
+
+#endif

@@ -7,21 +7,23 @@
 #include <memory>
 #include <stdio.h>
 #include <string.h>
+#include "MessagesComm.hpp"
+#include "CommonCommDataStructures.hpp"
 
 namespace Messages {
 
-struct MessageRobotControl : public Robos::MessageBase {
+struct MessageRobotControl : public MessageBaseCommand {
 	MotorControl::RobotAction action;
 
 	char * serialized;
 	int len_serialized = 10;
 
-	MessageRobotControl(char * in, int len);
-	MessageRobotControl(MotorControl::RobotAction action);
+	MessageRobotControl(char * in, int len, Network::Response rsp);
+	MessageRobotControl(MotorControl::RobotAction action, Network::Response rsp);
 	~MessageRobotControl();
 };
 
-struct MessageMotorControl : public Robos::MessageBase {
+struct MessageMotorControl : public MessageBaseCommand {
 	MotorControl::MotorAction * actions;
 	int numActions;
 
@@ -30,8 +32,8 @@ struct MessageMotorControl : public Robos::MessageBase {
 
 	void serialize();
 
-	MessageMotorControl(char * in, int len);
-	MessageMotorControl(MotorControl::MotorAction * actions, int numActions);
+	MessageMotorControl(char * in, int len, Network::Response rsp);
+	MessageMotorControl(MotorControl::MotorAction * actions, int numActions, Network::Response rsp);
 	~MessageMotorControl();
 };
 

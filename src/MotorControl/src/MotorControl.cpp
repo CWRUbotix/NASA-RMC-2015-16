@@ -130,4 +130,13 @@ void execute(MotorAction * actions, int numActions) {
 	port.write(buffer,len);
 }
 
+MotorStatus getMotorStatus(char motor) {
+	return motorStatuses[motor];
+}
+
+int updateMotorStatuses() {
+	port.write(SCMD_ST);
+	return 0;
+}
+
 }

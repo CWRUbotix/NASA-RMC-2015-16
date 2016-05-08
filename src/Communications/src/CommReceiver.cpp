@@ -50,12 +50,13 @@ void CommReceiver::MainCallbackImpl()
 		break;
 		}
 
-		auto pMessage;
+		std::shared_ptr<Robos::MessageBase> pMessage;
 		switch (command[0])
 		{
 		case 1:
-			auto pMessage = std::make_shared<MessageMotorControl>();
-			pMessage->serialized = command[2];
+			std::shared_ptr<Messages::MessageMotorControl> msg;
+			msg->serialized = command[2];
+			pMessage = msg;
 			break;
 
 		default:
