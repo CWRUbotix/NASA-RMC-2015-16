@@ -18,14 +18,12 @@ namespace Network
 
 	void CommReceiver::MainCallbackImpl()
 	{
-		//initialize connection here
 		initialize_client(5005, 100, "192.168.0.1"); //IP address of computer, subject to change
 
 		char* command[MAX_RECV_LEN];
 		
 		while(Robos::IsRunning() && command[0] != 'q')
 		{
-			//implement client code here
 			//wait to recieve instruction and then send message to appropriate channel
 			command = get_command();
 			send_reply ("msg rcvd\n", strlen ("msg rcvd\n") + 1);
@@ -50,11 +48,11 @@ namespace Network
 					break;
 			}
 
-			auto pMessage;
+			//determine what type of command this is
 			switch (command[0])
 			{
 				case 1:
-					pMessage = std::make_shared<MessageMotorControl>();
+					auto pMessage = std::make_shared<MessageMotorControl>();
 					pMessage->serialized = command[2];
 					break;
 
