@@ -38,7 +38,7 @@ namespace Network
 					break;
 
 				case 1: 
-					response = success-fail;
+					response = successFail;
 					break;
 
 				case 2: 
