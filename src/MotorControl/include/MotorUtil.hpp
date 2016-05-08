@@ -17,8 +17,8 @@ namespace MotorControl {
 #define MOT_TRAR	0x05
 #define MOT_CBUC	0x06
 #define MOT_CHOP	0x07
-#define	ACT_L		0x08
-#define	ACT_R		0x09
+#define	ACT_WHEL	0x08
+#define	ACT_WHER	0x09
 #define ACT_ARML	0x0A
 #define ACT_ARMR	0x0B
 

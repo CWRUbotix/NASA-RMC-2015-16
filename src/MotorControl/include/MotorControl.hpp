@@ -32,7 +32,7 @@ void hopperIn(double speed, double dist);
 
 void setRampType(char type, double factor);
 
-USBSerial::Port port();
+USBSerial::Port port("");
 
 int initialize(char * device);
 void execute(RobotAction action);
