@@ -59,6 +59,7 @@ State state = SERIAL;
 char motor_vel[12];
 long read_motor_vel[12];
 char next_motor_vel[12];
+int read_motor_current[12];
 
 RoboClaw roboclaw(15, 14, 10000);
 Sabertooth st1(128);
@@ -96,6 +97,7 @@ void loop() {
 		break;
 	case READ:
 		readMotors();
+		readCurrents();
 		readLimits();
 		state = EXECUTE;
 		break;
@@ -118,20 +120,28 @@ void parse_command(char cmd, char * packet, char len) {
 		Serial.write(ADDRESS);
 		break;
 	case CMD_MOT:
-		memcpy(motor_vel, next_motor_vel, 12);
+		memcpy(&motor_vel, &next_motor_vel, 12);
 		for(int i = 0; i < len/2; i++) {
 			next_motor_vel[packet[i*2]] = packet[i*2+1];
 		}
-		Serial.write(CMD_MOT);
+		char out[3];
+		out[0] = CMD_MOT;
+		out[1] = 1;
 		if(stp) {
-			Serial.write(0x00);
+			out[2] = 1;
 		} else {
-			Serial.write(0x01);
+			out[2] = 0;
 		}
+		Serial.write(out,3);
 		break;
 	case CMD_ST:
-		readMotors();
-		Serial.write(&read_motor_vel,4*12);
+		char out[7*12];
+		for(int i = 0; i < 12; i++) {
+			out[i*7] = i;
+			memcpy(out+i*7+1,&read_motor_vel[i],4);
+			memcpy(out+i*7+5,&read_motor_current[i],2]);
+		}
+		Serial.write(out,7*12);
 		break;
 }
 
@@ -155,6 +165,10 @@ void readMotors() {
 	read_motor_vel[5] = roboclaw.ReadSpeedM2(ARM_T);
 	read_motor_vel[6] = roboclaw.ReadSpeedM1(CONVEY);
 	read_motor_vel[7] = roboclaw.ReadSpeedM2(CONVEY);
+}
+
+void readCurrents() {
+
 }
 
 void readLimits() {
@@ -225,3 +239,4 @@ void runMotor(char m, char sp) {
 	}
 	motor_vel[m] = sp;
 }
+

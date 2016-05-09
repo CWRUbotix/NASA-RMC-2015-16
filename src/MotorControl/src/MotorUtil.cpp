@@ -5,11 +5,11 @@ namespace MotorControl {
 
 
 char scaleVelocity(char motor, double val) {
-	return scaleChar(val, maxSpeeds.find(motor)->second);
+	return scaleChar(val, maxSpeeds.find(motor)->second,127);
 }
 
 char scaleCurrent(char motor, double val) {
-	return scaleChar(val, maxCurrents.find(motor)->second);
+	return scaleChar(val, maxCurrents.find(motor)->second,255);
 }
 
 double unscaleVelocity(char motor, char val) {
@@ -17,13 +17,13 @@ double unscaleVelocity(char motor, char val) {
 }
 
 double unscaleCurrent(char motor, char val) {
-	return ((double)val)*(maxCurrents.find(motor)->second)/127;
+	return ((double)val)*(maxCurrents.find(motor)->second)/255;
 }
 
-char scaleChar(double val, double max) {
-	double scaled = 127*val/max;
-	if(scaled > 127) {
-		scaled = 127;
+char scaleChar(double val, double max, char max_c) {
+	double scaled = max_c*val/max;
+	if(scaled > max_c) {
+		scaled = max_c;
 	} else if(scaled < 0) {
 		scaled = 0;
 	}

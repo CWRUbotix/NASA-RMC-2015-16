@@ -37,9 +37,13 @@ void runMotorControl() {
 		::gettimeofday(&this_update,NULL);
 		double dt = ((double)(this_update.tv_usec-last_update.tv_sec))/1000000;
 		// Update speeds and currents
+		int cps;
+		short cu;
 		for(int i = 0; i < tmp[1]/3; i++) {
-			double speed = unscaleVelocity(buff[i*3],buff[i*3+1]);
-			double current = unscaleCurrent(buff[i*3],buff[i*3+2]);
+			::memcpy(&cps,buff+i*7+1,4);
+			::memcpy(&cu,buff+i*7+5,2);
+			double speed = convertVelocity(buff[i*7],cps);
+			double current = 0.01*(double)cu;
 			updateMotorStatus(buff[i*3],speed,current,dt);
 		}
 		// Update actions
@@ -65,7 +69,16 @@ void runMotorControl() {
 			a.distance_remaining -= vel_avg*dt;
 			// If finished, set to done and erase
 			if(a.distance_remaining < 0) {
+				// Mark as done
 				a.status = STAT_ACTION_DONE;
+				// Create stop action
+				Action stop;
+				::memcpy(&stop,&a,sizeof(Action));
+				stop.speed = 0;
+				stop.use_dist = false;
+				stop.ovr = true;
+				queueAction(stop);
+				// Erase
 				actionRunning.erase(actionRunning.begin()+j);
 			}
 		}
