@@ -26,6 +26,7 @@ RM := rm -rf
 -include MessageSystem/cpp/TutorialRobot/src/GPS/Messages/subdir.mk
 -include MessageSystem/cpp/TestingFrameworks/gtest/src/unittest/subdir.mk
 -include MessageSystem/cpp/TestingFrameworks/gtest/src/subdir.mk
+-include MessageSystem/cpp/Robos_FT/src/subdir.mk
 -include MessageSystem/cpp/Robos_FT/Robos_FT_Python_Client/src/Nodes/subdir.mk
 -include MessageSystem/cpp/Robos_FT/Robos_FT_Python_Client/src/Messages/subdir.mk
 -include MessageSystem/cpp/Robos_FT/Robos_FT_Python_Client/src/subdir.mk

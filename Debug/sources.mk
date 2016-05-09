@@ -41,6 +41,7 @@ MessageSystem/cpp/TutorialRobot/src/GPS/Nodes \
 MessageSystem/cpp/TutorialRobot/src/GPS/Messages \
 MessageSystem/cpp/TestingFrameworks/gtest/src/unittest \
 MessageSystem/cpp/TestingFrameworks/gtest/src \
+MessageSystem/cpp/Robos_FT/src \
 MessageSystem/cpp/Robos_FT/Robos_FT_Python_Client/src \
 MessageSystem/cpp/Robos_FT/Robos_FT_Python_Client/src/Nodes \
 MessageSystem/cpp/Robos_FT/Robos_FT_Python_Client/src/Messages \
