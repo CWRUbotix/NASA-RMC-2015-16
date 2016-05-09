@@ -13,18 +13,12 @@ MotorNode::MotorNode() : Robos::NodeBase("MotorControlNode", "MotorScheduler",
                                          Async::Types::JobPriority::IMMEDIATE) {}
 
 Robos::MessageBasePtr MotorNode::MainCallbackImpl(Robos::MessageBasePtr pMessage) {
-	if(pMessage->topic == "RobotControl") {
-		std::shared_ptr<Messages::MessageRobotControl> message = std::static_pointer_cast<Messages::MessageRobotControl>(pMessage);
-		execute(message->action);
-		std::shared_ptr<Messages::MessageSuccess> r = std::make_shared<Messages::MessageSuccess>(Messages::MessageSuccess());
-		return r;
-	} else if(pMessage->topic == "MotorControl") {
-		std::shared_ptr<Messages::MessageMotorControl> message = std::static_pointer_cast<Messages::MessageMotorControl>(pMessage);
-		execute(message->actions,message->numActions);
-		std::shared_ptr<Messages::MessageSuccess> r = std::make_shared<Messages::MessageSuccess>(Messages::MessageSuccess());
-		return r;
+	std::shared_ptr<Robos::MessageBase> r;
+	if(pMessage->topic == "MotorAction") {
+		std::shared_ptr<Messages::MessageMotorAction> message = std::static_pointer_cast<Messages::MessageMotorAction>(pMessage);
+		queueAction(message->action);
+		// Respond
 	}
-	std::shared_ptr<Messages::MessageFailure> r = std::make_shared<Messages::MessageFailure>(Messages::MessageFailure());
 	return r;
 }
 MotorNode::~MotorNode() {}

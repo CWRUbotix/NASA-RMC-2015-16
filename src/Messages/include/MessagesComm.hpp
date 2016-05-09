@@ -10,8 +10,10 @@
 namespace Messages {
 	struct MessageBaseCommand : public Robos::MessageBase {
 		Network::Response response;
-
-		MessageBaseCommand(Network::Response response, std::string topic);
+		virtual char* serialized();
+		virtual int len_serialized();
+		virtual void fromPacket(char*,int);
+		MessageBaseCommand(Network::Response, std::string);
 		~MessageBaseCommand();
 	};
 	

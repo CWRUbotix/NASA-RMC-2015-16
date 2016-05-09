@@ -1,142 +1,178 @@
 #include "MotorControl.hpp"
 #include "MotorUtil.hpp"
-#include "CommonMotorDataStructures.hpp"
 #include "I2C.hpp"
 #include <stdio.h>
 #include <memory>
+#include <thread>
 
 namespace MotorControl {
 
+// Initialize the motor control thread to a usb arduino device
 int initialize(char * device) {
+	initializeMaximums();
 	USBSerial::Port port(device);
 	if(port.open() < 0) {
 		::perror("Failed to start Motor Control");
+		return -1;
 	}
+	// Launch the thread
+	std::thread t1(runMotorControl);
+	running = true;
 	return 0;
 }
 
-void execute(RobotAction action) {
-	char speed = scaleVelocity(action.command,action.speed);
-	char dist = scaleDistance(action.command,action.speed);
-	MotorAction * m;
-	int len = 0;
-	switch(action.command) {
-	case CMD_FWD:
-		len = 4;
-		m = (MotorAction*)::malloc(sizeof(MotorAction)*4);
-		m[0] = MotorAction(MOT_FR,speed,dist,action.ovr);
-		m[1] = MotorAction(MOT_FL,speed,dist,action.ovr);
-		m[2] = MotorAction(MOT_BR,speed,dist,action.ovr);
-		m[3] = MotorAction(MOT_BL,speed,dist,action.ovr);
-		break;
-	case CMD_BWD:
-		len = 4;
-		m = (MotorAction*)::malloc(sizeof(MotorAction)*4);
-		m[0] = MotorAction(MOT_FR,-speed,dist,action.ovr);
-		m[1] = MotorAction(MOT_FL,-speed,dist,action.ovr);
-		m[2] = MotorAction(MOT_BR,-speed,dist,action.ovr);
-		m[3] = MotorAction(MOT_BL,-speed,dist,action.ovr);
-		break;
-	case CMD_TL:
-		len = 4;
-		m = (MotorAction*)::malloc(sizeof(MotorAction)*4);
-		m[0] = MotorAction(MOT_FR,speed,dist,action.ovr);
-		m[1] = MotorAction(MOT_FL,-speed,dist,action.ovr);
-		m[2] = MotorAction(MOT_BR,speed,dist,action.ovr);
-		m[3] = MotorAction(MOT_BL,-speed,dist,action.ovr);
-		break;
-	case CMD_TR:
-		len = 4;
-		m = (MotorAction*)::malloc(sizeof(MotorAction)*4);
-		m[0] = MotorAction(MOT_FR,-speed,dist,action.ovr);
-		m[1] = MotorAction(MOT_FL,speed,dist,action.ovr);
-		m[2] = MotorAction(MOT_BR,-speed,dist,action.ovr);
-		m[3] = MotorAction(MOT_BL,speed,dist,action.ovr);
-		break;
-	case CMD_OW:
-		len = 2;
-		m = (MotorAction*)::malloc(sizeof(MotorAction)*2);
-		m[0] = MotorAction(ACT_WHEL,speed,dist,action.ovr);
-		m[1] = MotorAction(ACT_WHER,speed,dist,action.ovr);
-		break;
-	case CMD_CW:
-		len = 2;
-		m = (MotorAction*)::malloc(sizeof(MotorAction)*2);
-		m[0] = MotorAction(ACT_WHEL,-speed,dist,action.ovr);
-		m[1] = MotorAction(ACT_WHER,-speed,dist,action.ovr);
-		break;
-	case CMD_INDV:
-		break;
-	case CMD_TLTD:
-		len = 2;
-		m = (MotorAction*)::malloc(sizeof(MotorAction)*2);
-		m[0] = MotorAction(ACT_ARML,speed,dist,action.ovr);
-		m[1] = MotorAction(ACT_ARMR,speed,dist,action.ovr);
-		break;
-	case CMD_TLTU:
-		len = 2;
-		m = (MotorAction*)::malloc(sizeof(MotorAction)*2);
-		m[0] = MotorAction(ACT_ARML,-speed,dist,action.ovr);
-		m[1] = MotorAction(ACT_ARMR,-speed,dist,action.ovr);
-		break;
-	case CMD_TRAD:
-		len = 2;
-		m = (MotorAction*)::malloc(sizeof(MotorAction)*2);
-		m[0] = MotorAction(MOT_TRAL,speed,dist,action.ovr);
-		m[1] = MotorAction(MOT_TRAL,speed,dist,action.ovr);
-		break;
-	case CMD_TRAU:
-		len = 2;
-		m = (MotorAction*)::malloc(sizeof(MotorAction)*2);
-		m[0] = MotorAction(MOT_TRAL,-speed,dist,action.ovr);
-		m[1] = MotorAction(MOT_TRAL,-speed,dist,action.ovr);
-		break;
-	case CMD_BF:
-		len = 1;
-		m = (MotorAction*)::malloc(sizeof(MotorAction));
-		m[0] = MotorAction(MOT_CBUC,speed,dist,action.ovr);
-		break;
-	case CMD_BB:
-		len = 1;
-		m = (MotorAction*)::malloc(sizeof(MotorAction));
-		m[0] = MotorAction(MOT_CBUC,-speed,dist,action.ovr);
-		break;
-	case CMD_HF:
-		len = 1;
-		m = (MotorAction*)::malloc(sizeof(MotorAction));
-		m[0] = MotorAction(MOT_CHOP,speed,dist,action.ovr);
-		break;
-	case CMD_HB:
-		len = 1;
-		m = (MotorAction*)::malloc(sizeof(MotorAction));
-		m[0] = MotorAction(MOT_CHOP,-speed,dist,action.ovr);
-		break;
-	case CMD_STATUS:
-
-		break;
+// The main motor control thread
+void runMotorControl() {
+	while(!stop) {
+		// Update motor status
+		// Write the status command
+		port.write(SCMD_ST);
+		char tmp[2];
+		// Read response header
+		port.read(tmp,2);
+		char buff[tmp[1]];
+		// Read response body
+		port.read(buff,tmp[1]);
+		// Calc change in time
+		::gettimeofday(&this_update,NULL);
+		double dt = ((double)(this_update.tv_usec-last_update.tv_sec))/1000000;
+		// Update speeds and currents
+		for(int i = 0; i < tmp[1]/3; i++) {
+			double speed = unscaleVelocity(buff[i*3],buff[i*3+1]);
+			double current = unscaleCurrent(buff[i*3],buff[i*3+2]);
+			updateMotorStatus(buff[i*3],speed,current,dt);
+		}
+		// Update actions
+		Action a;
+		for(int j = 0; j < (int)actionRunning.size(); j++) {
+			a = actionRunning.at(j);
+			// Calc average velocity
+			double vel_avg;
+			for(int i = 0; i < a.num_motors; i++) {
+				if(a.direction[i]) {
+					vel_avg += stats.find(a.motor[i])->second.speed_inst;
+				} else {
+					vel_avg -= stats.find(a.motor[i])->second.speed_inst;
+				}
+			}
+			vel_avg /= a.num_motors;
+			a.speed_rt = vel_avg;
+			// If not measuring distance, skip
+			if(!a.use_dist) {
+				continue;
+			}
+			// Calc distance left
+			a.distance_remaining -= vel_avg*dt;
+			// If finished, set to done and erase
+			if(a.distance_remaining < 0) {
+				a.status = STAT_ACTION_DONE;
+				actionRunning.erase(actionRunning.begin()+j);
+			}
+		}
+		// Set last time
+		::memcpy(&last_update,&this_update,sizeof(::timeval));
+		// Run the queue
+		// Wait for queue to be unlocked
+		while(queue_lock) {}
+		queue_lock = true;
+		// Run queue of actions
+		while(!actionQueue.empty()) {
+			Action tmp = actionQueue.front();
+			// If it does not override and conflicts with running actions, skip
+			if(!tmp.ovr && conflictRunning(tmp)) {
+				tmp.status = STAT_ACTION_NORUN;
+				actionQueue.pop();
+				continue;
+			}
+			// Stage for running and execute
+			tmp.status = STAT_ACTION_TORUN;
+			removeConflitingRunning(tmp);
+			execute(tmp);
+			actionRunning.push_back(tmp);
+		}
+		queue_lock = false;
 	}
-	execute(m,len);
+	running = false;
 }
 
-void execute(MotorAction * actions, int numActions) {
-	int len = numActions*2 + 2;
-	char * buffer = (char*)malloc(len);
-	for(int i = 0; i < numActions; i++) {
-		buffer[i*4+2] = actions[i].motor;
-		buffer[i*4+3] = scaleVelocity(actions[i].motor,actions[i].speed);
+// Execute an action (only run by the main motor control thread
+void execute(Action action) {
+	int len = action.num_motors*2+2;
+	char packet[len];
+	packet[0] = SCMD_MOT;
+	packet[1] = action.num_motors*2;
+	for(int i = 0; i < action.num_motors; i++) {
+		packet[2+i*2] = action.motor[i];
+		packet[3+i*2] = scaleVelocity(action.motor[i],action.speed);
+		if(!action.direction[i]) {
+			packet[3+i*2] *= -1;
+		}
 	}
-	buffer[0] = SCMD_MOT;
-	buffer[1] = (char)(len-2);
-	port.write(buffer,len);
+	port.write(packet,len);
+	char resp[3];
+	port.read(resp,3);
+	if(resp[2] == 0x00) {
+		action.status = STAT_ACTION_RUN;
+	} else {
+		action.status = STAT_ACTION_FAIL;
+	}
+
 }
 
-MotorStatus getMotorStatus(char motor) {
-	return motorStatuses[motor];
+// Add an action to the queue
+long queueAction(Action action) {
+	// Timeout for a lock on queue
+	::timeval i,e;
+	::gettimeofday(&i,NULL);
+	while(queue_lock) {
+		::gettimeofday(&e,NULL);
+		// 100 ms timeout
+		if((e.tv_usec-i.tv_usec) > 100000) {
+			return 0;
+		}
+	};
+	// Add an action to the queue
+	queue_lock = true;
+	actionQueue.push(action);
+	queue_lock = false;
+	// Set id to id_counter
+	action.id = id_counter;
+	id_counter++;
+	return id_counter;
 }
 
-int updateMotorStatuses() {
-	port.write(SCMD_ST);
-	return 0;
+// Update the status of a motor (only called by main motor thread
+void updateMotorStatus(char m, double s, double c, double dt) {
+	Status tmp = stats.find(m)->second;
+	tmp.speed_avg += (s+tmp.speed_inst)*dt/2;
+	tmp.power_avg += (c*13.4+tmp.power_inst)*dt/2;
+}
+
+// Checks if an action conflicts with other actions that are running
+bool conflictRunning(Action action) {
+	for(int i = 0; i < (int)actionRunning.size(); i++) {
+		for(int j = 0; j < action.num_motors; j++) {
+			for(int k = 0; k < actionRunning.at(i).num_motors; k++) {
+				if(action.motor[j] == actionRunning.at(i).motor[k]) {
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+}
+
+// Removes all actions that conflict with a given action
+void removeConflictingRunning(Action action) {
+	for(int i = 0; i < (int)actionRunning.size(); i++) {
+		for(int j = 0; j < action.num_motors; j++) {
+			for(int k = 0; k < actionRunning.at(i).num_motors; k++) {
+				if(action.motor[j] == actionRunning.at(i).motor[k]) {
+					actionRunning.erase(actionRunning.begin()+i);
+				}
+			}
+		}
+	}
 }
 
 }

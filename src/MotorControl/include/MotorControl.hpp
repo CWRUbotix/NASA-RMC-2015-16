@@ -4,44 +4,40 @@
 #include "MotorUtil.hpp"
 #include "USBSerial.hpp"
 #include <map>
+#include <queue>
+#include <vector>
+#include "CommonMotorDataStructures.hpp"
+#include <sys/time.h>
+
 
 namespace MotorControl {
-
-void forward(double speed, bool ovr);
-void forward(double speed, double dist, bool ovr);
-void backward(double speed, bool ovr);
-void backward(double speed, double dist, bool ovr);
-void turnLeft(double speed, bool ovr);
-void turnLeft(double speed, double angle, bool ovr);
-void turnRight(double speed, bool ovr);
-void turnRight(double speed, double angle, bool ovr);
-void openWheels(bool ovr);
-void closeWheels(bool ovr);
-void tiltArmDown(double speed, double angle);
-void tiltArmUp(double speed, double andgle);
-void translateArmDown(double speed, double distance);
-void translateArmDown(double speed);
-void translateArmUp(double speed, double distance);
-void translateArmUp(double speed);
-void bucketForward(double speed);
-void bucketBackward(double speed);
-void hopperOut(double speed);
-void hopperOut(double speed, double dist);
-void hopperIn(double speed);
-void hopperIn(double speed, double dist);
-
-void setRampType(char type, double factor);
-
+// Serial port to arduino
 USBSerial::Port port("");
 
+// Is the motor control thread running
+volatile bool running = false;
+// Set true to stop the motor control thread
+volatile bool stop = false;
 
+// Initialize motor control and spawn the thread
+int initialize(char *);
 
-int initialize(char * device);
-void execute(RobotAction action);
-void execute(MotorAction * actions, int numActions);
-MotorStatus getMotorStatus(char motor);
-int updateMotorStatuses();
-MotorStatus* motorStatuses;
+void execute(Action);
+
+void runMotorControl();
+
+std::map<char,Status> stats = std::map<char,Status>();
+::timeval last_update, this_update;
+std::queue<Action> actionQueue = std::queue<Action>();
+std::vector<Action> actionRunning = std::vector<Action>();
+volatile bool stats_lock = false;
+volatile bool queue_lock = false;
+bool conflictRunning(Action);
+void removeConflitingRunning(Action);
+void updateMotorStatus(char,double,double,double);
+long id_counter = 0;
+
+long queueAction(Action);
 
 } // end of namespace MotorControl
 
