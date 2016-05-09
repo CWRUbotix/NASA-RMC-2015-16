@@ -30,24 +30,18 @@
 									<listOptionValue builtIn="false" value="__cplusplus=201103L"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.include.paths.112991593" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/NASA_RMC_2015_16/src/MotorControl/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/NASA_RMC_2015_16/src/Localization/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/NASA_RMC_2015_16/src/I2C/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/NASA_RMC_2015_16/src/Communications/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/NASA_RMC_2015_16/src/Autonomous/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/NASA_RMC_2015_16/MessageSystem/cpp/Robos/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/NASA_RMC_2015_16/MessageSystem/cpp/Async/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/NASA_RMC_2015_16/src/Messages/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/NASA_RMC_2015_16/src/CommonDataStructures/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/NASA_RMC_2015_16/src/USBSerial/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/NASA_RMC_2015_16}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/NASA_RMC_2015_16/MessageSystem/cpp/Utilities/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/NASA_RMC_2015_16/cpp/include}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.899469333" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.exe.debug.1373029997" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.debug">
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.exe.debug.option.optimization.level.1071778254" name="Optimization Level" superClass="gnu.c.compiler.exe.debug.option.optimization.level" valueType="enumerated"/>
 								<option id="gnu.c.compiler.exe.debug.option.debugging.level.1469343170" name="Debug Level" superClass="gnu.c.compiler.exe.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
+								<option id="gnu.c.compiler.option.include.paths.2010468110" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/NASA_RMC_2015_16/cpp/include}&quot;"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.147495950" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.exe.debug.658418399" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.debug"/>
@@ -62,6 +56,9 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<sourceEntries>
+						<entry excluding="src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+					</sourceEntries>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
@@ -88,7 +85,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.release.942857885" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.release">
 								<option id="gnu.cpp.compiler.exe.release.option.optimization.level.771190455" name="Optimization Level" superClass="gnu.cpp.compiler.exe.release.option.optimization.level" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.exe.release.option.debugging.level.904810250" name="Debug Level" superClass="gnu.cpp.compiler.exe.release.option.debugging.level" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
-								<option id="gnu.cpp.compiler.option.preprocessor.def.1619144977" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
+								<option id="gnu.cpp.compiler.option.preprocessor.def.1619144977" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__cplusplus=201103L"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1146871542" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
@@ -110,6 +107,9 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<sourceEntries>
+						<entry excluding="src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+					</sourceEntries>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>

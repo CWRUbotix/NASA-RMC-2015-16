@@ -1,1 +1,0 @@
-A folder for all data structures that are needed across multiple projects.
