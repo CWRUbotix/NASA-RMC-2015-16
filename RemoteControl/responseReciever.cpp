@@ -19,4 +19,5 @@ int main (int argc, char** argv)
 		printf("%s\n", command);
 	}
 	cleanup_client();
+	exit(1);
 }

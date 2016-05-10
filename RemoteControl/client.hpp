@@ -1,7 +1,6 @@
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include "protocol.hpp"
-#include <string>
 
 #ifndef client_h
 #define client_h

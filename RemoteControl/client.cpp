@@ -8,7 +8,7 @@
 #include <Network/client.hpp>
 #include "Network/protocol.hpp"
 
-/**
+/*
 #include <Logging/ILogger.hpp>
 #include <Logging/Factory.hpp>
 #include "NetworkingConfig.hpp"
