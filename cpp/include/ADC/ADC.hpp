@@ -1,7 +1,8 @@
 #ifndef ADC_HPP_
 #define ADC_HPP_
 
-#include "I2C/I2C.hpp"
+#include <I2C/I2C.hpp>
+#include "ADC/LibraryExport.hpp"
 
 namespace Sensors {
 
@@ -14,7 +15,7 @@ class ADC {
 	 *  @param index the ADC channel to use 
 	 *  @return 0 on success, or a negative value on failure
 	 */
-	int query(float *value, int index);
+	ADC_API int query(float *value, int index);
 
 };
 
