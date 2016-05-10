@@ -45,7 +45,7 @@ project( I2C CXX )
 get_filename_component( SRC_ROOT ${PROJECT_SOURCE_DIR}/.. ABSOLUTE )
 
 # Public header file root directory
-get_filename_component( INC_ROOT ${PROJECT_SOURCE_DIR}/../include ABSOLUTE )
+get_filename_component( INC_ROOT ${PROJECT_SOURCE_DIR}/../../include ABSOLUTE )
 
 get_filename_component( CONFIG_ROOT ${PROJECT_SOURCE_DIR}/../../../MessagingSystem/build/out/include ABSOLUTE )
 
