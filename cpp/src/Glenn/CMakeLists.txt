@@ -68,6 +68,12 @@ set( ${PROJECT_NAME}_PRIVATE_HEADERS
     
 )
 
+set( INCLUDE_DIRS
+    ${INC_ROOT}
+    ${SRC_ROOT}
+    ${CONFIG_ROOT}
+)
+
 # Need to include necessary system libraries and GNUInstallDirs
 # (which sets CMake variables for installation). Note these are platform dependent.
 if( MSVC )
@@ -100,7 +106,8 @@ include(ProjectLinker)
 
 # All imported libraries have their own headers we need to include to use them. ProjectLinker gives us
 # them as a variable, so add them to the list of directories we will look for files in.
-include_directories( ${${PROJECT_NAME}_INCLUDES} )
+list( APPEND INCLUDE_DIRS ${${PROJECT_NAME}_INCLUDES} )
+include_directories( ${INCLUDE_DIRS} )
 
 # create an executable
 add_executable( ${PROJECT_NAME} ${${PROJECT_NAME}_SRCS} ${${PROJECT_NAME}_PUBLIC_HEADERS} ${${PROJECT_NAME}_PRIVATE_HEADERS} )
