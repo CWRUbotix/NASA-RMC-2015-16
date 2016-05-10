@@ -38,7 +38,7 @@ set( ${PROJECT_NAME}_SRCS
 
     ${SRC_ROOT}/MotorControl/MotorControlNode.cpp
 
-    ${PROJECT_DIR}/main.cpp
+    ${SRC_ROOT}/Glenn/main.cpp
 )
 
 set( ${PROJECT_NAME}_PUBLIC_HEADERS
