@@ -20,12 +20,48 @@ Project( GlennUnitTests CXX )
 
 
 set( ${PROJECT_NAME}_SRCS
+    # PROJECT CODE (Non Nodes)
+    ${SRC_ROOT}/USBSerial/USBSerial.cpp
+
+    ${SRC_ROOT}/Network/client.cpp
+    ${SRC_ROOT}/Network/server.cpp
+
+    ${SRC_ROOT}/MotorControl/MotorUtil.cpp
+    ${SRC_ROOT}/MotorControl/MotorControl.cpp
     
+    # Robos Interfacing (Nodes and Messages)
+    ${SRC_ROOT}/Messages/MessagesGeneral.cpp
+    ${SRC_ROOT}/Messages/MessagesComm.cpp
+
+    ${SRC_ROOT}/Network/CommReceiver.cpp
+    ${SRC_ROOT}/Network/CommTransmitter.cpp
+
+    ${SRC_ROOT}/MotorControl/MotorControlNode.cpp
+
     ${PROJECT_DIR}/main.cpp
 )
 
 set( ${PROJECT_NAME}_PUBLIC_HEADERS
-    
+    # PROJECT CODE (Non Nodes and Messages)
+    ${INC_ROOT}/USBSerial/USBSerial.hpp
+
+    ${INC_ROOT}/Network/client.hpp
+    ${INC_ROOT}/Network/Network.hpp
+    ${INC_ROOT}/Network/protocol.hpp
+    ${INC_ROOT}/Network/server.hpp
+
+    ${INC_ROOT}/MotorControl/MotorUtil.hpp
+    ${INC_ROOT}/MotorControl/MotorControl.hpp
+
+    # Robos interfacing code (Nodes and Messages)
+    ${INC_ROOT}/Messages/MessagesComm.hpp
+    ${INC_ROOT}/Messages/MessagesGeneral.hpp
+    ${INC_ROOT}/Messages/MessagesMotorControl.hpp
+
+    ${INC_ROOT}/Network/CommReceiver.hpp
+    ${INC_ROOT}/Network/CommTransmitter.hpp
+
+    ${INC_ROOT}/MotorControl/MotorControlNode.hpp
 )
 
 set( ${PROJECT_NAME}_PRIVATE_HEADERS

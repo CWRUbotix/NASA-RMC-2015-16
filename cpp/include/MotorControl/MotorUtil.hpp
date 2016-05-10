@@ -1,6 +1,5 @@
 #pragma once
 #include <map>
-#include "CommonMotorDataStructures.hpp"
 #ifndef MOTORUTIL_HPP_
 #define MOTORUTIL_HPP_
 
@@ -22,6 +21,20 @@ namespace MotorControl {
 #define SCMD_WHOIS	0x80	// Whois command
 #define SCMD_MOT	0x81	// Motor control command
 #define SCMD_ST		0x82	// Motor status command
+
+
+struct MotorAction {
+	char motor;
+	double speed, distance;
+	bool ovr;
+};
+
+struct RobotAction {
+	char command;
+	double speed, distance;
+	bool ovr;
+};
+
 
 std::map<char, double> maxSpeeds; // Maximum speeds (rad/s)
 std::map<char, double> maxCurrents; // Maximum currents

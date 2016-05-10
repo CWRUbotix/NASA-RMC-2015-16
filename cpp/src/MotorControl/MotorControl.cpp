@@ -1,5 +1,5 @@
 #include "MotorControl/MotorControl.hpp"
-#include "CommonUtil/MotorUtil.hpp"
+#include "MotorControl/MotorUtil.hpp"
 #include "I2C/I2C.hpp"
 #include <stdio.h>
 #include <memory>

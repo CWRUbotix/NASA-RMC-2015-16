@@ -1,7 +1,7 @@
 #ifndef MOTORCONTROL_HPP_
 #define MOTORCONTROL_HPP_
 
-#include "CommonUtil/MotorUtil.hpp"
+#include "MotorControl/MotorUtil.hpp"
 #include "USBSerial/USBSerial.hpp"
 #include <map>
 #include <queue>
