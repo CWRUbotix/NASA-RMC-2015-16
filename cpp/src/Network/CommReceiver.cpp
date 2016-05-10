@@ -1,11 +1,11 @@
 #include <Robos/Robos.hpp>
 #include <string>
+#include <memory>
 #include "Network/CommReceiver.hpp"
 #include "Network/Network.hpp"
 #include "Messages/MessagesMotorControl.hpp"
 #include "Network/client.hpp"
 #include "CommonUtil/NetworkUtil.hpp"
-#include <memory>
 
 namespace Network
 {

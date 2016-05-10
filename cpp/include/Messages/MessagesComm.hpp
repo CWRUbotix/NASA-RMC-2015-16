@@ -16,7 +16,13 @@ namespace Messages {
 		MessageBaseCommand(Network::Response, std::string);
 		~MessageBaseCommand();
 	};
-	
+
+	struct MessageNetworkResponse : public MessageBaseCommand {
+		bool success_fail;
+		char* response_string;
+		MessageNetworkResponse(Network::Response, std::string, bool, char*);
+		~MessageBaseCommand();
+	};
 }
 
 #endif
