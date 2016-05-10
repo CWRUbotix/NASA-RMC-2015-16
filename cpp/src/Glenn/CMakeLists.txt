@@ -7,10 +7,10 @@ get_filename_component( ROBOS_CMAKE_MODULES ${CMAKE_CURRENT_SOURCE_DIR}/../../..
 get_filename_component( CUSTOM_CMAKE_MODULES ${CMAKE_CURRENT_SOURCE_DIR}/../../../cmake ABSOLUTE )
 
 # source code root directory
-get_filename_component( SRC_ROOT ${PROJECT_SOURCE_DIR}/.. ABSOLUTE )
+get_filename_component( SRC_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/.. ABSOLUTE )
 
 # Public header file root directory
-get_filename_component( INC_ROOT ${PROJECT_SOURCE_DIR}/../../include ABSOLUTE )
+get_filename_component( INC_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../include ABSOLUTE )
 
 # tell CMake about them. This list is kind of like CMake's internal version of the $PATH env variable.
 list( APPEND CMAKE_MODULE_PATH ${CUSTOM_CMAKE_MODULES}/modules ${ROBOS_CMAKE_MODULES}/modules )
