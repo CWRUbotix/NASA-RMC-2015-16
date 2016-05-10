@@ -82,10 +82,12 @@ elseif( ${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     include( GNUInstallDirs )
     set(TARGET_PTHREADS_LIB "pthread")
     set(TARGET_UUID_LIB "uuid")
+    set(TARGET_SERIAL_LIB "serial")
 elseif( APPLE )
     include( GNUInstallDirs )
     set(TARGET_PTHREADS_LIB "pthread")
     set(TARGET_UUID_LIB "uuid")
+    set(TARGET_SERIAL_LIB "serial")
 else()
     message(SEND_ERROR "OS [${CMAKE_SYSTEM_NAME}] not supported")
 endif()
@@ -116,6 +118,7 @@ add_executable( ${PROJECT_NAME} ${${PROJECT_NAME}_SRCS} ${${PROJECT_NAME}_PUBLIC
 if( ${${PROJECT_NAME}_IMPORTED_LIBS_LENGTH} GREATER 0 )
     target_link_libraries( ${PROJECT_NAME}
     ${TARGET_PTHREADS_LIB}
+    ${TARGET_SERIAL_LIB}
     ${${PROJECT_NAME}_IMPORTED_LIBS} )
 endif()
 
