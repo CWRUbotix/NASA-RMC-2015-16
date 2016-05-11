@@ -5,8 +5,8 @@
 #include <stdlib.h>
 #include <arpa/inet.h>
 #include <unistd.h>
-#include <Network/client.hpp>
-#include "Network/protocol.hpp"
+#include "protocol.hpp"
+#include "client.hpp"
 
 /*
 #include <Logging/ILogger.hpp>
@@ -24,8 +24,14 @@ Logging::LoggerPtr GetStaticLogger()
 }
 */
 
+uint8_t next_number;
+struct sockaddr_in return_address;
+struct sockaddr_in client_address;
+int socket_descriptor;
+
 void initialize_client (int portno, int timeout, char* return_string_addr)
 {
+
 	struct timeval timeout_val;
 	struct protocol_header sync_header;
 
@@ -49,10 +55,10 @@ void initialize_client (int portno, int timeout, char* return_string_addr)
 	return_address.sin_port = htons (portno);
 
 	next_number = 0;
-	strcpy (protocol_header.magic, SYNC_MAGIC);
-	protocol_header.len = 0;
-	protocol_header.number = 0;
-	sendto (socket_descriptor, &protocol_header, sizeof (struct protocol_header),
+	strcpy (sync_header.magic, SYNC_MAGIC);
+	sync_header.len = 0;
+	sync_header.number = 0;
+	sendto (socket_descriptor, &sync_header, sizeof (struct protocol_header),
 		0, (struct sockaddr*)&return_address, sizeof (return_address));
 		
 }

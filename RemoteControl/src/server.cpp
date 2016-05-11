@@ -5,8 +5,16 @@
 #include <stdlib.h>
 #include <arpa/inet.h>
 #include <unistd.h>
-#include "server.h"
-#include "protocol.h"
+#include "server.hpp"
+#include "protocol.hpp"
+
+uint8_t next_number;
+struct sockaddr_in server_address;
+char receipt_buf [MAX_RECV_LEN];
+int receipt_len;
+int socket_descriptor;
+int port;
+struct sockaddr_in client;
 
 void initialize_server (int portno, int timeout, char* client_string_addr)
 {
@@ -35,10 +43,10 @@ void initialize_server (int portno, int timeout, char* client_string_addr)
 	client.sin_port = htons (port);
 
 	next_number = 0;
-	strcpy (protocol_header.magic, SYNC_MAGIC);
-	protocol_header.len = 0;
-	protocol_header.number = 0;
-	sendto (socket_descriptor, &protocol_header, sizeof (struct protocol_header),
+	strcpy (sync_header.magic, SYNC_MAGIC);
+	sync_header.len = 0;
+	sync_header.number = 0;
+	sendto (socket_descriptor, &sync_header, sizeof (struct protocol_header),
 		0, (struct sockaddr*)&client, sizeof (client));
 }
 
