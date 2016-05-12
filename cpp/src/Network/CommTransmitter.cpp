@@ -16,7 +16,7 @@ namespace Network {
 	{
 		std::shared_ptr<Robos::MessageBase> r;
 
- 		initialize_server(5006, 100, ip_address);
+ 		initialize_server(5006, 100, (char *)(ip_address.c_str()));
 		
 		if(pMessage->topic == "NetworkResponse")
 		{
@@ -29,15 +29,15 @@ namespace Network {
 				case Network::Response::successFail:
 					if(message->success_fail)
 					{
-						send_command("Success");
+						send_command((char *)"Success", strlen("Success") + 1);
 					}
 					else
 					{
-						send_command("Fail");
+						send_command((char *)"Fail", strlen("Fail") + 1);
 					}
 					break;
 				case Network::Response::verbose:
-					char* verbose_response = (message->success_fail) ? "Success: " : "Failure: ";
+					char* verbose_response = (char *)((message->success_fail) ? "Success: " : "Failure: ");
 					verbose_response += message->response_string;
 					send_command(verbose_response, strlen(command) +1);
 					break;
