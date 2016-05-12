@@ -1,9 +1,10 @@
 #include "Network/CommTransmitter.hpp"
 
 namespace Network {
-	CommTransmitter::CommTransmitter() : Robos::NodeBase("CommTransmitter", "NetworkScheduler", std::vector<std::string>{"NetworkResponse"}, Async::Types::JobPriority::IMMEDIATE)
+	CommTransmitter::CommTransmitter(std::string ip) : Robos::NodeBase("CommTransmitter", "NetworkScheduler",
+                                                                       std::vector<std::string>{"NetworkResponse"},
+                                                                       Async::Types::JobPriority::IMMEDIATE), ip_address(ip)
 	{
-		ip_address = ip;
  	}
 
  	CommTransmitter::~CommTransmitter()
