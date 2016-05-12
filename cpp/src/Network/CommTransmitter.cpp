@@ -1,4 +1,5 @@
 #include "Network/CommTransmitter.hpp"
+#include "Messages/MessagesComm.hpp"
 
 namespace Network {
 	CommTransmitter::CommTransmitter(std::string ip) : Robos::NodeBase("CommTransmitter", "NetworkScheduler",
@@ -13,19 +14,19 @@ namespace Network {
 
  	Robos::MessageBasePtr CommTransmitter::MainCallbackImpl(const Robos::MessageBasePtr pMessage)
 	{
-		std::shared_ptr<Robos:MessageBase> r;
+		std::shared_ptr<Robos::MessageBase> r;
 
  		initialize_server(5006, 100, ip_address);
 		
 		if(pMessage->topic == "NetworkResponse")
 		{
-			std::shared_ptr<Messages::MessageNetworkResponse> message = std::static_ptr_cast<Messages::MessageNetworkResponse>(pMessage);
+			std::shared_ptr<Messages::MessageNetworkResponse> message = std::static_pointer_cast<Messages::MessageNetworkResponse>(pMessage);
 			switch(message->response)
 			{
-				case none:
+				case Network::Response::none:
 					return r;
 					break;
-				case successFail:
+				case Network::Response::successFail:
 					if(message->success_fail)
 					{
 						send_command("Success");
@@ -35,7 +36,7 @@ namespace Network {
 						send_command("Fail");
 					}
 					break;
-				case verbose:
+				case Network::Response::verbose:
 					char* verbose_response = (message->success_fail) ? "Success: " : "Failure: ";
 					verbose_response += message->response_string;
 					send_command(verbose_response, strlen(command) +1);
