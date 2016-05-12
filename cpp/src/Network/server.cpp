@@ -11,7 +11,7 @@
 void initialize_server (int portno, int timeout, char* client_string_addr)
 {
 	struct timeval timeout_val;
-	struct protocol_header sync_header;
+	// struct protocol_header sync_header;
 
 	socket_descriptor = socket (AF_INET, SOCK_DGRAM, 0);
 
