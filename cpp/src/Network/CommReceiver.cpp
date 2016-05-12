@@ -30,21 +30,21 @@ void CommReceiver::MainCallbackImpl()
 		//implement client code here
 		//wait to recieve instruction and then send message to appropriate channel
 		get_command(command);
-		send_reply ("msg rcvd\n", strlen ("msg rcvd\n") + 1);
-		Response response = none;
+		send_reply ((char *)"msg rcvd\n", strlen ("msg rcvd\n") + 1);
+		//Response response = none;
 		//set response wanted
 		switch (command[1])
 		{
 		case 0:
-			response = none;
+			//response = none;
 			break;
 
 		case 1:
-			response = successFail;
+			//response = successFail;
 			break;
 
 		case 2:
-			response = verbose;
+			//response = verbose;
 			break;
 
 		default: //ERROR
