@@ -1,10 +1,11 @@
-#include <arpa/inet.h>
-#include <sys/socket.h>
-#include "protocol.hpp"
-#include <string>
-
+#pragma once
 #ifndef client_h
 #define client_h
+
+#include <arpa/inet.h>
+#include <sys/socket.h>
+#include "Network/protocol.hpp"
+#include <string>
 
 uint8_t next_number;
 struct sockaddr_in return_address;

@@ -1,8 +1,9 @@
-#include <sys/socket.h>
-#include "protocol.hpp"
-
+#pragma once
 #ifndef server_hpp
 #define server_hpp
+
+#include <sys/socket.h>
+#include "Network/protocol.hpp"
 
 uint8_t next_number;
 struct sockaddr_in server_address;
