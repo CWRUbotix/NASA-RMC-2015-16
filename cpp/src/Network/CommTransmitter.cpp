@@ -37,6 +37,9 @@ namespace Network {
 					}
 					break;
 				case Network::Response::verbose:
+                    // need to tell compiler that verbose_response only
+                    // exists for this case. Otherwise, the default:
+                    // case could have access to it.
                     {
                         std::string verbose_response = (message->success_fail) ? "Success: " : "Failure: ";
                         verbose_response += message->response_string;
@@ -47,6 +50,9 @@ namespace Network {
 					return r;
 					break;
 			}
+
+            // not every case returns!
+            return nullptr;
 		}
 		else
 		{
