@@ -1,8 +1,8 @@
 // SYSTEM INCLUDES
 #include <Robos/Robos.hpp>
-#include <Network/CommTransmitter.hpp>
-#include <Network/CommReceiver.hpp>
-#include <MotorControl/MotorControlNode.hpp>
+#include "Network/CommTransmitter.hpp"
+#include "Network/CommReceiver.hpp"
+#include "MotorControl/MotorControlNode.hpp"
 #include <Utilities/OSUtils.hpp>
 #include <chrono>
 #include <thread>
@@ -60,8 +60,11 @@ int main(int argc, char** argv)
 	}
 
 	// initialize Nodes
-	std::shared_ptr<Robos::NodeBase> pNetworkingClient = std::static_pointer_cast<Robos::NodeBase>(std::make_shared<Network::CommReceiver>());
-	std::shared_ptr<Robos::NodeBase> pMotorController = std::static_pointer_cast<Robos::NodeBase>(std::make_shared<MotorControl::MotorNode>());
+
+    // CommReceiver takes a std::string in its constructor!!!
+    // I assume my_ip is the correct ip?
+	auto pNetworkingClient = std::make_shared<Network::CommReceiver>(my_ip);
+	auto pMotorController = std::make_shared<MotorControl::MotorNode>();
 
 	// initialize Robos
 	Robos::Init(Utilities::OS::GetCurrentDirectory(__FILE__) +
