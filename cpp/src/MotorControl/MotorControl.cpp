@@ -52,7 +52,7 @@ void runMotorControl() {
 	while(!stop) {
 		// Update motor status
 		// Write the status command
-		char who[3] = {SCMD_ST,(char)1,(char)0};
+		char who[3] = {(char)SCMD_ST,(char)1,(char)0};
 		port.write(who,3);
 		//printf("Motor status requested\n");
 		char tmp[2];
