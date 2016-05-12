@@ -2,6 +2,7 @@
 #ifndef server_hpp
 #define server_hpp
 
+#include <arpa/inet.h>
 #include <sys/socket.h>
 #include "Network/protocol.hpp"
 
