@@ -1,14 +1,15 @@
 #ifndef I2C_HPP_
 #define I2C_HPP_
 
+#include "I2C/LibraryExport.hpp"
+
 namespace I2C {
-//#include "LibraryExport.hpp"
 
 
 /** The I2C class represents a connection to an I2C bus, where the program
  *  acts as the master and the other devices on the bus are its slaves.
  */
-class I2C {
+class I2C_API I2C {
 private:
 	static int file;
 public:

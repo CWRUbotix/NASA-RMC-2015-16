@@ -14,7 +14,7 @@ int ADC::query(float* value, int index) {
 	retval = I2C::I2C::setAddress(0x48); // TODO: calculate from index
         if (retval < 0) {return -1;}
         
-	char cmd[] = {0b10001100 | ((index << 4) & 0b01110000)}; // 1 pin mode bit, 3 channel select bits, 2 power mode bits, 2 unused
+	char cmd[] = {(char)(0b10001100 | ((index << 4) & 0b01110000))}; // 1 pin mode bit, 3 channel select bits, 2 power mode bits, 2 unused
         char buff[2];
         
 	retval = I2C::I2C::sendPacket(cmd, 1);
