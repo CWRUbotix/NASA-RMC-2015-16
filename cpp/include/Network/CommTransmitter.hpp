@@ -5,7 +5,7 @@
 #include <string.h>
 #include "Robos/NodeBase.hpp"
 #include "Robos/MessageBase.hpp"
-#include "server.h"
+#include "Network/server.hpp"
 //#include "LibraryExport.hpp"
 
 namespace Network {
