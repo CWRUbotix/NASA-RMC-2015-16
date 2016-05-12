@@ -5,18 +5,15 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
 ../cpp/src/MotorControl/MotorControl.cpp \
-../cpp/src/MotorControl/MotorControlNode.cpp \
-../cpp/src/MotorControl/MotorUtil.cpp 
+../cpp/src/MotorControl/MotorControlNode.cpp 
 
 OBJS += \
 ./cpp/src/MotorControl/MotorControl.o \
-./cpp/src/MotorControl/MotorControlNode.o \
-./cpp/src/MotorControl/MotorUtil.o 
+./cpp/src/MotorControl/MotorControlNode.o 
 
 CPP_DEPS += \
 ./cpp/src/MotorControl/MotorControl.d \
-./cpp/src/MotorControl/MotorControlNode.d \
-./cpp/src/MotorControl/MotorUtil.d 
+./cpp/src/MotorControl/MotorControlNode.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

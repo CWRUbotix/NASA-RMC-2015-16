@@ -1,38 +1,67 @@
-#include "MotorControl/MotorControl.hpp"
-#include "CommonUtil/MotorUtil.hpp"
-#include "I2C/I2C.hpp"
+#include <MotorControl/MotorControl.hpp>
+#include <CommonUtil/MotorUtil.hpp>
+#include <I2C/I2C.hpp>
 #include <stdio.h>
 #include <memory>
 #include <thread>
+#include <iostream>
+#include <chrono>
 
 namespace MotorControl {
+
+USBSerial::Port port("");
+
+volatile bool running;
+volatile bool stop;
+
+std::map<char,Status> stats;
+std::queue<Action> actionQueue;
+std::vector<Action> actionRunning;
+::timeval last_update;
+::timeval this_update;
+volatile bool stats_lock;
+volatile bool queue_lock;
+long id_counter;
+
+int halt() {
+	stop = true;
+	return 0;
+}
 
 // Initialize the motor control thread to a usb arduino device
 int initialize(char * device) {
 	initializeMaximums();
-	USBSerial::Port port(device);
-	if(port.open() < 0) {
-		::perror("Failed to start Motor Control");
-		return -1;
-	}
+	printf("Successfully openned device\n");
 	// Launch the thread
+	printf("Launching motor controlling thread\n");
 	std::thread t1(runMotorControl);
+	t1.detach();
 	running = true;
 	return 0;
 }
 
 // The main motor control thread
 void runMotorControl() {
+	port.device = std::string("/dev/ttyACM1");
+	if(port.open() < 0) {
+		::perror("Failed to start Motor Control");
+		return;
+	}
+	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+	printf("Motor Control thread running\n");
 	while(!stop) {
 		// Update motor status
 		// Write the status command
-		port.write(SCMD_ST);
+		char who[3] = {SCMD_ST,(char)1,(char)0};
+		port.write(who,3);
+		//printf("Motor status requested\n");
 		char tmp[2];
+		std::this_thread::sleep_for(std::chrono::milliseconds(300));
 		// Read response header
 		port.read(tmp,2);
-		char buff[tmp[1]];
+		char buff[(uint8_t)tmp[1]];
 		// Read response body
-		port.read(buff,tmp[1]);
+		port.read(buff,(uint8_t)tmp[1]);
 		// Calc change in time
 		::gettimeofday(&this_update,NULL);
 		double dt = ((double)(this_update.tv_usec-last_update.tv_sec))/1000000;
@@ -90,6 +119,7 @@ void runMotorControl() {
 		queue_lock = true;
 		// Run queue of actions
 		while(!actionQueue.empty()) {
+			printf("Dequeuing action\n");
 			Action tmp = actionQueue.front();
 			// If it does not override and conflicts with running actions, skip
 			if(!tmp.ovr && conflictRunning(tmp)) {
@@ -99,17 +129,20 @@ void runMotorControl() {
 			}
 			// Stage for running and execute
 			tmp.status = STAT_ACTION_TORUN;
-			removeConflitingRunning(tmp);
+			actionQueue.pop();
+			removeConflictingRunning(tmp);
 			execute(tmp);
 			actionRunning.push_back(tmp);
 		}
 		queue_lock = false;
 	}
 	running = false;
+	printf("Motor Control has stopped\n");
 }
 
 // Execute an action (only run by the main motor control thread
 void execute(Action action) {
+	printf("Executing action\n");
 	int len = action.num_motors*2+2;
 	char packet[len];
 	packet[0] = SCMD_MOT;

@@ -1,13 +1,10 @@
-#include "Roboclaw.h"
+#include "RoboClaw.h"
 #include "BMSerial.h"
 #include "Sabertooth.h"
 
-// States
-enum State {
-	SERIAL,
-	READ,
-	EXECUTE
-};
+#define SERIAL_READ 0x00
+#define MOTOR_READ 0x01
+#define EXECUTE 0x02
 
 #define ADDRESS		0x01
 
@@ -54,11 +51,11 @@ bool wheels_open = false;
 bool wheel_lock = false;
 bool tilt_lock = false;
 
-State state = SERIAL;
+char state = SERIAL_READ;
 
 char motor_vel[12];
 long read_motor_vel[12];
-char next_motor_vel[12];
+char motor_vel_next[12];
 int read_motor_current[12];
 
 RoboClaw roboclaw(15, 14, 10000);
@@ -66,11 +63,12 @@ Sabertooth st1(128);
 Sabertooth st2(129);
 
 void setup() {
+  digitalWrite(13,HIGH);
 	Serial.begin(9600);
 	roboclaw.begin(38400);
-	SabertoothTXPinSerial.begin(9600);
-	st1.autobaud();
-	st2.autobaud();
+	Serial1.begin(9600);
+	//st1.autobaud();
+	//st2.autobaud();
 	pinMode(ARM_L_L_O, INPUT);
 	pinMode(ARM_L_L_C, INPUT);
 	pinMode(ARM_L_R_O, INPUT);
@@ -85,29 +83,29 @@ void setup() {
 
 void loop() {
 	switch(state) {
-	case SERIAL:
-		if(Serial.available()) {
-			char cmd = Serial.read();
-			char len = Serial.read();
-			char pkg[len];
-			Serial.readBytes(pkg, len);
-			parse_command(cmd, pkg, len);
+	case SERIAL_READ:
+		if(Serial.available() > 0) {
+      char in[2];
+      Serial.readBytes(in,2);
+			char pkg[in[1]];
+			Serial.readBytes(pkg, in[1]);
+			parse_command(in[0], pkg, in[1]);
 		}
-		state = READ;
+		state = MOTOR_READ;
 		break;
-	case READ:
-		readMotors();
-		readCurrents();
-		readLimits();
+	case MOTOR_READ:
+		//readMotors();
+		//readCurrents();
+		//readLimits();
 		state = EXECUTE;
 		break;
 	case EXECUTE:
 		for(int i = 0; i < 12; i++) {
-			if(next_motor_vel != motor_vel) {
-				runMotor(i,motor_vel[i]);
+			if(motor_vel_next != motor_vel) {
+				//runMotor(i,motor_vel[i]);
 			}
 		}
-		state = SERIAL;
+		state = SERIAL_READ;
 		break;
 	}
 
@@ -115,14 +113,15 @@ void loop() {
 
 void parse_command(char cmd, char * packet, char len) {
 	switch(cmd) {
-	case CMD_WHO:
-		Serial.write(CMD_WHO);
-		Serial.write(ADDRESS);
+	case (char)CMD_WHO:
+ Serial.write(CMD_WHO);
+    Serial.write((char)1);
+    Serial.write(ADDRESS);
 		break;
-	case CMD_MOT:
-		memcpy(&motor_vel, &next_motor_vel, 12);
+	case (char)CMD_MOT:
+		memcpy(&motor_vel, &motor_vel_next, 12);
 		for(int i = 0; i < len/2; i++) {
-			next_motor_vel[packet[i*2]] = packet[i*2+1];
+			motor_vel_next[packet[i*2]] = packet[i*2+1];
 		}
 		char out[3];
 		out[0] = CMD_MOT;
@@ -134,15 +133,18 @@ void parse_command(char cmd, char * packet, char len) {
 		}
 		Serial.write(out,3);
 		break;
-	case CMD_ST:
-		char out[7*12];
+	case (char)CMD_ST:
+		char out2[7*12+2];
+    out2[0] = CMD_ST;
+    out2[1] = (char)(7*12);
 		for(int i = 0; i < 12; i++) {
-			out[i*7] = i;
-			memcpy(out+i*7+1,&read_motor_vel[i],4);
-			memcpy(out+i*7+5,&read_motor_current[i],2]);
+			out2[i*7] = i;
+			memcpy(out2+i*7+3,&read_motor_vel[i],4);
+			memcpy(out2+i*7+7,&read_motor_current[i],2);
 		}
-		Serial.write(out,7*12);
+		Serial.write(out2,7*12+2);
 		break;
+	}
 }
 
 void stopInterrupt() {
@@ -157,10 +159,10 @@ void stopInterrupt() {
 }
 
 void readMotors() {
-	read_motor_vel[0] = roboclaw.ReadSpeedM1(WHEEL_R);
-	read_motor_vel[1] = roboclaw.ReadSpeedM1(WHEEL_L);
-	read_motor_vel[2] = roboclaw.ReadSpeedM2(WHEEL_R);
-	read_motor_vel[3] = roboclaw.ReadSpeedM2(WHEEL_L);
+	read_motor_vel[0] = roboclaw.ReadSpeedM1(WHEELS_R);
+	read_motor_vel[1] = roboclaw.ReadSpeedM1(WHEELS_L);
+	read_motor_vel[2] = roboclaw.ReadSpeedM2(WHEELS_R);
+	read_motor_vel[3] = roboclaw.ReadSpeedM2(WHEELS_L);
 	read_motor_vel[4] = roboclaw.ReadSpeedM1(ARM_T);
 	read_motor_vel[5] = roboclaw.ReadSpeedM2(ARM_T);
 	read_motor_vel[6] = roboclaw.ReadSpeedM1(CONVEY);
@@ -201,16 +203,16 @@ void readLimits() {
 void runMotor(char m, char sp) {
 	switch(m) {
 	case MOT_FR:
-		roboclaw.SpeedM1(WHEEL_R,sp);
+		roboclaw.SpeedM1(WHEELS_R,sp);
 		break;
 	case MOT_FL:
-		roboclaw.SpeedM1(WHEEL_L,sp);
+		roboclaw.SpeedM1(WHEELS_L,sp);
 		break;
 	case MOT_BR:
-		roboclaw.SpeedM2(WHEEL_R,sp);
+		roboclaw.SpeedM2(WHEELS_R,sp);
 		break;
 	case MOT_BL:
-		roboclaw.SpeedM2(WHEEL_L,sp);
+		roboclaw.SpeedM2(WHEELS_L,sp);
 		break;
 	case MOT_TRAL:
 		roboclaw.SpeedM1(ARM_T,sp);
@@ -225,16 +227,16 @@ void runMotor(char m, char sp) {
 		roboclaw.SpeedM2(CONVEY,sp);
 		break;
 	case ACT_WHEL:
-		st1.motor(1,sp);
+		//st1.motor(1,sp);
 		break;
 	case ACT_WHER:
-		st1.motor(2,sp);
+		//st1.motor(2,sp);
 		break;
 	case ACT_ARML:
-		st2.motor(1,sp);
+		//st2.motor(1,sp);
 		break;
 	case ACT_ARMR:
-		st2.motor(2,sp);
+		//st2.motor(2,sp);
 		break;
 	}
 	motor_vel[m] = sp;

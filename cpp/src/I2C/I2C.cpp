@@ -4,7 +4,7 @@
  *  Created on: Apr 23, 2016
  *      Author: anno
  */
-#include "I2C.hpp"
+#include "I2C/I2C.hpp"
 
 #include <unistd.h>
 #include <fcntl.h>

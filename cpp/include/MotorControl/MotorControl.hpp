@@ -1,22 +1,23 @@
 #ifndef MOTORCONTROL_HPP_
 #define MOTORCONTROL_HPP_
 
-#include "CommonUtil/MotorUtil.hpp"
-#include "USBSerial/USBSerial.hpp"
+#include <CommonUtil/MotorUtil.hpp>
+#include <USBSerial/USBSerial.hpp>
 #include <map>
 #include <queue>
 #include <vector>
 #include <sys/time.h>
+#include <thread>
 
 
 namespace MotorControl {
 // Serial port to arduino
-USBSerial::Port port("");
+extern USBSerial::Port port;
 
 // Is the motor control thread running
-volatile bool running = false;
+extern volatile bool running;
 // Set true to stop the motor control thread
-volatile bool stop = false;
+extern volatile bool stop;
 
 // Initialize motor control and spawn the thread
 int initialize(char *);
@@ -25,18 +26,21 @@ void execute(Action);
 
 void runMotorControl();
 
-std::map<char,Status> stats = std::map<char,Status>();
-::timeval last_update, this_update;
-std::queue<Action> actionQueue = std::queue<Action>();
-std::vector<Action> actionRunning = std::vector<Action>();
-volatile bool stats_lock = false;
-volatile bool queue_lock = false;
+extern std::map<char,Status> stats;
+extern ::timeval last_update, this_update;
+extern std::queue<Action> actionQueue;
+extern std::vector<Action> actionRunning;
+extern volatile bool stats_lock;
+extern volatile bool queue_lock;
 bool conflictRunning(Action);
-void removeConflitingRunning(Action);
+void removeConflictingRunning(Action);
 void updateMotorStatus(char,double,double,double);
-long id_counter = 0;
+extern long id_counter;
+extern std::thread t1;
 
 long queueAction(Action);
+
+int halt();
 
 } // end of namespace MotorControl
 

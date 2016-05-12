@@ -1,9 +1,8 @@
-#include "MotorControlNode.hpp"
-#include "MotorControl.hpp"
-#include "MotorUtil.hpp"
-#include "MessagesMotorControl.hpp"
-#include "MessagesGeneral.hpp"
-#include "CommonMotorDataStructures.hpp"
+#include "MotorControl/MotorControlNode.hpp"
+#include "MotorControl/MotorControl.hpp"
+#include "Messages/MessagesMotorControl.hpp"
+#include "Messages/MessagesGeneral.hpp"
+#include "CommonUtil/MotorUtil.hpp"
 #include <memory>
 
 namespace MotorControl {

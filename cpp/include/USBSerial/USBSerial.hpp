@@ -8,7 +8,7 @@ using namespace LibSerial;
 
 namespace USBSerial {
 class Port {
-private:
+public:
 	SerialStream dev;
 	int file;
 	std::string device;

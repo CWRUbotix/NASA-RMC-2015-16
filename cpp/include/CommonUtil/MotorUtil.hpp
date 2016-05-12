@@ -7,6 +7,8 @@
 #include <memory>
 #include <string.h>
 #include <map>
+#include <stdlib.h>
+//#include "Messages/MessagesMotorControl.hpp"
 
 #ifndef MOTORUTIL_HPP_
 #define MOTORUTIL_HPP_
@@ -39,9 +41,9 @@
 
 namespace MotorControl
 {
-std::map<char, double> maxSpeeds; // Maximum speeds (rad/s)
-std::map<char, double> maxCurrents; // Maximum currents
-std::map<char, long> ctRevs; // Counts per rev
+extern std::map<char, double> maxSpeeds; // Maximum speeds (rad/s)
+extern std::map<char, double> maxCurrents; // Maximum currents
+extern std::map<char, long> ctRevs;// Counts per rev
 char scaleVelocity(char motor, double val);
 char scaleCurrent(char motor, double val);
 char scaleChar(double val, double max, char max_c);
@@ -53,59 +55,23 @@ struct Action {
 	bool* direction;
 	double speed, speed_rt, distance, distance_remaining;
 	bool ovr, use_dist;
-	char status = STAT_ACTION_NONE;
-	long id = 0;
+	char status;
+	long id;
 	char num_motors;
 
 	char * serialized;
 	int len_serialized;
 
-	Action(char* m,bool* dr,char n,double s,double d,bool o,bool ds) {
-		motor = m;
-		direction = dr;
-		speed = s;
-		speed_rt = s;
-		distance = d;
-		distance_remaining = d;
-		ovr = o;
-		use_dist = ds;
-		num_motors = n;
-		len_serialized = n*2 + 11;
-		serialized = (char*) ::malloc(len_serialized);
-		serialized[0] = n;
-		::memcpy(serialized+1,&s,4);
-		::memcpy(serialized+5,&d,4);
-		serialized[9] = (char) o;
-		serialized[10] = (char) ds;
-		::memcpy(serialized+11,m,n);
-		::memcpy(serialized+11+n,(char*)dr,n);
-	};
-	Action(char* m,bool* dr,char n,double s,bool o) : Action(m,dr,n,s,0,o,false) {
-
-	};
-	Action(char * s, int n) {
-		num_motors = s[0];
-		::memcpy(&speed,s+1,4);
-		speed_rt = speed;
-		::memcpy(&distance,s+5,4);
-		distance_remaining = distance;
-		ovr = (bool)s[9];
-		use_dist = (bool)s[10];
-		motor = (char*) malloc(num_motors);
-		::memcpy(s+11,motor,num_motors);
-		direction = (bool*) malloc(num_motors);
-		::memcpy(s+11+num_motors,direction,num_motors);
-		serialized = s;
-		len_serialized = n;
-	}
-	Action() : Action(NULL,NULL,0,0,0,false,false) {}
+	Action(char* m,bool* dr,char n,double s,double d,bool o,bool ds);
+	Action(char* m,bool* dr,char n,double s,bool o);
+	Action(char * s, int n);
+	Action();
 	~Action();
 };
 
 // Power is averaged over n seconds
 struct Status {
 	double speed_inst, power_inst, speed_avg, power_avg;
-	Status(double,double);
 };
 
 // From steps/second to velocity

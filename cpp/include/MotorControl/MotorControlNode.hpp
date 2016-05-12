@@ -8,7 +8,7 @@
 
 namespace MotorControl {
 
-class MOTORCONTROL_API MotorNode : public Robos::NodeBase {
+class MotorNode : public Robos::NodeBase {
 private:
 	Robos::MessageBasePtr MainCallbackImpl(const Robos::MessageBasePtr pMessage) override;
 public:

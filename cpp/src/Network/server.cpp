@@ -5,8 +5,8 @@
 #include <stdlib.h>
 #include <arpa/inet.h>
 #include <unistd.h>
-#include "server.hpp"
-#include "protocol.hpp"
+#include "Network/server.hpp"
+#include "Network/protocol.hpp"
 
 void initialize_server (int portno, int timeout, char* client_string_addr)
 {
