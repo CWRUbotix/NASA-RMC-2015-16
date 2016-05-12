@@ -37,9 +37,11 @@ namespace Network {
 					}
 					break;
 				case Network::Response::verbose:
-					std::string verbose_response = (message->success_fail) ? "Success: " : "Failure: ";
-					verbose_response += message->response_string;
-					send_command(verbose_response.c_str(), verbose_response.length() +1);
+                    {
+                        std::string verbose_response = (message->success_fail) ? "Success: " : "Failure: ";
+                        verbose_response += message->response_string;
+                        send_command((char *)verbose_response.c_str(), verbose_response.length() +1);
+                    }
 					break;
 				default:
 					return r;
