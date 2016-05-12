@@ -3,6 +3,7 @@
 #include "Messages/MessagesMotorControl.hpp"
 #include "Messages/MessagesGeneral.hpp"
 #include "CommonUtil/MotorUtil.hpp"
+#include "Robos/MessageBase.hpp"
 #include <memory>
 
 namespace MotorControl {
