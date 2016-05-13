@@ -1,6 +1,8 @@
 #include "Network/server.hpp"
 #include <memory>
 #include <iostream>
+#include <string.h>
+#include <string>
 
 int main()
 {

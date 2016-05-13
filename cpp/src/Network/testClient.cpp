@@ -1,7 +1,8 @@
 #include "Network/client.hpp"
-#include "Network/server.hpp"
 #include <memory>
 #include <iostream>
+#include <string.h>
+#include <string>
 
 int main() {
 	initialize_client(5001, 100, "127.0.0.1");
@@ -13,4 +14,3 @@ int main() {
 	cleanup_client();
 	exit(1);
 }
-
