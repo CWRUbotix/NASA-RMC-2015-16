@@ -13,10 +13,15 @@
 #include <cstdio>
 
 namespace I2C {
-int I2C::file = -1;
+
+I2C::I2C(int index) {
+    devIndex = index;
+}
 
 int I2C::open() {
-	file = ::open("/dev/i2c-0", O_RDWR);
+    char devName[16];
+    snprintf(devName, 16, "/dev/i2c-%d", devIndex);
+	file = ::open(devName, O_RDWR);
 	if (file < 0) {
 		perror("Failed to open the I2C bus");
 		return -1;
@@ -62,4 +67,3 @@ int I2C::receivePacket(char* buffer, int length) {
 }
 
 }
-

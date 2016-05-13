@@ -11,25 +11,29 @@ namespace I2C {
  */
 class I2C_API I2C {
 private:
-	static int file;
+	int file;
+    int devIndex;
 public:
+    /** Construct an I2C instance for the given device index. No two instances of the same device can be open at the same time, globally. */
+    I2C(int index);
+    
 	/** Open a connection to the bus. This connections lasts until it is
 	 *  closed.
 	 *  @return 0 on success, or a negative number on failure
 	 */
-	static int open();
+	int open();
 
 	/** Close a connection to the bus.
 	 *  @return 0 on success, or a negative number on failure
 	 */
-	static int close();
+	int close();
 
 	/** Set the address of the slave to communicate with.
 	 *  Precondition: the connection must be open.
 	 *  @param address the slave address, ranging from 0 to 127
 	 *  @return 0 on success, or a negative number on failure
 	 */
-	static int setAddress(char address);
+	int setAddress(char address);
 
 	/** Send a packet to the selected slave.
 	 *  Precondition: the connection must be open.
@@ -40,7 +44,7 @@ public:
 	 *  written, which may be less than the packet length or may be zero.
 	 *  On failure, the return value is negative.
 	 */
-	static int sendPacket(const char* buffer, int length);
+	int sendPacket(const char* buffer, int length);
 
 	/** Receive a packet from the selected slave.
 	 *  Preconsition: the connection must be open.
@@ -52,7 +56,7 @@ public:
 	 *  which may be less than the number expected or may be zero. On
 	 *  On failure, the return value is negative.
 	 */
-	static int receivePacket(char* buffer, int length);
+	int receivePacket(char* buffer, int length);
 };
 }
 
