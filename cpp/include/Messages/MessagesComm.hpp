@@ -14,14 +14,14 @@ namespace Messages {
 		virtual int len_serialized();
 		virtual void fromPacket(char*,int);
 		MessageBaseCommand(Network::Response, std::string);
-		~MessageBaseCommand();
+		virtual ~MessageBaseCommand();
 	};
 
 	struct MessageNetworkResponse : public MessageBaseCommand {
 		bool success_fail;
 		char* response_string;
 		MessageNetworkResponse(Network::Response, std::string, bool, char*);
-		~MessageBaseCommand();
+		~MessageNetworkResponse();
 	};
 }
 

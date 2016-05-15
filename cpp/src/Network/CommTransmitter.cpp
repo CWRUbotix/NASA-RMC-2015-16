@@ -1,9 +1,11 @@
 #include "Network/CommTransmitter.hpp"
+#include "Messages/MessagesComm.hpp"
 
 namespace Network {
-	CommTransmitter::CommTransmitter() : Robos::NodeBase("CommTransmitter", "NetworkScheduler", std::vector<std::string>{"NetworkResponse"}, Async::Types::JobPriority::IMMEDIATE)
+	CommTransmitter::CommTransmitter(std::string ip) : Robos::NodeBase("CommTransmitter", "NetworkScheduler",
+                                                                       std::vector<std::string>{"NetworkResponse"},
+                                                                       Async::Types::JobPriority::IMMEDIATE), ip_address(ip)
 	{
-		ip_address = ip;
  	}
 
  	CommTransmitter::~CommTransmitter()
@@ -12,37 +14,45 @@ namespace Network {
 
  	Robos::MessageBasePtr CommTransmitter::MainCallbackImpl(const Robos::MessageBasePtr pMessage)
 	{
-		std::shared_ptr<Robos:MessageBase> r;
+		std::shared_ptr<Robos::MessageBase> r;
 
- 		initialize_server(5006, 100, ip_address);
+ 		initialize_server(5006, 100, (char *)(ip_address.c_str()));
 		
 		if(pMessage->topic == "NetworkResponse")
 		{
-			std::shared_ptr<Messages::MessageNetworkResponse> message = std::static_ptr_cast<Messages::MessageNetworkResponse>(pMessage);
+			std::shared_ptr<Messages::MessageNetworkResponse> message = std::static_pointer_cast<Messages::MessageNetworkResponse>(pMessage);
 			switch(message->response)
 			{
-				case none:
+				case Network::Response::none:
 					return r;
 					break;
-				case successFail:
+				case Network::Response::successFail:
 					if(message->success_fail)
 					{
-						send_command("Success");
+						send_command((char *)"Success", strlen("Success") + 1);
 					}
 					else
 					{
-						send_command("Fail");
+						send_command((char *)"Fail", strlen("Fail") + 1);
 					}
 					break;
-				case verbose:
-					char* verbose_response = (message->success_fail) ? "Success: " : "Failure: ";
-					verbose_response += message->response_string;
-					send_command(verbose_response, strlen(command) +1);
+				case Network::Response::verbose:
+                    // need to tell compiler that verbose_response only
+                    // exists for this case. Otherwise, the default:
+                    // case could have access to it.
+                    {
+                        std::string verbose_response = (message->success_fail) ? "Success: " : "Failure: ";
+                        verbose_response += message->response_string;
+                        send_command((char *)verbose_response.c_str(), verbose_response.length() +1);
+                    }
 					break;
 				default:
 					return r;
 					break;
 			}
+
+            // not every case returns!
+            return nullptr;
 		}
 		else
 		{

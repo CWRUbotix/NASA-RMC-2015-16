@@ -1,16 +1,18 @@
-#include <sys/socket.h>
-#include "protocol.hpp"
-
+#pragma once
 #ifndef server_hpp
 #define server_hpp
 
-extern uint8_t next_number;
-extern struct sockaddr_in server_address;
-extern char receipt_buf [MAX_RECV_LEN];
-extern int receipt_len;
-extern int socket_descriptor;
-extern int port;
-extern struct sockaddr_in client;
+#include <arpa/inet.h>
+#include <sys/socket.h>
+#include "Network/protocol.hpp"
+
+uint8_t next_number;
+struct sockaddr_in server_address;
+char receipt_buf [MAX_RECV_LEN];
+int receipt_len;
+int socket_descriptor;
+int port;
+struct sockaddr_in client;
 
 void initialize_server (int portno, int timeout, char* client_string_addr); //Timeout measured in microseconds
 void send_command (char* command, int len);

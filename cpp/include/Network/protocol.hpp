@@ -1,7 +1,8 @@
-#include <inttypes.h>
-
+#pragma once
 #ifndef protocol_h
 #define protocol_h
+
+#include <inttypes.h>
 
 #define MAX_RECV_LEN (2048 + sizeof (struct protocol_header))
 

@@ -3,8 +3,8 @@
 #define MESSAGESMOTORCONTROL_HPP_
 
 #include <Robos/MessageBase.hpp>
-#include "MotorControl/MotorUtil.hpp"
-#include "Network/NetworkUtil.hpp"
+#include "CommonUtil/MotorUtil.hpp"
+#include "CommonUtil/NetworkUtil.hpp"
 #include "Messages/MessagesComm.hpp"
 #include <memory>
 #include <stdio.h>

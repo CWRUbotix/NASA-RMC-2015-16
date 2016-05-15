@@ -19,7 +19,7 @@ RM := rm -rf
 -include cpp/src/Autonomous/subdir.mk
 -include cpp/src/ADC/subdir.mk
 -include cpp/subdir.mk
--include RemoteControlServer/subdir.mk
+-include RemoteControl/src/subdir.mk
 -include MessageSystem/cpp/Utilities_FT/src/subdir.mk
 -include MessageSystem/cpp/Utilities/src/Utilities/unitTest/subdir.mk
 -include MessageSystem/cpp/Utilities/src/Utilities/subdir.mk

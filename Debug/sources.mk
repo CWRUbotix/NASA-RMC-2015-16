@@ -34,7 +34,7 @@ cpp/src/CommonUtil \
 cpp/src/Autonomous \
 cpp/src/ADC \
 cpp \
-RemoteControlServer \
+RemoteControl/src \
 MessageSystem/cpp/Utilities_FT/src \
 MessageSystem/cpp/Utilities/src/Utilities/unitTest \
 MessageSystem/cpp/Utilities/src/Utilities \

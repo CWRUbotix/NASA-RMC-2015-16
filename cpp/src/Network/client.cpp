@@ -33,7 +33,7 @@ void initialize_client (int portno, int timeout, char* return_string_addr)
 {
 
 	struct timeval timeout_val;
-	struct protocol_header sync_header;
+	// struct protocol_header sync_header;
 
 	socket_descriptor = socket (AF_INET, SOCK_DGRAM, 0);
 
@@ -70,7 +70,7 @@ void get_command (char* c)
 	char* extra_data = (char*)(buf + sizeof (struct protocol_header));
 	socklen_t addrlen = sizeof (struct sockaddr_in);
 	signed int recv_len;
-	char valid_command = 0;
+	// char valid_command = 0;
 	struct protocol_header* header = (struct protocol_header*)buf;
 
 	while (1)

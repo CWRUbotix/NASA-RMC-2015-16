@@ -26,7 +26,8 @@ set( ${PROJECT_NAME}_SRCS
     ${SRC_ROOT}/Network/client.cpp
     ${SRC_ROOT}/Network/server.cpp
 
-    ${SRC_ROOT}/MotorControl/MotorUtil.cpp
+    ${SRC_ROOT}/CommonUtil/MotorUtil.cpp
+
     ${SRC_ROOT}/MotorControl/MotorControl.cpp
     
     # Robos Interfacing (Nodes and Messages)
@@ -50,7 +51,8 @@ set( ${PROJECT_NAME}_PUBLIC_HEADERS
     ${INC_ROOT}/Network/protocol.hpp
     ${INC_ROOT}/Network/server.hpp
 
-    ${INC_ROOT}/MotorControl/MotorUtil.hpp
+    ${INC_ROOT}/CommonUtil/MotorUtil.hpp
+
     ${INC_ROOT}/MotorControl/MotorControl.hpp
 
     # Robos interfacing code (Nodes and Messages)
