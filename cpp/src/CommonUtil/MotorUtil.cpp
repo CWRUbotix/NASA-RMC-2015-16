@@ -119,7 +119,7 @@ Action forward(double speed, bool ovr) {
 Action forward(double speed, double dist, bool ovr) {
 	char m[4] = {MOT_FR,MOT_FL,MOT_BR,MOT_BL};
 	bool d[4] = {true,true,true,true};
-	Action a(m,d,4,speed,dist,ovr,false);
+	Action a(m,d,4,speed,dist,ovr,true);
 	return a;
 }
 Action backward(double speed, bool ovr) {
@@ -131,68 +131,116 @@ Action backward(double speed, bool ovr) {
 Action backward(double speed, double dist, bool ovr) {
 	char m[4] = {MOT_FR,MOT_FL,MOT_BR,MOT_BL};
 	bool d[4] = {false,false,false,false};
-	Action a(m,d,4,speed,dist,ovr,false);
+	Action a(m,d,4,speed,dist,ovr,true);
 	return a;
 }
 Action turnLeft(double speed, bool ovr) {
 	char m[4] = {MOT_FR,MOT_FL,MOT_BR,MOT_BL};
-	bool d[4] = {true,true,true,true};
+	bool d[4] = {true,false,true,false};
 	Action a(m,d,4,speed,0,ovr,false);
 	return a;
 }
 Action turnLeft(double speed, double angle, bool ovr) {
 	char m[4] = {MOT_FR,MOT_FL,MOT_BR,MOT_BL};
-	bool d[4] = {true,true,true,true};
-	Action a(m,d,4,speed,dist,ovr,false);
+	bool d[4] = {true,false,true,false};
+	Action a(m,d,4,speed,angle,ovr,true);
 	return a;
 }
 Action turnRight(double speed, bool ovr) {
-
+	char m[4] = {MOT_FR,MOT_FL,MOT_BR,MOT_BL};
+	bool d[4] = {false,true,false,true};
+	Action a(m,d,4,speed,0,ovr,false);
+	return a;
 }
 Action turnRight(double speed, double angle, bool ovr) {
-
+	char m[4] = {MOT_FR,MOT_FL,MOT_BR,MOT_BL};
+	bool d[4] = {false,true,false,true};
+	Action a(m,d,4,speed,angle,ovr,true);
+	return a;
 }
 Action openWheels(bool ovr) {
-
+	char m[2] = {ACT_WHEL,ACT_WHER};
+	bool d[2] = {true,true};
+	Action a(m,d,2,1,0,ovr,false);
+	return a;
 }
 Action closeWheels(bool ovr) {
-
+	char m[2] = {ACT_WHEL,ACT_WHER};
+	bool d[2] = {false,false};
+	Action a(m,d,2,1,0,ovr,false);
+	return a;
 }
 Action tiltArmDown(double speed, double angle) {
-
+	char m[2] = {ACT_ARML,ACT_ARMR};
+	bool d[2] = {true,true};
+	Action a(m,d,2,speed,angle,true,true);
+	return a;
 }
-Action tiltArmUp(double speed, double andgle) {
-
+Action tiltArmUp(double speed, double angle) {
+	char m[2] = {ACT_ARML,ACT_ARMR};
+	bool d[2] = {false,false};
+	Action a(m,d,2,speed,angle,true,true);
+	return a;
 }
 Action translateArmDown(double speed, double distance) {
-
+	char m[2] = {MOT_TRAL,MOT_TRAR};
+	bool d[2] = {true,true};
+	Action a(m,d,2,speed,distance,true,true);
+	return a;
 }
 Action translateArmDown(double speed) {
-
+	char m[2] = {MOT_TRAL,MOT_TRAR};
+	bool d[2] = {true,true};
+	Action a(m,d,2,speed,0,true,true);
+	return a;
 }
 Action translateArmUp(double speed, double distance) {
-
+	char m[2] = {MOT_TRAL,MOT_TRAR};
+	bool d[2] = {false,false};
+	Action a(m,d,2,speed,distance,true,true);
+	return a;
 }
 Action translateArmUp(double speed) {
-
+	char m[2] = {MOT_TRAL,MOT_TRAR};
+	bool d[2] = {false,false};
+	Action a(m,d,2,speed,0,true,true);
+	return a;
 }
 Action bucketForward(double speed) {
-
+	char m[1] = {MOT_CBUC};
+	bool d[1] = {true};
+	Action a(m,d,1,speed,0,true,true);
+	return a;
 }
 Action bucketBackward(double speed) {
-
+	char m[1] = {MOT_CBUC};
+	bool d[1] = {false};
+	Action a(m,d,1,speed,0,true,true);
+	return a;
 }
 Action hopperOut(double speed) {
-
+	char m[1] = {MOT_CHOP};
+	bool d[1] = {true};
+	Action a(m,d,1,speed,0,true,true);
+	return a;
 }
 Action hopperOut(double speed, double dist) {
-
+	char m[1] = {MOT_CHOP};
+	bool d[1] = {true};
+	Action a(m,d,1,speed,dist,true,true);
+	return a;
 }
 Action hopperIn(double speed) {
-
+	char m[1] = {MOT_CHOP};
+	bool d[1] = {false};
+	Action a(m,d,1,speed,0,true,true);
+	return a;
 }
 Action hopperIn(double speed, double dist) {
-
+	char m[1] = {MOT_CHOP};
+	bool d[1] = {false};
+	Action a(m,d,1,speed,dist,true,true);
+	return a;
 }
 
 } // end of namespace MotorControl
