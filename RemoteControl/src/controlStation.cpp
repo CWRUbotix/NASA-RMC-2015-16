@@ -25,6 +25,12 @@ int main (int argc, char** argv)
 	while (command[0] != 'q')
 	{
 		get_command(command);
+
+		switch (command)
+		{
+			
+		}
+
 		send_command (command, strlen(command) +1); //send the command
 		printf ("%s", get_receipt()); //get response
 	}

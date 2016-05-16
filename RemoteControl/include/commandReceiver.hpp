@@ -16,4 +16,6 @@ void initialize_command_receiver (int portno, int timeout, char* return_string_a
 void get_command (char*);
 void cleanup_command_receiver (void);
 
+char* interpret_command (char*);
+
 #endif
