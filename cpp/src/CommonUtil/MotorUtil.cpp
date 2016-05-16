@@ -243,4 +243,12 @@ Action hopperIn(double speed, double dist) {
 	return a;
 }
 
+
+Action stop() {
+	char m[12] = {MOT_FR,MOT_FL,MOT_BR,MOT_BL,MOT_TRAL,MOT_TRAR,MOT_CBUC,MOT_CHOP,ACT_WHEL,ACT_WHER,ACT_ARML,ACT_ARMR};
+	bool d[12];
+	Action a(m,d,12,0,0,true,false);
+	return a;
+}
+
 } // end of namespace MotorControl
