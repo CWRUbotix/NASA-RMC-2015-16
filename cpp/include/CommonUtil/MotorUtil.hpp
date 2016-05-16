@@ -82,6 +82,29 @@ double unscaleCurrent(char motor, char val);
 
 void initializeMaximums();
 
+Action forward(double speed, bool ovr);
+Action forward(double speed, double dist, bool ovr);
+Action backward(double speed, bool ovr);
+Action backward(double speed, double dist, bool ovr);
+Action turnLeft(double speed, bool ovr);
+Action turnLeft(double speed, double angle, bool ovr);
+Action turnRight(double speed, bool ovr);
+Action turnRight(double speed, double angle, bool ovr);
+Action openWheels(bool ovr);
+Action closeWheels(bool ovr);
+Action tiltArmDown(double speed, double angle);
+Action tiltArmUp(double speed, double andgle);
+Action translateArmDown(double speed, double distance);
+Action translateArmDown(double speed);
+Action translateArmUp(double speed, double distance);
+Action translateArmUp(double speed);
+Action bucketForward(double speed);
+Action bucketBackward(double speed);
+Action hopperOut(double speed);
+Action hopperOut(double speed, double dist);
+Action hopperIn(double speed);
+Action hopperIn(double speed, double dist);
+
 } // end of namespace MotorControl
 
 #endif /* MOTORUTIL_HPP_ */

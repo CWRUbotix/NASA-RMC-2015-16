@@ -109,4 +109,90 @@ Action::Action(char * s, int n) {
 
 Action::Action() : Action(NULL,NULL,0,0,0,false,false) {}
 Action::~Action() {}
+
+Action forward(double speed, bool ovr) {
+	char m[4] = {MOT_FR,MOT_FL,MOT_BR,MOT_BL};
+	bool d[4] = {true,true,true,true};
+	Action a(m,d,4,speed,0,ovr,false);
+	return a;
+}
+Action forward(double speed, double dist, bool ovr) {
+	char m[4] = {MOT_FR,MOT_FL,MOT_BR,MOT_BL};
+	bool d[4] = {true,true,true,true};
+	Action a(m,d,4,speed,dist,ovr,false);
+	return a;
+}
+Action backward(double speed, bool ovr) {
+	char m[4] = {MOT_FR,MOT_FL,MOT_BR,MOT_BL};
+	bool d[4] = {false,false,false,false};
+	Action a(m,d,4,speed,0,ovr,false);
+	return a;
+}
+Action backward(double speed, double dist, bool ovr) {
+	char m[4] = {MOT_FR,MOT_FL,MOT_BR,MOT_BL};
+	bool d[4] = {false,false,false,false};
+	Action a(m,d,4,speed,dist,ovr,false);
+	return a;
+}
+Action turnLeft(double speed, bool ovr) {
+	char m[4] = {MOT_FR,MOT_FL,MOT_BR,MOT_BL};
+	bool d[4] = {true,true,true,true};
+	Action a(m,d,4,speed,0,ovr,false);
+	return a;
+}
+Action turnLeft(double speed, double angle, bool ovr) {
+	char m[4] = {MOT_FR,MOT_FL,MOT_BR,MOT_BL};
+	bool d[4] = {true,true,true,true};
+	Action a(m,d,4,speed,dist,ovr,false);
+	return a;
+}
+Action turnRight(double speed, bool ovr) {
+
+}
+Action turnRight(double speed, double angle, bool ovr) {
+
+}
+Action openWheels(bool ovr) {
+
+}
+Action closeWheels(bool ovr) {
+
+}
+Action tiltArmDown(double speed, double angle) {
+
+}
+Action tiltArmUp(double speed, double andgle) {
+
+}
+Action translateArmDown(double speed, double distance) {
+
+}
+Action translateArmDown(double speed) {
+
+}
+Action translateArmUp(double speed, double distance) {
+
+}
+Action translateArmUp(double speed) {
+
+}
+Action bucketForward(double speed) {
+
+}
+Action bucketBackward(double speed) {
+
+}
+Action hopperOut(double speed) {
+
+}
+Action hopperOut(double speed, double dist) {
+
+}
+Action hopperIn(double speed) {
+
+}
+Action hopperIn(double speed, double dist) {
+
+}
+
 } // end of namespace MotorControl
