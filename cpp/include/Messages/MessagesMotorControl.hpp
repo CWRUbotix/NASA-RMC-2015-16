@@ -52,6 +52,31 @@ struct MessageMotorAction : public MessageBaseCommand {
 };
 
 
-} // end of namespace Messages
+
+
+MessageMotorAction forward(double speed, bool ovr);
+MessageMotorAction forward(double speed, double dist, bool ovr);
+MessageMotorAction backward(double speed, bool ovr);
+MessageMotorAction backward(double speed, double dist, bool ovr);
+MessageMotorAction turnLeft(double speed, bool ovr);
+MessageMotorAction turnLeft(double speed, double angle, bool ovr);
+MessageMotorAction turnRight(double speed, bool ovr);
+MessageMotorAction turnRight(double speed, double angle, bool ovr);
+MessageMotorAction openWheels(bool ovr);
+MessageMotorAction closeWheels(bool ovr);
+MessageMotorAction tiltArmDown(double speed, double angle);
+MessageMotorAction tiltArmUp(double speed, double andgle);
+MessageMotorAction translateArmDown(double speed, double distance);
+MessageMotorAction translateArmDown(double speed);
+MessageMotorAction translateArmUp(double speed, double distance);
+MessageMotorAction translateArmUp(double speed);
+MessageMotorAction bucketForward(double speed);
+MessageMotorAction bucketBackward(double speed);
+MessageMotorAction hopperOut(double speed);
+MessageMotorAction hopperOut(double speed, double dist);
+MessageMotorAction hopperIn(double speed);
+MessageMotorAction hopperIn(double speed, double dist); 
+
+}// end of namespace Messages
 
 #endif // end of MESSAGESMOTORCONTROL_HPP_
