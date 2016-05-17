@@ -9,6 +9,8 @@
 #ifndef commandReciever_hpp
 #define commandReciever_hpp
 
+namespace Network {
+
 extern struct sockaddr_in return_address;
 extern struct sockaddr_in client_address;
 extern int command_socket_descriptor;
@@ -17,6 +19,10 @@ void initialize_command_receiver (int portno, int timeout, char* return_string_a
 void get_command (char*);
 void cleanup_command_receiver (void);
 
-Action interpret_command (char);
+MotorControl::Action* interpret_command (char);
+
+enum TiltAngle { minAngle = 0, midAngle = 60, maxAngle = 90 };
+
+}
 
 #endif

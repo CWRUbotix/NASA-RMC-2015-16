@@ -9,6 +9,8 @@
 #include "commandReceiver.hpp"
 #include "commandProtocol.hpp"
 
+namespace Network {
+
 struct sockaddr_in return_address;
 struct sockaddr_in client_address;
 int command_socket_descriptor;
@@ -88,7 +90,7 @@ const char KEY_TILTARMUP = 0x11; //w
 const char KEY_TRANSLATEARMDOWN = 0x22; //d
 const char KEY_TRANSLATEARMUP = 0x20; //a
 const char KEY_BUCKETFORWARD = 0x23; //f
-const char KEY_BUCKETREVERSE = 0x13; //r
+const char KEY_BUCKETBACKWARD = 0x13; //r
 const char KEY_HOPPEROUT= 0x25; //h
 const char KEY_OVR = 0x18; //o
 const char KEY_STOPALL = 0x45; //esc
@@ -96,10 +98,10 @@ const char KEY_STOPALL = 0x45; //esc
 //key increments //to be experimentally determined
 const double MOVEMENT_INC = 5.0;
 const double TURN_INC = 2.0;
-const double TILTARM_INC = 2.0;
 const double TRANSLATEARM_INC = 3.0;
 const double BUCKET_INC = 6.0;
 const double HOPPER_INC = 1.0;
+const double TILTARM_SPEED = 2.0;
 
 //store last two keystrokes
 int lastKey = 0x00;
@@ -108,122 +110,148 @@ int currentKey = 0x00;
 //speed keepers
 double movementSpeed = 0.0;
 double turnSpeed = 0.0;
-double tiltArmSpeed = 0.0;
 double translateArmSpeed = 0.0;
 double bucketSpeed = 0.0;
 double hopperSpeed = 0.0;
 
 //command flags
-enum translation = { off, up, down };
+enum TiltAngle tiltAngle = minAngle;
 bool ovr = false;
 
-Action interpret_command (char command) 
+MotorControl::Action* interpret_command (char command) 
 {
-	Action action = NULL;
+	MotorControl::Action* action = nullptr;
+	MotorControl::Action next_action;
 	
-	lastKey = currentKey;
-	currentKey = command;
-	switch (currentKey)
+	switch (command)
 	{
 		case KEY_FORWARD:
-
+			turnSpeed = 0.0;
 			movementSpeed += MOVEMENT_INC;
-			action = (movementSpeed > 0) ? forward(movementSpeed, ovr) : backward(movementSpeed, ovr);
+			next_action = (movementSpeed > 0) ? MotorControl::forward(movementSpeed, ovr) : MotorControl::backward(movementSpeed, ovr);
+			action = &next_action;
 			break;
 		case KEY_BACKWARD:
 			turnSpeed = 0.0;
 			movementSpeed -= MOVEMENT_INC;
-			action =  (movementSpeed > 0) ? forward(movementSpeed, ovr) : backward(movementSpeed, ovr);
+			next_action = (movementSpeed > 0) ? MotorControl::forward(movementSpeed, ovr) : MotorControl::backward(movementSpeed, ovr);
+			action = &next_action;
 			break;
 		case KEY_CW:	
 			movementSpeed = 0.0;
-			tiltArmSpeed = 0.0;
 			translateArmSpeed = 0.0;
 			bucketSpeed = 0.0;
 			hopperSpeed = 0.0;
 			turnSpeed += TURN_INC;
-			action = (turnSpeed > 0) ? turnLeft(turnSpeed, ovr) : turnRight(turnSpeed, ovr);
+			next_action = (turnSpeed > 0) ? MotorControl::turnLeft(turnSpeed, ovr) : MotorControl::turnRight(turnSpeed, ovr);
+			action = &next_action;
 			break;
 		case KEY_CCW:
 			movementSpeed = 0.0;
-			tiltArmSpeed = 0.0;
 			translateArmSpeed = 0.0;
 			bucketSpeed = 0.0;
 			hopperSpeed = 0.0;
 			turnSpeed -= TURN_INC;
-			action = (turnSpeed > 0) ? turnLeft(turnSpeed, ovr) : turnRight(turnSpeed, ovr);
+			next_action = (turnSpeed > 0) ? MotorControl::turnLeft(turnSpeed, ovr) : MotorControl::turnRight(turnSpeed, ovr);
+			action = &next_action;
 			break;
 		case KEY_DRIVEMOTORSTOP:
 			if (movementSpeed != 0.0) {
 				movementSpeed = 0.0;
-				action = forward(0.0, true);
+				next_action = MotorControl::forward(0.0, true);
+				action = &next_action;
 			}
 			else if (turnSpeed != 0.0) {
 				turnSpeed = 0.0;
-				action = turnLeft(0.0, true);
+				next_action = MotorControl::turnLeft(0.0, true);
+				action = &next_action;
 			}
 			break;
 		case KEY_TURNCONFIGOPEN:
 			movementSpeed = 0.0;
 			turnSpeed = 0.0;
-			tiltArmSpeed = 0.0;
 			translateArmSpeed = 0.0;
 			bucketSpeed = 0.0;
 			hopperSpeed = 0.0;
-			action = openWheels(ovr);
+			next_action = MotorControl::openWheels(ovr);
+			action = &next_action;
 			break;
 		case KEY_TURNCONFIGCLOSE:
 			movementSpeed = 0.0;
 			turnSpeed = 0.0;
-			tiltArmSpeed = 0.0;
 			translateArmSpeed = 0.0;
 			bucketSpeed = 0.0;
 			hopperSpeed = 0.0;
-			action = closeWheels(ovr);
+			next_action = MotorControl::closeWheels(ovr);
+			action = &next_action;
 			break;
 		case KEY_TILTARMDOWN:
 			movementSpeed = 0.0;
 			turnSpeed = 0.0;
 			bucketSpeed = 0.0;
 			hopperSpeed = 0.0;
-			tiltArmSpeed += TILTARM_INC;
-			action (tiltArmSpeed > 0) ? tiltArmDown(tiltArmSpeed) : tiltArmUp(tiltArmSpeed);
+			if (tiltAngle == minAngle) {
+				next_action = MotorControl::tiltArmDown(TILTARM_SPEED, midAngle);
+				action = &next_action;
+			}
+			else if (tiltAngle == midAngle) {
+				next_action = MotorControl::tiltArmDown(TILTARM_SPEED, maxAngle);
+				action = &next_action;
+			}
+			else if (tiltAngle == maxAngle) {
+				printf("Arm is already at maximum down.\n");
+			}
 			break;
 		case KEY_TILTARMUP:
 			movementSpeed = 0.0;
 			turnSpeed = 0.0;
 			bucketSpeed = 0.0;
 			hopperSpeed = 0.0;
-			tiltArmSpeed -= TILTARM_INC;
-			action (tiltArmSpeed > 0) ? tiltArmDown(tiltArmSpeed) : tiltArmUp(tiltArmSpeed);
+			if (tiltAngle == minAngle) {
+				printf("Arm is already at maximum up.\n");
+			}
+			else if (tiltAngle == midAngle) {
+				next_action = MotorControl::tiltArmUp(TILTARM_SPEED, minAngle);
+				action = &next_action;
+			}
+			else if (tiltAngle == maxAngle) {
+				next_action = MotorControl::tiltArmUp(TILTARM_SPEED, midAngle);
+				action = &next_action;
+			}
 			break;
 		case KEY_TRANSLATEARMDOWN:
 			turnSpeed = 0.0;
 			hopperSpeed = 0.0;
-			tiltArmSpeed += TRANSLATEARM_INC;
-			action (translateArmSpeed > 0) ? translateArmDown(translateArmSpeed) : translateArmUp(translateArmSpeed);
+			translateArmSpeed += TRANSLATEARM_INC;
+			next_action = (translateArmSpeed > 0) ? MotorControl::translateArmDown(translateArmSpeed) : MotorControl::translateArmUp(translateArmSpeed);
+			action = &next_action;
 			break;
 		case KEY_TRANSLATEARMUP:
 			turnSpeed = 0.0;
 			hopperSpeed = 0.0;
-			tiltArmSpeed -= TILTARM_INC;
-			action (translateArmSpeed > 0) ? translateArmDown(translateArmSpeed) : translateArmUp(translateArmSpeed);
+			translateArmSpeed -= TRANSLATEARM_INC;
+			next_action = (translateArmSpeed > 0) ? MotorControl::translateArmDown(translateArmSpeed) : MotorControl::translateArmUp(translateArmSpeed);
+			action = &next_action;
 			break;
 		case KEY_BUCKETFORWARD:
 			turnSpeed = 0.0;
 			bucketSpeed += BUCKET_INC;
-			action (bucketSpeed > 0) ? bucketForward(bucketSpeed) : bucketReverse(bucketSpeed);
+			next_action = (bucketSpeed > 0) ? MotorControl::bucketForward(bucketSpeed) : MotorControl::bucketBackward(bucketSpeed);
+			action = &next_action;
 			break;
-		case KEY_BUCKETREVERSE:
+		case KEY_BUCKETBACKWARD:
 			turnSpeed = 0.0;
 			bucketSpeed -= BUCKET_INC;
-			action (bucketSpeed > 0) ? bucketForward(bucketSpeed) : bucketReverse(bucketSpeed);
+			next_action = (bucketSpeed > 0) ? MotorControl::bucketForward(bucketSpeed) : MotorControl::bucketBackward(bucketSpeed);
+			action = &next_action;
 			break;
 		case KEY_HOPPEROUT:
 			turnSpeed = 0.0;
 			hopperSpeed += HOPPER_INC;
-			action if (hopperSpeed > 0)
-				hopperOut(hopperSpeed);
+			if (hopperSpeed > 0) {
+				next_action = MotorControl::hopperOut(hopperSpeed);
+				action = &next_action;
+			}
 			break;
 
 		case KEY_OVR:
@@ -233,15 +261,17 @@ Action interpret_command (char command)
 		case KEY_STOPALL:
 			movementSpeed = 0.0;
 			turnSpeed = 0.0;
-			tiltArmSpeed = 0.0;
 			translateArmSpeed = 0.0;
 			bucketSpeed = 0.0;
 			hopperSpeed = 0.0;
-			action = stop();
+			action = MotorControl::stopAll();
+			action = &next_action;
 
 		default:
 			printf("That was not a valid key, bad driver.\n");
 			break;
 	}
 	return action;
+}
+
 }
