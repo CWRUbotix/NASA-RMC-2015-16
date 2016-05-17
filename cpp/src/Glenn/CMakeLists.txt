@@ -3,7 +3,7 @@ cmake_minimum_required( VERSION 3.3 )
 
 # NEED to tell CMake where our custom CMake files our (*.cmake files). There are 2 directories.
 # find paths to the directories.
-get_filename_component( ROBOS_CMAKE_MODULES ${CMAKE_CURRENT_SOURCE_DIR}/../../../MessagingSystem/cmake ABSOLUTE )
+get_filename_component( ROBOS_CMAKE_MODULES ${CMAKE_CURRENT_SOURCE_DIR}/../../../MessageSystem/cmake/modules ABSOLUTE )
 get_filename_component( CUSTOM_CMAKE_MODULES ${CMAKE_CURRENT_SOURCE_DIR}/../../../cmake ABSOLUTE )
 
 # source code root directory
@@ -111,7 +111,7 @@ set( ${PROJECT_NAME}_IMPORTED_LIST
 )
 
 # Actually link everything. This is a provided CMake module to link everything together.
-include(ProjectLinker)
+include(${ROBOS_CMAKE_MODULES}/ProjectLinker.cmake)
 
 # All imported libraries have their own headers we need to include to use them. ProjectLinker gives us
 # them as a variable, so add them to the list of directories we will look for files in.
