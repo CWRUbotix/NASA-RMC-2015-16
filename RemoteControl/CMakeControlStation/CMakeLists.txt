@@ -14,18 +14,18 @@ set( GCC_COMPILE_FLAGS
 )
 
 set( CONTROLSTATION_SRCS
+	${SRC_ROOT}/MotorUtil.cpp
 	${SRC_ROOT}/server.cpp
-	${SRC_ROOT}/controlStation.cpp
 	${SRC_ROOT}/commandReceiver.cpp
-	${PROJECT_SOURCE_DIR}/../../cpp/src/CommonUtil/MotorUtil.cpp
+	${SRC_ROOT}/controlStation.cpp
 )
 
 set( CONTROLSTATION_HEADERS
+	${INC_ROOT}/MotorUtil.hpp
 	${INC_ROOT}/protocol.hpp
 	${INC_ROOT}/server.hpp
-	${INC_ROOT}/commandReceiver.hpp
 	${INC_ROOT}/commandProtocol.hpp
-	${PROJECT_SOURCE_DIR}/../../cpp/include/CommonUtil/MotorUtil.hpp
+	${INC_ROOT}/commandReceiver.hpp
 )
 
 set( INCLUDE_DIRS

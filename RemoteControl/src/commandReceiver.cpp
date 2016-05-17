@@ -264,7 +264,7 @@ MotorControl::Action* interpret_command (char command)
 			translateArmSpeed = 0.0;
 			bucketSpeed = 0.0;
 			hopperSpeed = 0.0;
-			action = MotorControl::stopAll();
+			next_action = MotorControl::stopAll();
 			action = &next_action;
 
 		default:
