@@ -57,6 +57,4 @@ MessageSystem/cpp/Async_FT/src \
 MessageSystem/cpp/Async/src/Async/unitTest \
 MessageSystem/cpp/Async/src/Async \
 MessageSystem/cpp/Async/src/Async/Factories \
-MessageSystem/cpp/Robos_FT/src \
-RemoteControlServer \
 

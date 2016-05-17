@@ -4,7 +4,7 @@ namespace MotorControl {
 
 std::map<char, double> maxSpeeds;
 std::map<char, double> maxCurrents;
-std::map<char, long> ctRevs;
+std::map<char, int> ctRevs;
 
 char scaleVelocity(char motor, double val) {
 	return scaleChar(val, maxSpeeds.find(motor)->second,127);
@@ -243,8 +243,7 @@ Action hopperIn(double speed, double dist) {
 	return a;
 }
 
-
-Action stop() {
+Action stopAll() {
 	char m[12] = {MOT_FR,MOT_FL,MOT_BR,MOT_BL,MOT_TRAL,MOT_TRAR,MOT_CBUC,MOT_CHOP,ACT_WHEL,ACT_WHER,ACT_ARML,ACT_ARMR};
 	bool d[12];
 	Action a(m,d,12,0,0,true,false);

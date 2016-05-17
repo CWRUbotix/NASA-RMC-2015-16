@@ -31,8 +31,8 @@ int halt() {
 // Initialize the motor control thread to a usb arduino device
 int initialize(char * device) {
 	initializeMaximums();
-	printf("Successfully openned device\n");
 	// Launch the thread
+	port.device = std::string("/dev/ttyACM0");
 	printf("Launching motor controlling thread\n");
 	std::thread t1(runMotorControl);
 	t1.detach();
@@ -42,7 +42,6 @@ int initialize(char * device) {
 
 // The main motor control thread
 void runMotorControl() {
-	port.device = std::string("/dev/ttyACM1");
 	if(port.open() < 0) {
 		::perror("Failed to start Motor Control");
 		return;
@@ -64,7 +63,7 @@ void runMotorControl() {
 		port.read(buff,(uint8_t)tmp[1]);
 		// Calc change in time
 		::gettimeofday(&this_update,NULL);
-		double dt = ((double)(this_update.tv_usec-last_update.tv_sec))/1000000;
+		double dt = ((double)(this_update.tv_usec-last_update.tv_usec))/1000000;
 		// Update speeds and currents
 		int cps;
 		short cu;
@@ -132,7 +131,9 @@ void runMotorControl() {
 			actionQueue.pop();
 			removeConflictingRunning(tmp);
 			execute(tmp);
-			actionRunning.push_back(tmp);
+			if(tmp.status != STAT_ACTION_FAIL) {
+				actionRunning.push_back(tmp);
+			}
 		}
 		queue_lock = false;
 	}
@@ -140,7 +141,7 @@ void runMotorControl() {
 	printf("Motor Control has stopped\n");
 }
 
-// Execute an action (only run by the main motor control thread
+// Execute an action (only run by the main motor control thread)
 void execute(Action action) {
 	printf("Executing action\n");
 	int len = action.num_motors*2+2;
@@ -174,7 +175,7 @@ long queueAction(Action action) {
 		::gettimeofday(&e,NULL);
 		// 100 ms timeout
 		if((e.tv_usec-i.tv_usec) > 100000) {
-			return 0;
+			return -1;
 		}
 	};
 	// Add an action to the queue
@@ -190,6 +191,7 @@ long queueAction(Action action) {
 // Update the status of a motor (only called by main motor thread
 void updateMotorStatus(char m, double s, double c, double dt) {
 	Status tmp = stats.find(m)->second;
+	// Fix later
 	tmp.speed_avg += (s+tmp.speed_inst)*dt/2;
 	tmp.power_avg += (c*13.4+tmp.power_inst)*dt/2;
 }

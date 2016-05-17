@@ -1,6 +1,6 @@
 #include "RoboClaw.h"
 #include "BMSerial.h"
-#include "Sabertooth.h"
+#include <SabertoothSimplified.h>
 
 #define SERIAL_READ 0x00
 #define MOTOR_READ 0x01
@@ -9,10 +9,10 @@
 #define ADDRESS		0x01
 
 // Addresses for roboclaws
-#define	WHEELS_L	0x80	// Left wheels
-#define	WHEELS_R	0x81	// Right wheels
+#define	WHEELS_L	0x83	// Left wheels
+#define	WHEELS_R	0x80	// Right wheels
 #define	CONVEY		0x82	// Conveyors (M1 is arm, M2 is hopper)
-#define	ARM_T		0x83	// Arm translation
+#define	ARM_T		0x81	// Arm translation
 
 // Pins for limit switches
 #define	ARM_L_L_O	38		// Arm actuator left open
@@ -59,16 +59,17 @@ char motor_vel_next[12];
 int read_motor_current[12];
 
 RoboClaw roboclaw(15, 14, 10000);
-Sabertooth st1(128);
-Sabertooth st2(129);
-
+BMSerial st(17,16);
+//SabertoothSimplified ST;
 void setup() {
   digitalWrite(13,HIGH);
 	Serial.begin(9600);
 	roboclaw.begin(38400);
-	Serial1.begin(9600);
-	//st1.autobaud();
+	Serial2.begin(9600);
+  Serial2.write(150);
 	//st2.autobaud();
+  //st1.autobaud();
+  //st1.motor(2,50);
 	pinMode(ARM_L_L_O, INPUT);
 	pinMode(ARM_L_L_C, INPUT);
 	pinMode(ARM_L_R_O, INPUT);
@@ -233,10 +234,10 @@ void runMotor(char m, char sp) {
 		//st1.motor(2,sp);
 		break;
 	case ACT_ARML:
-		//st2.motor(1,sp);
+		//st1.motor(2,sp);
 		break;
 	case ACT_ARMR:
-		//st2.motor(2,sp);
+		//st2.motor(1,sp);
 		break;
 	}
 	motor_vel[m] = sp;

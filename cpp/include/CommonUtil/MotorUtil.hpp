@@ -43,7 +43,7 @@ namespace MotorControl
 {
 extern std::map<char, double> maxSpeeds; // Maximum speeds (rad/s)
 extern std::map<char, double> maxCurrents; // Maximum currents
-extern std::map<char, long> ctRevs;// Counts per rev
+extern std::map<char, int> ctRevs; // Counts per rev
 char scaleVelocity(char motor, double val);
 char scaleCurrent(char motor, double val);
 char scaleChar(double val, double max, char max_c);
@@ -104,6 +104,7 @@ Action hopperOut(double speed);
 Action hopperOut(double speed, double dist);
 Action hopperIn(double speed);
 Action hopperIn(double speed, double dist);
+Action stopAll();
 
 } // end of namespace MotorControl
 

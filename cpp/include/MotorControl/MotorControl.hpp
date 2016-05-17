@@ -20,7 +20,7 @@ extern volatile bool running;
 extern volatile bool stop;
 
 // Initialize motor control and spawn the thread
-int initialize(char *);
+int initialize(char * a);
 
 void execute(Action);
 

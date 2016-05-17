@@ -19,7 +19,6 @@ RM := rm -rf
 -include cpp/src/Autonomous/subdir.mk
 -include cpp/src/ADC/subdir.mk
 -include cpp/subdir.mk
--include RemoteControlServer/subdir.mk
 -include RemoteControl/src/subdir.mk
 -include MessageSystem/cpp/Utilities_FT/src/subdir.mk
 -include MessageSystem/cpp/Utilities/src/Utilities/unitTest/subdir.mk
@@ -29,7 +28,6 @@ RM := rm -rf
 -include MessageSystem/cpp/TutorialRobot/src/GPS/Messages/subdir.mk
 -include MessageSystem/cpp/TestingFrameworks/gtest/src/unittest/subdir.mk
 -include MessageSystem/cpp/TestingFrameworks/gtest/src/subdir.mk
--include MessageSystem/cpp/Robos_FT/src/subdir.mk
 -include MessageSystem/cpp/Robos_FT/Robos_FT_Python_Client/src/Nodes/subdir.mk
 -include MessageSystem/cpp/Robos_FT/Robos_FT_Python_Client/src/Messages/subdir.mk
 -include MessageSystem/cpp/Robos_FT/Robos_FT_Python_Client/src/subdir.mk
