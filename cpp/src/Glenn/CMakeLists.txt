@@ -33,7 +33,7 @@ set( ${PROJECT_NAME}_SRCS
     # Robos Interfacing (Nodes and Messages)
     ${SRC_ROOT}/Messages/MessagesGeneral.cpp
     ${SRC_ROOT}/Messages/MessagesComm.cpp
-	$(SRC_ROOT}/Messages/MessagesMotorControl.cpp
+	${SRC_ROOT}/Messages/MessagesMotorControl.cpp
 
     ${SRC_ROOT}/Network/CommReceiver.cpp
     ${SRC_ROOT}/Network/CommTransmitter.cpp
