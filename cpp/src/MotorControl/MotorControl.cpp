@@ -32,7 +32,7 @@ int halt() {
 int initialize(char * device) {
 	initializeMaximums();
 	// Launch the thread
-	port.device = std::string("/dev/ttyACM0");
+	port.device = std::string(device);
 	printf("Launching motor controlling thread\n");
 	std::thread t1(runMotorControl);
 	t1.detach();
@@ -128,8 +128,12 @@ void runMotorControl() {
 			}
 			// Stage for running and execute
 			tmp.status = STAT_ACTION_TORUN;
+
 			actionQueue.pop();
+			printf("2\n");
+
 			removeConflictingRunning(tmp);
+			printf("1\n");
 			execute(tmp);
 			if(tmp.status != STAT_ACTION_FAIL) {
 				actionRunning.push_back(tmp);
@@ -212,13 +216,18 @@ bool conflictRunning(Action action) {
 
 // Removes all actions that conflict with a given action
 void removeConflictingRunning(Action action) {
+	bool erase;
+	std::cout << actionRunning.size() << "\n";
 	for(int i = 0; i < (int)actionRunning.size(); i++) {
 		for(int j = 0; j < action.num_motors; j++) {
 			for(int k = 0; k < actionRunning.at(i).num_motors; k++) {
 				if(action.motor[j] == actionRunning.at(i).motor[k]) {
-					actionRunning.erase(actionRunning.begin()+i);
+					erase = true;
 				}
 			}
+		}
+		if(erase) {
+			actionRunning.erase(actionRunning.begin()+i);
 		}
 	}
 }

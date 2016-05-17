@@ -14,7 +14,7 @@ namespace Messages {
 
 struct MessageMotorAction : public MessageBaseCommand {
 	MotorControl::Action action;
-	MessageMotorAction(MotorControl::Action action, Network::Response rsp) : MessageBaseCommand(rsp,"MotorAction"),action(action) {};
+	MessageMotorAction(MotorControl::Action action, Network::Response rsp);
 	MessageMotorAction();
 	~MessageMotorAction();
 };

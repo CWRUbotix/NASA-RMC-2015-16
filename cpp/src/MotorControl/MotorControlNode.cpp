@@ -17,7 +17,7 @@ Robos::MessageBasePtr MotorNode::MainCallbackImpl(Robos::MessageBasePtr pMessage
 	if(pMessage->topic == "MotorAction") {
 		std::shared_ptr<Messages::MessageMotorAction> message = std::static_pointer_cast<Messages::MessageMotorAction>(pMessage);
 		queueAction(message->action);
-		// Respond
+		r = Messages::MessageSuccess;
 	}
 	return r;
 }
