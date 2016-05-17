@@ -63,9 +63,9 @@ int main(int argc, char** argv)
 
     // CommReceiver takes a std::string in its constructor!!!
     // I assume my_ip is the correct ip?
-	auto pNetworkingClient = std::make_shared<Network::CommReceiver>(my_ip);
-	auto pNetworkingServer = std::make_shared<Network::CommTransmitter>(my_ip);
-	auto pMotorController = std::make_shared<MotorControl::MotorNode>();
+	std::shared_ptr<Robos::InitNodeBase> pNetworkingClient = std::make_shared<Network::CommReceiver>(my_ip);
+	std::shared_ptr<Robos::NodeBase> pNetworkingServer = std::make_shared<Network::CommTransmitter>(my_ip);
+	std::shared_ptr<Robos::NodeBase> pMotorController = std::make_shared<MotorControl::MotorNode>();
 
 	// initialize Robos
 	Robos::Init(Utilities::OS::GetCurrentDirectory(__FILE__) +
@@ -73,6 +73,7 @@ int main(int argc, char** argv)
 
 	// register Nodes with Robos
 	Robos::Register(pNetworkingClient);
+	Robos::Register(pNetworkingServer);
 	Robos::Register(pMotorController);
 
 	// Start Robos
