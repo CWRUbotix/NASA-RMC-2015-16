@@ -64,6 +64,7 @@ int main(int argc, char** argv)
     // CommReceiver takes a std::string in its constructor!!!
     // I assume my_ip is the correct ip?
 	auto pNetworkingClient = std::make_shared<Network::CommReceiver>(my_ip);
+	auto pNetworkingServer = std::make_shared<Network::CommTransmitter>(my_ip);
 	auto pMotorController = std::make_shared<MotorControl::MotorNode>();
 
 	// initialize Robos
