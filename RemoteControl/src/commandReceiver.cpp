@@ -8,7 +8,6 @@
 #include <string>
 #include "commandReceiver.hpp"
 #include "commandProtocol.hpp"
-#include "../../cpp/include/CommonUtil/MotorUtil.hpp"
 
 struct sockaddr_in return_address;
 struct sockaddr_in client_address;
@@ -77,21 +76,22 @@ void cleanup_command_receiver (void)
 }
 
 //keys //will be hexvalues for each key
-const char KEY_FORWARD = "KEY_UP";
-const char KEY_BACKWARD = "KEY_DOWN";
-const char KEY_CW = "KEY_LEFT";
-const char KEY_CCW = "KEY_RIGHT";
-const char KEY_DRIVEMOTORSTOP = "KEY_SPACE";
-const char KEY_TURNCONFIGOPEN = "KEY_NUM5";
-const char KEY_TURNCONFIGCLOSE = "KEY_NUM6";
-const char KEY_TILTARMDOWN = "KEY_S";
-const char KEY_TILTARMUP = "KEY_W";
-const char KEY_TRANSLATEARMDOWN = "KEY_D";
-const char KEY_TRANSLATEARMUP = "KEY_A";
-const char KEY_BUCKETFORWARD = "KEY_F";
-const char KEY_BUCKETREVERSE = "KEY_R";
-const char KEY_HOPPEROUT= "KEY_H";
-const char KEY_OVR = "KEY_O";
+const char KEY_FORWARD = 0x4C; //up arrow
+const char KEY_BACKWARD = 0x4D; //down arrow
+const char KEY_CW = 0x4E; //right arrow
+const char KEY_CCW = 0x4F; //left arrow
+const char KEY_DRIVEMOTORSTOP = 0x40; //spacebar
+const char KEY_TURNCONFIGOPEN = 0x2E; //num5
+const char KEY_TURNCONFIGCLOSE = 0x2F; //num6
+const char KEY_TILTARMDOWN = 0x21; //s
+const char KEY_TILTARMUP = 0x11; //w
+const char KEY_TRANSLATEARMDOWN = 0x22; //d
+const char KEY_TRANSLATEARMUP = 0x20; //a
+const char KEY_BUCKETFORWARD = 0x23; //f
+const char KEY_BUCKETREVERSE = 0x13; //r
+const char KEY_HOPPEROUT= 0x25; //h
+const char KEY_OVR = 0x18; //o
+const char KEY_STOPALL = 0x45; //esc
 
 //key increments //to be experimentally determined
 const double MOVEMENT_INC = 5.0;
@@ -117,9 +117,10 @@ double hopperSpeed = 0.0;
 enum translation = { off, up, down };
 bool ovr = false;
 
-Action action = NULL;
-Action interpret_command (char* command) 
+Action interpret_command (char command) 
 {
+	Action action = NULL;
+	
 	lastKey = currentKey;
 	currentKey = command;
 	switch (currentKey)
@@ -221,12 +222,22 @@ Action interpret_command (char* command)
 		case KEY_HOPPEROUT:
 			turnSpeed = 0.0;
 			hopperSpeed += HOPPER_INC;
-			action (hopperSpeed > 0) ? hopperOut(hopperSpeed) : hopperIn(hopperSpeed);
+			action if (hopperSpeed > 0)
+				hopperOut(hopperSpeed);
 			break;
 
 		case KEY_OVR:
 			ovr = !ovr;
 			break;
+
+		case KEY_STOPALL:
+			movementSpeed = 0.0;
+			turnSpeed = 0.0;
+			tiltArmSpeed = 0.0;
+			translateArmSpeed = 0.0;
+			bucketSpeed = 0.0;
+			hopperSpeed = 0.0;
+			action = stop();
 
 		default:
 			printf("That was not a valid key, bad driver.\n");

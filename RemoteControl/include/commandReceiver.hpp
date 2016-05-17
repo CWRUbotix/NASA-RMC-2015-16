@@ -4,6 +4,7 @@
 #include <string.h>
 #include <string>
 #include "protocol.hpp"
+#include "../../cpp/include/CommonUtil/MotorUtil.hpp"
 
 #ifndef commandReciever_hpp
 #define commandReciever_hpp
@@ -16,6 +17,6 @@ void initialize_command_receiver (int portno, int timeout, char* return_string_a
 void get_command (char*);
 void cleanup_command_receiver (void);
 
-char* interpret_command (char*);
+Action interpret_command (char);
 
 #endif
