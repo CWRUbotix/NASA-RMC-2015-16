@@ -51,7 +51,9 @@ set( ${PROJECT_NAME}_PUBLIC_HEADERS
     ${INC_ROOT}/Network/protocol.hpp
     ${INC_ROOT}/Network/server.hpp
 
+    ${INC_ROOT}/CommonUtil/GeneralUtil.hpp
     ${INC_ROOT}/CommonUtil/MotorUtil.hpp
+    ${INC_ROOT}/COmmonUtil/NetworkUtil.hpp
 
     ${INC_ROOT}/MotorControl/MotorControl.hpp
 
@@ -63,7 +65,9 @@ set( ${PROJECT_NAME}_PUBLIC_HEADERS
     ${INC_ROOT}/Network/CommReceiver.hpp
     ${INC_ROOT}/Network/CommTransmitter.hpp
 
+    ${INC_ROOT}/MotorControl/MotorControl.hpp
     ${INC_ROOT}/MotorControl/MotorControlNode.hpp
+
 )
 
 set( ${PROJECT_NAME}_PRIVATE_HEADERS
