@@ -15,23 +15,26 @@ int main (int argc, char** argv)
 	}
 		
 	//get computer's IP
+	/*
 	char* my_ip;
 	FILE* out = popen("ifconfig wlan0 | grep \"inet addr:\" | cut -d: -f2 | cut -d''-f1", "r");
 	fgets(my_ip, sizeof(my_ip)-1, out);
+	*/
 
 	initialize_server (5005, 100, argv[0]); //open socket at port 5005 at given IP with timeout of 100
-	Network::initialize_command_receiver (5007, 100, my_ip);
+	//Network::initialize_command_receiver (5007, 100, my_ip);
 
-	char* command;
+	char command[100];
 	while (command[0] != 'q')
 	{
 		//Network::get_command(command);
-		printf ("%s", command);
 
 		scanf("%s", command);
+		printf("%s", command);
 		std::string command_string = std::string(command);
 		
 		char command_hex = std::stoul(command_string, NULL, 16);
+		printf("%d", command_hex);
 		MotorControl::Action* action = Network::interpret_command(command_hex);
 
 		if (action != nullptr) {
