@@ -7,10 +7,10 @@
 #include "Network/protocol.hpp"
 #include <string>
 
-uint8_t next_number;
-struct sockaddr_in return_address;
-struct sockaddr_in client_address;
-int socket_descriptor;
+extern uint8_t next_number;
+extern struct sockaddr_in return_address;
+extern struct sockaddr_in client_address;
+extern int socket_descriptor;
 
 void initialize_client (int portno, int timeout, char* return_string_addr); //measured in microseconds
 void get_command (char*);

@@ -36,7 +36,6 @@ bool conflictRunning(Action);
 void removeConflictingRunning(Action);
 void updateMotorStatus(char,double,double,double);
 extern long id_counter;
-extern std::thread t1;
 
 long queueAction(Action);
 
