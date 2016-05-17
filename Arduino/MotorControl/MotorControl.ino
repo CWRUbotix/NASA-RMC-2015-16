@@ -65,11 +65,6 @@ void setup() {
   digitalWrite(13,HIGH);
 	Serial.begin(9600);
 	roboclaw.begin(38400);
-	Serial2.begin(9600);
-  Serial2.write(150);
-	//st2.autobaud();
-  //st1.autobaud();
-  //st1.motor(2,50);
 	pinMode(ARM_L_L_O, INPUT);
 	pinMode(ARM_L_L_C, INPUT);
 	pinMode(ARM_L_R_O, INPUT);
@@ -102,10 +97,11 @@ void loop() {
 		break;
 	case EXECUTE:
 		for(int i = 0; i < 12; i++) {
-			if(motor_vel_next != motor_vel) {
-				//runMotor(i,motor_vel[i]);
+			if(motor_vel_next[i] != motor_vel[i]) {
+				//runMotor(i,motor_vel_next[i]);
 			}
 		}
+    memcpy(&motor_vel_next,&motor_vel,12);
 		state = SERIAL_READ;
 		break;
 	}
@@ -122,6 +118,7 @@ void parse_command(char cmd, char * packet, char len) {
 	case (char)CMD_MOT:
 		memcpy(&motor_vel, &motor_vel_next, 12);
 		for(int i = 0; i < len/2; i++) {
+      runMotor(packet[i*2],packet[i*2+1]);
 			motor_vel_next[packet[i*2]] = packet[i*2+1];
 		}
 		char out[3];
