@@ -54,18 +54,6 @@ int main(int argc, char** argv) {
 			MotorControl::ActionSimple action(m,d,4,125);
 			MotorControl::queueAction(action);
 		}
-
-		if(command[0] == 'w') {
-			uint8_t m[4] = {MOT_FR,MOT_FL,MOT_BR,MOT_BL};
-			bool d[4] = {true,true,true,true};
-			MotorControl::ActionSimple action(m,d,4,125);
-			MotorControl::queueAction(action);
-		} else if(command){
-			uint8_t m1[4] = {MOT_BR,MOT_BL,MOT_FR,MOT_FL};
-			bool d1[4] = {true,true,true,true};
-			MotorControl::ActionSimple action1(m1,d1,4,1);
-			MotorControl::queueAction(action1);
-		}
 	}
 	return 0;
 }
