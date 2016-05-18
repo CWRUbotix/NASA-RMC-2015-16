@@ -111,7 +111,9 @@ set( ${PROJECT_NAME}_IMPORTED_LIST
 )
 
 # Actually link everything. This is a provided CMake module to link everything together.
-include(${ROBOS_CMAKE_MODULES}/modules/ProjectLinker.cmake)
+# can just name the file because the path to it has already been given to CMake (when modifying
+# CMAKE_MODULE_PATH )
+include(ProjectLinker)
 
 # All imported libraries have their own headers we need to include to use them. ProjectLinker gives us
 # them as a variable, so add them to the list of directories we will look for files in.
