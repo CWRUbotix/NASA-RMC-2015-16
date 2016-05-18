@@ -1,3 +1,3 @@
 cd ..
-g++ -std=c++11 -o Glenn/mainb Glenn/mainb.cpp MotorControl/MotorControl.cpp CommonUtil/MotorUtil.cpp Network/client.cpp USBSerial/USBSerial.cpp -I ../include/ -lserial -lpthread
+g++ -std=c++11 -o Glenn/mainb Glenn/mainb.cpp Control/commandReceiver.cpp MotorControl/MotorControl.cpp CommonUtil/MotorUtil.cpp Network/client.cpp USBSerial/USBSerial.cpp -I ../include/ -lserial -lpthread
 

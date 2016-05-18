@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <string>
+#include <iostream>
 #include "server.hpp"
 #include "commandReceiver.hpp"
 
@@ -24,24 +25,24 @@ int main (int argc, char** argv)
 	initialize_server (5005, 100, argv[0]); //open socket at port 5005 at given IP with timeout of 100
 	//Network::initialize_command_receiver (5007, 100, my_ip);
 
-	char command[100];
+	char command[MAX_RECV_LEN];
 	while (command[0] != 'q')
 	{
 		//Network::get_command(command);
 
 		scanf("%s", command);
-		printf("%s", command);
+		printf("%s\n", command);
 		std::string command_string = std::string(command);
 
 		char command_hex = std::stoul(command_string, NULL, 16);
-		printf("%d", command_hex);
+		printf("%d\n", command_hex);
 		MotorControl::Action* action = Network::interpret_command(command_hex);
 
 		if (action != nullptr) {
 			char* action_serialized = action->serialized;
 
 			send_command (action_serialized, strlen(command) +1); //send the command
-			printf ("%s", get_receipt()); //get response
+			printf ("%s\n", get_receipt()); //get response
 		}
 		else
 			printf ("%s", "Invalid key press.\n");
