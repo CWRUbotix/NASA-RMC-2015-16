@@ -4,6 +4,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
+../RemoteControl/src/MotorUtil.cpp \
 ../RemoteControl/src/client.cpp \
 ../RemoteControl/src/commandReceiver.cpp \
 ../RemoteControl/src/controlStation.cpp \
@@ -11,6 +12,7 @@ CPP_SRCS += \
 ../RemoteControl/src/server.cpp 
 
 OBJS += \
+./RemoteControl/src/MotorUtil.o \
 ./RemoteControl/src/client.o \
 ./RemoteControl/src/commandReceiver.o \
 ./RemoteControl/src/controlStation.o \
@@ -18,6 +20,7 @@ OBJS += \
 ./RemoteControl/src/server.o 
 
 CPP_DEPS += \
+./RemoteControl/src/MotorUtil.d \
 ./RemoteControl/src/client.d \
 ./RemoteControl/src/commandReceiver.d \
 ./RemoteControl/src/controlStation.d \

@@ -1,0 +1,1 @@
+g++ -o main_simple main_simple.cpp src/MotorControl/MotorControlSimple.cpp src/CommonUtil/MotorUtil.cpp src/USBSerial/USBSerial.cpp -I include/ -lserial -lpthread -std=c++11

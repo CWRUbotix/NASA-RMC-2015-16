@@ -31,6 +31,8 @@ cpp/src/Localization \
 cpp/src/I2C \
 cpp/src/Glenn \
 cpp/src/CommonUtil \
+cpp/src/CMakeFiles \
+cpp/src/CMakeFiles/3.5.2/CompilerIdCXX \
 cpp/src/Autonomous \
 cpp/src/ADC \
 cpp \

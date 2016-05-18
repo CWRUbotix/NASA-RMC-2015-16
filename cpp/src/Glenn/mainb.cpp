@@ -9,27 +9,20 @@
 #include "CommonUtil/MotorUtil.hpp"
 #include "USBSerial/USBSerial.hpp"
 #include "Network/protocol.hpp"
+#include <iostream>
 
 int main() {
-	initialize_client(5005, 100, "128.217.227.152");
-	MotorControl::initialize("/dev/ttyACM2");
+	initialize_client(5005, 100, "127.0.0.1");
+	//MotorControl::initialize("/dev/ttyACM2");
 	printf("Start listening");
 	char command[MAX_RECV_LEN];
 	while(1) {
 		get_command(command);
-		printf("Got command");
-		send_reply ((char *)"msg rcvd\n", strlen ("msg rcvd\n") + 1);
-		MotorControl::Action a;
-		switch (command[0])
-		{
-		case 1:
-			a = MotorControl::Action(command+3,MAX_RECV_LEN-3);
-			MotorControl::queueAction(a);
-			break;
-		default:
-			printf("ERROR: message recieved not formattted correctly");
-			break;
-		}
+		MotorControl::Action a(command+3,MAX_RECV_LEN-3);
+		char out[1];
+		out[0] = '0' + a.num_motors;
+		send_reply(out, 1);
+		std::cout << a.num_motors << "\n";
 	}
 	return 0;
 }

@@ -8,6 +8,7 @@
 #include <string.h>
 #include <map>
 #include <stdlib.h>
+#include <stdint.h>
 //#include "Messages/MessagesMotorControl.hpp"
 
 #ifndef MOTORUTIL_HPP_
@@ -62,11 +63,30 @@ struct Action {
 	char * serialized;
 	int len_serialized;
 
+	//std::string toString();
+
 	Action(char* m,bool* dr,char n,double s,double d,bool o,bool ds);
 	Action(char* m,bool* dr,char n,double s,bool o);
 	Action(char * s, int n);
 	Action();
 	~Action();
+};
+
+struct ActionSimple {
+	uint8_t* motor;
+	bool* direction;
+	uint8_t speed;
+	uint8_t num_motors;
+
+	uint8_t* serialized;
+	int len_serialized;
+
+	std::string toString();
+
+	ActionSimple(uint8_t* m, bool* dr, uint8_t n, uint8_t sp);
+	ActionSimple(uint8_t* s, int n);
+	ActionSimple();
+	~ActionSimple();
 };
 
 // Power is averaged over n seconds

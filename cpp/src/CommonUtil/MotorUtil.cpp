@@ -64,6 +64,21 @@ void initializeMaximums() {
 	maxCurrents.insert(std::pair<char,double>(ACT_ARMR,2.5));
 }
 
+std::string ActionSimple::toString() {
+	int len_t = 0;
+	char out[20*this->num_motors];
+	for(int i = 0; i < this->num_motors; i++) {
+		int len = 0;
+		if(this->direction[i]) {
+			len = sprintf(out+len_t,"M:%d S:%d D:1\n",this->motor[i],this->speed);
+		} else {
+			len = sprintf(out+len_t,"M:%d S:%d D:0\n",this->motor[i],this->speed);
+		}
+		len_t += len;
+	}
+	return std::string(out);
+}
+
 Action::Action(char* m,bool* dr,char n,double s,double d,bool o,bool ds) {
 	motor = m;
 	direction = dr;
@@ -109,6 +124,55 @@ Action::Action(char * s, int n) {
 
 Action::Action() : Action(NULL,NULL,0,0,0,false,false) {}
 Action::~Action() {}
+
+ActionSimple::ActionSimple(uint8_t* m, bool* dr, uint8_t n, uint8_t sp) {
+	motor = (uint8_t*)::malloc(n);
+	direction = (bool*)::malloc(n);
+	::memcpy(motor,m,n);
+	::memcpy(direction,dr,n);
+	speed = sp;
+	num_motors = n;
+	len_serialized = n*2+1;
+	serialized = (uint8_t*)::malloc(len_serialized);
+	serialized[0] = num_motors;
+	for(int i = 0; i < num_motors; i++) {
+		serialized[i*2+1] = motor[i];
+		if(!direction[i]) {
+			serialized[i*2+2] = speed | 0b10000000;
+		} else {
+			serialized[i*2+2] = speed;
+		}
+	}
+}
+
+ActionSimple::ActionSimple(uint8_t* s, int n) {
+	serialized = (uint8_t*)::malloc(n);
+	::memcpy(serialized,s,n);
+	len_serialized = n;
+	num_motors = s[0];
+	motor = (uint8_t*)::malloc(num_motors);
+	direction = (bool*)::malloc(num_motors);
+	for(int i = 0; i < num_motors; i++) {
+		motor[i] = serialized[i*2+1];
+		if(serialized[i*2+2] & 0b10000000) {
+			direction[i] = true;
+		} else {
+			direction[i] = false;
+		}
+	}
+	speed = serialized[2] & 0b01111111;
+}
+
+ActionSimple::ActionSimple() {
+	motor = nullptr;
+	direction = nullptr;
+	speed = 0;
+	num_motors = 0;
+	serialized = nullptr;
+	len_serialized = 0;
+}
+
+ActionSimple::~ActionSimple() {}
 
 Action forward(double speed, bool ovr) {
 	char m[4] = {MOT_FR,MOT_FL,MOT_BR,MOT_BL};

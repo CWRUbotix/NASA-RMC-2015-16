@@ -16,6 +16,8 @@ RM := rm -rf
 -include cpp/src/I2C/subdir.mk
 -include cpp/src/Glenn/subdir.mk
 -include cpp/src/CommonUtil/subdir.mk
+-include cpp/src/CMakeFiles/3.5.2/CompilerIdCXX/subdir.mk
+-include cpp/src/CMakeFiles/subdir.mk
 -include cpp/src/Autonomous/subdir.mk
 -include cpp/src/ADC/subdir.mk
 -include cpp/subdir.mk

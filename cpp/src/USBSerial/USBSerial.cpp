@@ -31,13 +31,20 @@ int Port::write(char val) {
 }
 int Port::write(char * buffer, int len) {
 	dev.write(buffer, len);
-	printf("Wrote %d bytes\n",len);
+	printf("Wrote packet: ");
+	for(int i = 0; i < len; i++) {
+		printf("%d ",buffer[i]);
+	}
+	printf("\n");
 	return 0;
 }
 int Port::read(char * buffer, int len) {
 	dev.read(buffer, len);
-	printf("Read %d bytes\n",len);
-	sleep(.001);
+	printf("Read packet: ");
+	for(int i = 0; i < len; i++) {
+		printf("%d ",buffer[i]);
+	}
+	printf("\n");
 	return len;
 }
 }

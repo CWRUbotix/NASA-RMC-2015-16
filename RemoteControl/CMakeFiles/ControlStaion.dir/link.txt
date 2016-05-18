@@ -1,0 +1,1 @@
+/usr/bin/c++      CMakeFiles/ControlStaion.dir/src/MotorUtil.cpp.o CMakeFiles/ControlStaion.dir/src/server.cpp.o CMakeFiles/ControlStaion.dir/src/commandReceiver.cpp.o CMakeFiles/ControlStaion.dir/src/controlStation.cpp.o  -o ControlStaion -rdynamic 

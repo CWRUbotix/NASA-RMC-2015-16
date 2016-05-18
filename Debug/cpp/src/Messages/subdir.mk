@@ -5,15 +5,18 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
 ../cpp/src/Messages/MessagesComm.cpp \
-../cpp/src/Messages/MessagesGeneral.cpp 
+../cpp/src/Messages/MessagesGeneral.cpp \
+../cpp/src/Messages/MessagesMotorControl.cpp 
 
 OBJS += \
 ./cpp/src/Messages/MessagesComm.o \
-./cpp/src/Messages/MessagesGeneral.o 
+./cpp/src/Messages/MessagesGeneral.o \
+./cpp/src/Messages/MessagesMotorControl.o 
 
 CPP_DEPS += \
 ./cpp/src/Messages/MessagesComm.d \
-./cpp/src/Messages/MessagesGeneral.d 
+./cpp/src/Messages/MessagesGeneral.d \
+./cpp/src/Messages/MessagesMotorControl.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

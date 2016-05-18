@@ -13,7 +13,7 @@ int main (int argc, char** argv)
 		printf ("Error: please enter an IP address.\n");
 		exit (-1);
 	}
-		
+
 	//get computer's IP
 	/*
 	char* my_ip;
@@ -32,14 +32,14 @@ int main (int argc, char** argv)
 		scanf("%s", command);
 		printf("%s", command);
 		std::string command_string = std::string(command);
-		
+
 		char command_hex = std::stoul(command_string, NULL, 16);
 		printf("%d", command_hex);
 		MotorControl::Action* action = Network::interpret_command(command_hex);
 
 		if (action != nullptr) {
 			char* action_serialized = action->serialized;
-	
+
 			send_command (action_serialized, strlen(command) +1); //send the command
 			printf ("%s", get_receipt()); //get response
 		}
