@@ -1,3 +1,0 @@
-/home/anno/Projects/Eclipse C++ Workspace/NASA_RMC_2015_16/RemoteControl/CMakeFiles/edit_cache.dir
-/home/anno/Projects/Eclipse C++ Workspace/NASA_RMC_2015_16/RemoteControl/CMakeFiles/rebuild_cache.dir
-/home/anno/Projects/Eclipse C++ Workspace/NASA_RMC_2015_16/RemoteControl/CMakeFiles/ControlStaion.dir

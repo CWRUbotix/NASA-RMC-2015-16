@@ -66,21 +66,6 @@ int main(int argc, char** argv) {
 			MotorControl::ActionSimple action1(m1,d1,4,1);
 			MotorControl::queueAction(action1);
 		}
-		/*
-		MotorControl::Action* a_ptr = Network::interpret_command(command_hex);
-		MotorControl::Action a;
-		memcpy(&a, a_ptr, sizeof(MotorControl::Action));
-
-		switch (command[0])
-		{
-		case 1:
-			a = MotorControl::Action(command+3,MAX_RECV_LEN-3);
-			MotorControl::queueAction(a);
-			break;
-		default:
-			printf("ERROR: message recieved not formattted correctly");
-			break;
-		}*/
 	}
 	return 0;
 }
