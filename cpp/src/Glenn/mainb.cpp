@@ -10,14 +10,19 @@
 #include "USBSerial/USBSerial.hpp"
 #include "Network/protocol.hpp"
 
-int main() {
-	initialize_client(5005, 100, "128.217.227.152");
-	MotorControl::initialize("/dev/ttyACM2");
-	printf("Start listening");
+int main(int argc, char** argv) {
+	if (argc != 2) {
+		printf("Please input an IP address.\n");
+		exit(-1);
+	}
+
+	initialize_client(5005, 100, argv[0]);
+	//MotorControl::initialize("/dev/ttyACM2");
+	printf("Start listening.\n");
 	char command[MAX_RECV_LEN];
 	while(1) {
 		get_command(command);
-		printf("Got command");
+		printf("Got command\n");
 		send_reply ((char *)"msg rcvd\n", strlen ("msg rcvd\n") + 1);
 		MotorControl::Action a;
 		switch (command[0])
