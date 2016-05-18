@@ -276,7 +276,7 @@ int runMotor(uint8_t m, uint8_t s) {
   if(s_stop) {
     s = 0;
   }
-  bool dir = (bool) s & 0b10000000;
+  bool dir = (bool) (s & 0b10000000);
   /*
   if(dir && lockedBackward(m)) {
     return 0;
@@ -342,8 +342,22 @@ int runMotor(uint8_t m, uint8_t s) {
       }
       break;
     case ACT_WHEL:
+      if(dir) {
+        digitalWrite(2,HIGH);
+        digitalWrite(3,LOW);
+      } else {
+        digitalWrite(3,HIGH);
+        digitalWrite(2,LOW);
+      }
       break;
     case ACT_WHER:
+      if(dir) {
+        digitalWrite(4,HIGH);
+        digitalWrite(5,LOW);
+      } else {
+        digitalWrite(5,HIGH);
+        digitalWrite(4,LOW);
+      }
       break;
     case ACT_ARML:
       break;
