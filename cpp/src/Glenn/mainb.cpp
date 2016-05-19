@@ -54,8 +54,11 @@ int main(int argc, char** argv) {
 	while(1) {
 		printf("Please enter a command.\n");
 
-		std::string commands[2];
-		scanf("%s %s", commands[0], commands[1]);	
+		char* command_ptr[2];
+		scanf("%s %s", command_ptr[0], command_ptr[1]);
+		char command[2];
+		command[0] = *command_ptr[0];
+		command[1] = *command_ptr[1];
 
 		//get_command(rcvd_command);
 		//printf("%s\n", rcvd_command);
@@ -74,8 +77,9 @@ int main(int argc, char** argv) {
 		//const char* command = commands[0].c_str();
 
 		int speed = 0;
-		if (!commands[1].empty()) 
-			speed = atoi(commands[1]);
+		const char* speed_command = &command[1];
+		if (command[1] != '\0') 
+			speed = atoi(speed_command);
 		if (speed < 0)
 			speed = 0;
 		else if (speed > 125)
@@ -94,42 +98,42 @@ int main(int argc, char** argv) {
 		} else if(command[0] == 'w') {
 			uint8_t m[4] = {MOT_FR,MOT_FL,MOT_BR,MOT_BL};
 			bool d[4] = {false,true,false,true};
-			if (commands[1].empty())
+			if (command [1] != '\0')
 				speed = 100;
 			MotorControl::ActionSimple action(m,d,4,speed);
 			MotorControl::queueAction(action);
 		} else if(command[0] == 's') {
 			uint8_t m[4] = {MOT_FR,MOT_FL,MOT_BR,MOT_BL};
 			bool d[4] = {true,false,true,false};
-			if (commands[1].empty())
+			if (command [1] != '\0')
 				speed = 100;
 			MotorControl::ActionSimple action(m,d,4,speed);
 			MotorControl::queueAction(action);
 		} else if(command[0] == 'd') {
 			uint8_t m[4] = {MOT_FR,MOT_FL,MOT_BR,MOT_BL};
 			bool d[4] = {true,true,true,true};
-			if (commands[1].empty())
+			if (command [1] != '\0')
 				speed = 100;
 			MotorControl::ActionSimple action(m,d,4,speed);
 			MotorControl::queueAction(action);
 		} else if(command[0] == 'a') {
 			uint8_t m[4] = {MOT_FR,MOT_FL,MOT_BR,MOT_BL};
 			bool d[4] = {false,false,false,false};
-			if (commands[1].empty())
+			if (command [1] != '\0')
 				speed = 100;
 			MotorControl::ActionSimple action(m,d,4,speed);
 			MotorControl::queueAction(action);
 		} else if(command[0] == 'e') {
 			uint8_t m[2] = {MOT_TRAL,MOT_TRAR};
 			bool d[4] = {true,true};
-			if (commands[1].empty())
+			if (command [1] != '\0')
 				speed = 40;
 			MotorControl::ActionSimple action(m,d,2,speed);
 			MotorControl::queueAction(action);
 		} else if(command[0] == 'r') {
 			uint8_t m[2] = {MOT_TRAL,MOT_TRAR};
 			bool d[4] = {false,false};
-			if (commands[1].empty())
+			if (command [1] != '\0')
 				speed = 40;
 			MotorControl::ActionSimple action(m,d,2,speed);
 			MotorControl::queueAction(action);
@@ -141,14 +145,14 @@ int main(int argc, char** argv) {
 		} else if(command[0] == 'x') {
 			uint8_t m[1] = {MOT_CBUC};
 			bool d[4] = {true};
-			if (commands[1].empty())
+			if (command [1] != '\0')
 				speed = 100;
 			MotorControl::ActionSimple action(m,d,1,speed);
 			MotorControl::queueAction(action);
 		} else if(command[0] == 'v') {
 			uint8_t m[1] = {MOT_CHOP};
 			bool d[4] = {false};
-			if (commands[1].empty())
+			if (command [1] != '\0')
 				speed = 40;
 			MotorControl::ActionSimple action(m,d,1,speed);
 			MotorControl::queueAction(action);
