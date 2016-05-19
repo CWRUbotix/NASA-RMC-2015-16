@@ -50,20 +50,18 @@ int main(int argc, char** argv) {
 	//initialize_client(5005, 100, argv[0]);
 
 	printf("Start listening.\n");
-	char rcvd_command[MAX_RECV_LEN];
 
 	while(1) {
 		printf("Please enter a command.\n");
-		scanf("%s", rcvd_command);	
+
+		std::string commands[2];
+		scanf("%s %s", commands[0], commands[1]);	
 
 		//get_command(rcvd_command);
 		//printf("%s\n", rcvd_command);
 		//send_reply ((char *)"msg rcvd\n", strlen("msg rcvd\n") + 1);
-		
-		std::string command_string = std::string(rcvd_command);
-		std::string delimiter = " ";
-		std::string commands[2];
 
+		/*
 		size_t pos = 0;
 		pos = command_string.find(delimiter);
 		commands[0] = command_string.substr(0, pos);
@@ -71,12 +69,13 @@ int main(int argc, char** argv) {
 		pos = command_string.find(delimiter);
 		commands[1] = command_string.substr(0, pos);
 		command_string.erase(0, pos + delimiter.length());
+		*/
 
-		const char* command = commands[0].c_str();
+		//const char* command = commands[0].c_str();
 
 		int speed = 0;
 		if (!commands[1].empty()) 
-			speed = atoi(commands[1].c_str());
+			speed = atoi(commands[1]);
 		if (speed < 0)
 			speed = 0;
 		else if (speed > 125)
