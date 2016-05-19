@@ -17,8 +17,15 @@
 #include <dirent.h>
 #include <iostream>
 #include <stdio.h>
+#include <glib.h>
 
 int main(int argc, char** argv) {
+	if (argc != 2)
+	{
+		printf("Please enter the IP address of the control station.");
+		exit(-1);
+	}
+
 	std::vector<std::string> files = std::vector<std::string>();
 	DIR* dp = opendir("/dev/");
 	struct dirent* dirp;
@@ -39,12 +46,22 @@ int main(int argc, char** argv) {
 	char* c = file.c_str();
 	MotorControl::initialize(c);
 	sleep(1);
+
+	initialize_client(5005, 100, argv[0]);
+
 	printf("Start listening.\n");
-	char command[MAX_RECV_LEN];
+	char rcvd_command[MAX_RECV_LEN];
 
 	while(1) {
-		printf("Please enter a command.\n");
-		scanf("%s", command);
+		//printf("Please enter a command.\n");
+		//scanf("%s", command);	
+
+		get_command(rcvd_command);
+		send_reply ((char *)"msg rcvd\n", strlen("msg rcvd\n") + 1);
+
+		char** commands = g_strsplit(rcvd_command, ' ', 0);
+		char* command = commands[0];
+		int speed = atoi(commands[1]);
 
 		if(command[0] == 'o') {
 			uint8_t m[4] = {MOT_FR,MOT_FL,MOT_BR,MOT_BL,MOT_TRAL,MOT_TRAR,MOT_CBUC,MOT_CHOP,ACT_WHEL,ACT_WHER,ACT_ARML,ACT_ARML};
