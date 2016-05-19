@@ -54,12 +54,10 @@ int main(int argc, char** argv) {
 	while(1) {
 		printf("Please enter a command.\n");
 
-		char* command_ptr[2];
-		scanf("%s %s", command_ptr[0], command_ptr[1]);
 		char command[2];
-		command[0] = *command_ptr[0];
-		command[1] = *command_ptr[1];
-
+		char sp_ptr[3];
+		scanf("%s %s", command, sp_ptr);
+		
 		//get_command(rcvd_command);
 		//printf("%s\n", rcvd_command);
 		//send_reply ((char *)"msg rcvd\n", strlen("msg rcvd\n") + 1);
@@ -77,8 +75,8 @@ int main(int argc, char** argv) {
 		//const char* command = commands[0].c_str();
 
 		int speed = 0;
-		const char* speed_command = &command[1];
-		if (command[1] != '\0') 
+		const char speed_command[3] = { sp_ptr[0], sp_ptr[1], sp_ptr[2]};
+		if (sp_ptr != '\0') 
 			speed = atoi(speed_command);
 		if (speed < 0)
 			speed = 0;
