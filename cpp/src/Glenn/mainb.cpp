@@ -19,12 +19,13 @@
 #include <stdio.h>
 
 int main(int argc, char** argv) {
+	/*
 	if (argc != 2)
 	{
 		printf("Please enter the IP address of the control station.\n");
 		exit(-1);
 	}
-	/*
+	
 	std::vector<std::string> files = std::vector<std::string>();
 	DIR* dp = opendir("/dev/");
 	struct dirent* dirp;
@@ -46,18 +47,18 @@ int main(int argc, char** argv) {
 	MotorControl::initialize("/dev/ttyACM0");
 	sleep(1);
 
-	initialize_client(5005, 100, argv[0]);
+	//initialize_client(5005, 100, argv[0]);
 
 	printf("Start listening.\n");
 	char rcvd_command[MAX_RECV_LEN];
 
 	while(1) {
-		//printf("Please enter a command.\n");
-		//scanf("%s", command);	
+		printf("Please enter a command.\n");
+		scanf("%s", rcvd_command);	
 
-		get_command(rcvd_command);
-		printf("%s\n", rcvd_command);
-		send_reply ((char *)"msg rcvd\n", strlen("msg rcvd\n") + 1);
+		//get_command(rcvd_command);
+		//printf("%s\n", rcvd_command);
+		//send_reply ((char *)"msg rcvd\n", strlen("msg rcvd\n") + 1);
 		
 		std::string command_string = std::string(rcvd_command);
 		std::string delimiter = " ";
