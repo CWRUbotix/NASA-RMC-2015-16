@@ -23,14 +23,14 @@ int main (int argc, char** argv)
 	*/
 
 	initialize_server (5005, 100, argv[0]); //open socket at port 5005 at given IP with timeout of 100
-	//Network::initialize_command_receiver (5007, 100, my_ip);
+	Network::initialize_command_receiver (5007);
 
 	char command[MAX_RECV_LEN];
 	while (command[0] != 'q')
 	{
-		//Network::get_command(command);
+		Network::get_command(command);
 
-		scanf("%s", command);
+		//scanf("%s", command);
 		printf("%s\n", command);
 		std::string command_string = std::string(command);
 
