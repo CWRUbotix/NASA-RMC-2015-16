@@ -21,7 +21,7 @@
 int main(int argc, char** argv) {
 	if (argc != 2)
 	{
-		printf("Please enter the IP address of the control station.");
+		printf("Please enter the IP address of the control station.\n");
 		exit(-1);
 	}
 	/*
@@ -56,7 +56,7 @@ int main(int argc, char** argv) {
 		//scanf("%s", command);	
 
 		get_command(rcvd_command);
-		printf(rcvd_command);
+		printf("%s\n", rcvd_command);
 		send_reply ((char *)"msg rcvd\n", strlen("msg rcvd\n") + 1);
 		
 		std::string command_string = std::string(rcvd_command);
