@@ -57,6 +57,8 @@ int main(int argc, char** argv) {
 		char command[2];
 		char sp_ptr[3];
 		scanf("%s %s", command, sp_ptr);
+		char c;
+		while((c = getchar()) != '\n' && c != EOF);
 		
 		//get_command(rcvd_command);
 		//printf("%s\n", rcvd_command);
