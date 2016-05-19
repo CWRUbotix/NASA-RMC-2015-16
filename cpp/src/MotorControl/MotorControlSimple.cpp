@@ -57,10 +57,12 @@ void executeAction(ActionSimple a) {
 	packet[1] = a.len_serialized;
 	::memcpy(packet+2,a.serialized,a.len_serialized);
 	char buff[3]= {0,0,0};
-	while((buff[0] != (char)SCMD_MOT)){
+	int count = 0;
+	while((buff[0] != (char)SCMD_MOT) && count < 10){
 		port.write(packet,a.len_serialized+2);
-		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+		std::this_thread::sleep_for(std::chrono::milliseconds(200));
 		port.read(buff,3);
+		count++;
 	}
 	//printf("Done executing\n");
 }

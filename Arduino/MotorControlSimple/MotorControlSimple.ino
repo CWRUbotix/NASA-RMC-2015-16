@@ -1,6 +1,6 @@
-#include <RoboClaw.h>
-#include <BMSerial.h>
-#include <SabertoothSimplified.h>
+//#include <RoboClaw.h>
+//#include <BMSerial.h>
+//#include <SabertoothSimplified.h>
 
 /*
  * pin 2-5 are relays
@@ -59,11 +59,13 @@ bool translateLock = false;    // True if in the process of tilting
 
 volatile bool s_stop = false;  // Software stop
 
-RoboClaw roboclaw(15,14,10000);
+//RoboClaw roboclaw(15,14,10000);
 
 void setup() {
   Serial.begin(9600);
-  roboclaw.begin(38400);
+  //roboclaw.begin(38400);
+  Serial3.begin(38400);
+  Serial2.begin(9600);
   pinMode(LS_WHE_R_B_2, INPUT);
   pinMode(LS_WHE_R_B_1, INPUT);
   pinMode(LS_WHE_R_F_2, INPUT);
@@ -81,6 +83,79 @@ void setup() {
   pinMode(PIN_STOP,     INPUT);
 
   attachInterrupt(digitalPinToInterrupt(PIN_STOP), softwareStop, CHANGE);
+}
+
+uint16_t crc16(unsigned char *packet, int nBytes) {
+  uint16_t crc = 0;
+  for (int b = 0; b < nBytes; b++) {
+    crc = crc ^ ((uint16_t)packet[b] << 8);
+    for (int c = 0; c < 8; c++) {
+      if (crc & 0x8000) {
+        crc = (crc << 1) ^ 0x1021;
+      } else {
+        crc = crc << 1;
+      }
+    }
+  }
+  return crc;
+}
+
+void saberDriveF(uint8_t mot, uint8_t sp) {
+  uint8_t packet[4];
+  packet[0] = 0xFF;
+  if(mot == 1) {
+    packet[1] = 0;
+    packet[2] = sp & 0b01111111;
+  } else {
+    packet[1] = 4;
+    packet[2] = sp & 0b01111111;
+  }
+  packet[3] = (packet[0] + packet[1] + packet[2]) & ((uint8_t)127);
+  Serial2.write(packet,4);
+}
+
+void saberDriveB(uint8_t mot, uint8_t sp) {
+  uint8_t packet[4];
+  packet[0] = 0xFF;
+  if(mot == 1) {
+    packet[1] = 1;
+    packet[2] = sp & 0b01111111;
+  } else {
+    packet[1] = 5;
+    packet[2] = sp & 0b01111111;
+  }
+  packet[3] = (packet[0] + packet[1] + packet[2]) & ((uint8_t)127);
+  Serial2.write(packet,4);
+}
+
+void rclawDriveF(uint8_t addr, uint8_t mot, uint8_t sp) {
+  uint8_t packet[5];
+  packet[0] = addr;
+  if(mot == 1) {
+    packet[1] = 0;
+  } else {
+    packet[1] = 4;
+  }
+  packet[2] = sp & 0b01111111;
+  uint16_t crc = crc16(packet,3);
+  packet[3] = (crc >> 8) & 0xFF;
+  packet[4] = crc & 0xFF;
+  Serial3.write(packet,5);
+}
+
+void rclawDriveB(uint8_t addr, uint8_t mot, uint8_t sp) {
+  uint8_t packet[5];
+  packet[0] = addr;
+  if(mot == 1) {
+    packet[1] = 1;
+  } else {
+    packet[1] = 5;
+  }
+  packet[2] = sp & 0b01111111;
+  uint16_t crc = crc16(packet,3);
+  packet[3] = (crc >> 8) & 0xFF;
+  packet[4] = crc & 0xFF;
+  Serial3.write(packet,5);
 }
 
 void loop() {
@@ -115,7 +190,6 @@ void loop() {
       }
       break;
     }
-    
     Serial.write((char)-127);
     Serial.write((char)1);
     if(success) {
@@ -163,35 +237,66 @@ bool lockedBackward(uint8_t m) {
 void updateLocks() {
   uint8_t mask = 1;
   if((rightStates & (mask << 7)) && (rightStates & (mask << 5))) {
+    if(((rightStates & (mask << 7)) && !(rightStatesLast & (mask << 7))) || 
+       ((rightStates & (mask << 5)) && !(rightStatesLast & (mask << 5)))) {
+      runMotor(ACT_WHER,0);
+    }
     lockForward(ACT_WHER);
   } else {
     unlockForward(ACT_WHER);
   }
   if((rightStates & (mask << 6)) && (rightStates & (mask << 4))) {
+    if(((rightStates & (mask << 6)) && !(rightStatesLast & (mask << 6))) || 
+       ((rightStates & (mask << 4)) && !(rightStatesLast & (mask << 4)))) {
+      runMotor(ACT_WHER,0);
+    }
     lockBackward(ACT_WHER);
   } else {
     unlockBackward(ACT_WHER);
   }
   if((leftStates & (mask << 7)) && (leftStates & (mask << 5))) {
     lockForward(ACT_WHEL);
+    if(((leftStates & (mask << 7)) && !(leftStatesLast & (mask << 7))) || 
+       ((leftStates & (mask << 5)) && !(leftStatesLast & (mask << 5)))) {
+      runMotor(ACT_WHEL,0);
+    }
   } else {
     unlockForward(ACT_WHEL);
   }
   if((leftStates & (mask << 6)) && (leftStates & (mask << 4))) {
     lockBackward(ACT_WHEL);
+    if(((leftStates & (mask << 6)) && !(leftStatesLast & (mask << 6))) || 
+       ((leftStates & (mask << 4)) && !(leftStatesLast & (mask << 4)))) {
+      runMotor(ACT_WHEL,0);
+    }
   } else {
     unlockBackward(ACT_WHEL);
   }
-  if((rightStates & (mask << 3)) && (leftStates & (mask << 3))) {
+  if((rightStates & (mask << 3)) || (leftStates & (mask << 3))) {
+    if(((rightStates & (mask << 3)) && !(rightStatesLast & (mask << 3))) || 
+       ((leftStates & (mask << 3)) && !(leftStatesLast & (mask << 3)))) {
+      runMotor(ACT_ARMR,0);
+      runMotor(ACT_ARML,0);
+    }
     lockBackward(ACT_ARMR);
+    lockBackward(ACT_ARML);
   } else {
     unlockBackward(ACT_ARMR);
+    unlockBackward(ACT_ARML);
   }
-  if((rightStates & (mask << 1)) && (leftStates & (mask << 1))) {
+  if((rightStates & (mask << 1)) || (leftStates & (mask << 1))) {
     lockForward(ACT_ARMR);
+    lockForward(ACT_ARML);
+    if(((rightStates & (mask << 1)) && !(rightStatesLast & (mask << 1))) || 
+       ((leftStates & (mask << 1)) && !(leftStatesLast & (mask << 1)))) {
+      runMotor(ACT_ARMR,0);
+      runMotor(ACT_ARML,0);
+    }
   } else {
     unlockForward(ACT_ARMR);
+    unlockForward(ACT_ARML);
   }
+  
 
   // TODO Arm actuator limiting
   rightStatesLast = rightStates;
@@ -277,91 +382,116 @@ int runMotor(uint8_t m, uint8_t s) {
     s = 0;
   }
   bool dir = (bool) (s & 0b10000000);
-  /*
-  if(dir && lockedBackward(m)) {
+  if(s && dir && lockedBackward(m)) {
     return 0;
-  } else if(~dir && lockedForward(m)) {
+  } else if(s && ~dir && lockedForward(m)) {
     return 0;
-  }*/
+  }
   s = s & 0b01111111;
   switch(m) {
     case MOT_FR:
       if(dir) {
-        roboclaw.BackwardM1(RCL_WHEELS_R,s);
+        rclawDriveB(RCL_WHEELS_R,1,s);
+        //roboclaw.BackwardM1(RCL_WHEELS_R,s);
       } else {
-        roboclaw.ForwardM1(RCL_WHEELS_R,s);
+        rclawDriveF(RCL_WHEELS_R,1,s);
+        //roboclaw.ForwardM1(RCL_WHEELS_R,s);
       }
       break;
     case MOT_FL:
       if(dir) {
-        roboclaw.BackwardM1(RCL_WHEELS_L,s);
+        rclawDriveB(RCL_WHEELS_L,1,s);
+        //roboclaw.BackwardM1(RCL_WHEELS_L,s);
       } else {
-        roboclaw.ForwardM1(RCL_WHEELS_L,s);
+        rclawDriveF(RCL_WHEELS_L,1,s);
+        //roboclaw.ForwardM1(RCL_WHEELS_L,s);
       }
       break;
     case MOT_BR:
       if(dir) {
-        roboclaw.BackwardM2(RCL_WHEELS_R,s);
+        rclawDriveB(RCL_WHEELS_R,2,s);
+        //roboclaw.BackwardM2(RCL_WHEELS_R,s);
       } else {
-        roboclaw.ForwardM2(RCL_WHEELS_R,s);
+        rclawDriveF(RCL_WHEELS_R,2,s);
+        //roboclaw.ForwardM2(RCL_WHEELS_R,s);
       }
       break;
     case MOT_BL:
       if(dir) {
-        roboclaw.BackwardM2(RCL_WHEELS_L,s);
+        rclawDriveB(RCL_WHEELS_L,2,s);
+        //roboclaw.BackwardM2(RCL_WHEELS_L,s);
       } else {
-        roboclaw.ForwardM2(RCL_WHEELS_L,s);
+        rclawDriveF(RCL_WHEELS_L,2,s);
+        //roboclaw.ForwardM2(RCL_WHEELS_L,s);
       }
       break;
     case MOT_TRAL:
       if(dir) {
-        roboclaw.BackwardM1(RCL_ARM_T,s);
+        rclawDriveB(RCL_ARM_T,1,s);
+        //roboclaw.BackwardM1(RCL_ARM_T,s);
       } else {
-        roboclaw.ForwardM1(RCL_ARM_T,s);
+        rclawDriveF(RCL_ARM_T,1,s);
+        //roboclaw.ForwardM1(RCL_ARM_T,s);
       }
       break;
     case MOT_TRAR:
       if(dir) {
-        roboclaw.BackwardM2(RCL_ARM_T,s);
+        rclawDriveB(RCL_ARM_T,2,s);
+        //roboclaw.BackwardM2(RCL_ARM_T,s);
       } else {
-        roboclaw.ForwardM2(RCL_ARM_T,s);
+        rclawDriveF(RCL_ARM_T,2,s);
+        //roboclaw.ForwardM2(RCL_ARM_T,s);
       }
       break;
     case MOT_CBUC:
       if(dir) {
-        roboclaw.BackwardM1(RCL_CONVEY,s);
+        rclawDriveB(RCL_CONVEY,1,s);
+        //roboclaw.BackwardM1(RCL_CONVEY,s);
       } else {
-        roboclaw.ForwardM1(RCL_CONVEY,s);
+        rclawDriveF(RCL_CONVEY,1,s);
+        //roboclaw.ForwardM1(RCL_CONVEY,s);
       }
       break;
     case MOT_CHOP:
       if(dir) {
-        roboclaw.BackwardM2(RCL_CONVEY,s);
+        rclawDriveB(RCL_CONVEY,2,s);
+        //roboclaw.BackwardM2(RCL_CONVEY,s);
       } else {
-        roboclaw.ForwardM2(RCL_CONVEY,s);
+        rclawDriveF(RCL_CONVEY,2,s);
+        //roboclaw.ForwardM2(RCL_CONVEY,s);
       }
       break;
     case ACT_WHEL:
       if(dir) {
         digitalWrite(2,HIGH);
-        digitalWrite(3,LOW);
+        digitalWrite(5,LOW);
       } else {
-        digitalWrite(3,HIGH);
+        digitalWrite(5,HIGH);
         digitalWrite(2,LOW);
       }
       break;
     case ACT_WHER:
       if(dir) {
         digitalWrite(4,HIGH);
-        digitalWrite(5,LOW);
+        digitalWrite(3,LOW);
       } else {
-        digitalWrite(5,HIGH);
+        digitalWrite(3,HIGH);
         digitalWrite(4,LOW);
       }
       break;
     case ACT_ARML:
+      if(dir) {
+        saberDriveF(1,s);
+      } else {
+        saberDriveB(1,s);
+      }
       break;
     case ACT_ARMR:
+      if(dir) {
+        saberDriveF(2,s);
+      } else {
+        saberDriveB(2,s);
+      }
       break;
   }
   if(s_stop) {
